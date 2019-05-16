@@ -14,4 +14,35 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Block.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>來源檔案</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>來源檔案</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
