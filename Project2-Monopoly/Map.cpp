@@ -5,12 +5,13 @@ Map::Map()
 
 }
 
-Map::Map(vector<Block> mapContent)
+Map::Map(vector<Block> mapContent, array<int, 4> playerPositionsInput)
 {
 	for (int i = 0; i <= mapContent.size() - 1; i++)
 	{
 		map.push_back(mapContent[i]);
 	}
+	playerPositions = playerPositionsInput;
 	mapSize = mapContent.size();
 }
 
@@ -47,6 +48,37 @@ void Map::updateMap()
 			cout << output[i][j];
 		}
 		cout << endl;
+	}
+}
+
+void Map::setCertainPlayerPosition(int playerID, int newPosition)
+{
+	if (playerID < 0 || playerID > 3)
+	{
+		cout << "Invalid playerID" << endl;
+		return;
+	}
+	else if (newPosition < 0 || newPosition > mapSize - 1)
+	{
+		cout << "Invalid newPosition" << endl;
+		return;
+	}
+	else
+	{
+		playerPositions[playerID] = newPosition;
+	}
+}
+
+int Map::getCertainPlayerPosition(int playerID)
+{
+	if (playerID < 0 || playerID > 3)
+	{
+		cout << "Invalid playerID" << endl;
+		return -1;
+	}
+	else
+	{
+		return playerPositions[playerID];
 	}
 }
 
