@@ -22,8 +22,10 @@ Map::~Map()
 
 void Map::updateMap()
 {
+	//找出最接近正方形的長和寬，且長 >= 寬
 	int length = ceil((float)(mapSize - 4) / 4) + 2;
 	int width = (mapSize - length * 2) / 2 + 2;
+
 	vector<vector<string>> output(width, vector<string>(length)); //width x length 的二維 vector
 	for (int i = 0; i <= width - 1; i++) //左方的邊
 	{
