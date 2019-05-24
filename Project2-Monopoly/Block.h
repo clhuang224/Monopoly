@@ -9,7 +9,7 @@ using namespace std;
 class Block
 {
 public:
-    Block(unsigned, string, int, vector < string > = {});
+    Block(unsigned newPosition, string newName, int newType, vector<string> newSign = {});
 
     // 取得格子類型
     // -2機會 -1命運 0起點 1房子 2銀行 3監獄 4醫院
@@ -21,7 +21,7 @@ public:
     vector<string> getSign();
 
     // 設定格子圖
-    void setSign(vector<string>);
+    void setSign(vector<string> newSign);
 
     // 取得格子名稱
     string getName();

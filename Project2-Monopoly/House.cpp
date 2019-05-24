@@ -1,6 +1,6 @@
 #include "House.h"
 
-House::House(unsigned newPosition, string newName, unsigned newType, unsigned newLevel)
+House::House(unsigned newPosition, string newName, int newType, unsigned newLevel)
     : Block(newPosition, newName, newType)
 {
     vector<string> sign;

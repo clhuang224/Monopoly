@@ -6,13 +6,13 @@ class House :
     public Block
 {
 public:
-    House(unsigned, string, unsigned, unsigned);
+    House(unsigned newPosition, string newName, int newType, unsigned newLevel);
 
     // 取得當下等級
     unsigned getLevel();
 
     // 設定等級 sign也會隨之改變
-    void setLevel(unsigned);
+    void setLevel(unsigned newLevel);
 
     // 取得當下價格
     unsigned getPrice();
