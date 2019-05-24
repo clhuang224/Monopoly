@@ -11,23 +11,16 @@ Chance::Chance(unsigned newPosition)
 
 string Chance::getChance(Player agent)
 {
-    string message;
     switch ((rand() % 2))
     {
     case 0:
-        changeMoney(agent, 100);
-        return "逛街超爽的撿到一百元";
+        agent.stop(1);
+        return "吃飯沒洗手，生病，休息一回合";
     case 1:
-        changeMoney(agent, -300);
+        agent.setMoney(agent.getMoney() + 100);
+        return "逛街超爽的撿到一百元";
+    case 2:
+        agent.setMoney(agent.getMoney() - 300);
         return "觀光旅遊花費三百元";
     }
-}
-
-namespace
-{
-    void changeMoney(Player agent, int amount)
-    {
-        agent.setMoney(agent.getMoney() + amount);
-    }
-
 }
