@@ -6,7 +6,7 @@ class House :
     public Block
 {
 public:
-    House(unsigned newPosition, string newName, int newType, unsigned newLevel);
+    House(unsigned newPosition, string newName, int newType, unsigned newLevel, vector<unsigned> newPriceList);
 
     // 取得當下等級
     unsigned getLevel();

@@ -1,80 +1,52 @@
 #include "House.h"
 
-House::House(unsigned newPosition, string newName, int newType, unsigned newLevel)
-    : Block(newPosition, newName, newType)
+const vector<vector<string>> signList = { { "          ",
+                                            "  ◢█◣  ",
+                                            "    █    ",
+                                            "          " } ,
+                                          { "    ▲    ",
+                                            "  ◢█◣  ",
+                                            "    █    ",
+                                            "          " } ,
+                                          { "    ▲    ",
+                                            "  ◢█◣  ",
+                                            "    █    ",
+                                            "          " } ,
+                                          { "  ◢█◣  ",
+                                            "◢███◣",
+                                            "  █★█  ",
+                                            "  ███  " } };
+
+// Intent: 初始化
+// Pre: 位置、名稱、類型、等級、價格列表
+// Post: 初始化完成
+House::House(unsigned newPosition, string newName, int newType, unsigned newLevel, vector<unsigned> newPriceList)
+    : Block(newPosition, newName, newType, signList[newLevel])
 {
-    vector<string> sign;
-    switch (newLevel)
-    {
-    case 0:
-        sign = { "          ",
-                 "  ◢█◣  ",
-                 "    █    ",
-                 "          " };
-        break;
-    case 1:
-        sign = { "    ▲    ",
-                 "  ◢█◣  ",
-                 "    █    ",
-                 "          " };
-        break;
-    case 2:
-        sign = { "   ◢◣   ",
-                 " ◢██◣ ",
-                 "  ███  ",
-                 "  ███  " };
-        break;
-    case 3:
-        sign = { "  ◢█◣  ",
-                 "◢███◣",
-                 "  █★█  ",
-                 "  ███  " };
-        break;
-    }
-    setSign(sign);
     level = newLevel;
-    // priceList = 依據文件找出價錢
+    priceList = newPriceList;
 }
 
+// Intent: 取得房子等級
+// Pre: 房子物件
+// Post: 回傳level
 unsigned House::getLevel()
 {
     return level;
 }
 
+// Intent: 設定房子等級
+// Pre: 新等級
+// Post: level被改變
 void House::setLevel(unsigned newLevel)
 {
-    vector<string> newSign;
-    switch (newLevel)
-    {
-    case 0:
-        newSign = { "          ",
-                    "  ◢█◣  ",
-                    "    █    ",
-                    "          " };
-        break;
-    case 1:
-        newSign = { "    ▲    ",
-                    "  ◢█◣  ",
-                    "    █    ",
-                    "          " };
-        break;
-    case 2:
-        newSign = { "   ◢◣   ",
-                    " ◢██◣ ",
-                    "  ███  ",
-                    "  ███  " };
-        break;
-    case 3:
-        newSign = { "  ◢█◣  ",
-                    "◢███◣",
-                    "  █★█  ",
-                    "  ███  " };
-        break;
-    }
-    setSign(newSign);
     level = newLevel;
+    setSign(signList[newLevel]);
 }
 
+// Intent: 取得房子價錢
+// Pre: 房子物件
+// Post: 回傳priceList[level]
 unsigned House::getPrice()
 {
     return priceList[level];
