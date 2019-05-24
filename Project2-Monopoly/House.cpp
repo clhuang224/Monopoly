@@ -17,7 +17,7 @@ const vector<vector<string>> signList = { { "          ",
                                             "  」  ",
                                             "    " } };
 
-// Intent: ﹍て
+// Intent: ﹍て夹粁穦パ单∕﹚
 // Pre: 竚嘿摸单基
 // Post: ﹍てЧΘ
 House::House(unsigned newPosition, string newName, int newType, unsigned newLevel, vector<unsigned> newPriceList)
@@ -35,9 +35,9 @@ unsigned House::getLevel()
     return level;
 }
 
-// Intent: 砞﹚┬单
+// Intent: 砞﹚┬单夹粁穦繦单э跑
 // Pre: 穝单
-// Post: level砆э跑
+// Post: level㎝sign砆э跑
 void House::setLevel(unsigned newLevel)
 {
     level = newLevel;

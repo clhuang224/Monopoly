@@ -17,10 +17,10 @@ public:
     enum { CHANCE = -2, FORTUNE = -1, START = 0, HOUSE = 1, BANK = 2, PRISON = 3, HOSPITAL = 4 };
     int getType();
 
-    // 取得格子圖
+    // 取得格子標誌
     vector<string> getSign();
 
-    // 設定格子圖
+    // 設定格子標誌
     void setSign(vector<string> newSign);
 
     // 取得格子名稱

@@ -1,14 +1,20 @@
 #include "Chance.h"
 
+// Intent: 初始化
+// Pre: 位置
+// Post: 初始化完成
 Chance::Chance(unsigned newPosition)
     : Block(newPosition, "機會", -2, { "  ◢█◣  ",
                                        "  ███  ",
                                        "  ◥█◤  ",
                                        "    ▅    " })
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned>(time(NULL)));
 }
 
+// Intent: 抽機會
+// Pre: 玩家
+// Post: 回傳訊息
 string Chance::getChance(Player agent)
 {
     switch ((rand() % 3))

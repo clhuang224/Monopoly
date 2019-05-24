@@ -1,14 +1,20 @@
 #include "Fortune.h"
 
+// Intent: 初始化
+// Pre: 位置
+// Post: 初始化完成
 Fortune::Fortune(unsigned newPosition)
     : Block(newPosition, "命運", -1, { "  ◢█◣  ",
                                        "  █  █  ",
                                        "    ◢◤  ",
                                        "    ▅    " })
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned>(time(NULL)));
 }
 
+// Intent: 抽命運
+// Pre: 玩家
+// Post: 回傳訊息
 string Fortune::getFortune(Player agent)
 {
     switch ((rand() % 3))
