@@ -11,7 +11,7 @@ Chance::Chance(unsigned newPosition)
 
 string Chance::getChance(Player agent)
 {
-    switch ((rand() % 2))
+    switch ((rand() % 3))
     {
     case 0:
         agent.stop(1);
