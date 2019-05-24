@@ -1,25 +1,51 @@
-#pragma once
-#include <iostream>
+#ifndef BLOCK_H
+#define BLOCK_H
 
+#include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 
 class Block
 {
 public:
-    Block(unsigned, unsigned);
-    unsigned getType();
-    virtual void printSign() = 0;
-	string toString();
-	/*toString() 格式: 
-	 _ _ _ _ 
-	|範例名稱|
-	|1|2|3|4|
-	| _ _ _ |
-	*/
+    Block(unsigned, string, int, vector < string > = {});
+
+    // 取得格子類型
+    // -2機會 -1命運 0起點 1房子 2銀行 3監獄 4醫院
+    // basemap.txt裡沒有2~4的格子 但如果要自製地圖就可以用
+    enum { CHANCE = -2, FORTUNE = -1, START = 0, HOUSE = 1, BANK = 2, PRISON = 3, HOSPITAL = 4 };
+    int getType();
+
+    // 取得格子圖
+    vector<string> getSign();
+
+    // 設定格子圖
+    void setSign(vector<string>);
+
+    // 取得格子名稱
+    string getName();
+
 private:
     unsigned position;
-    enum {BANK,PRISON,CHANCE,FORTUNE};
-    // 0 銀行 1監獄 2機會 3命運 4~n房子
-    // 實際編號看文件再改
+    string name; // 最長四個字
     int type;
+    vector<string> sign; // 10x4
+
+    /*
+    格子格式：
+     _ _ _ _ _ _
+    |           |
+    |###########|
+    |###########|
+    |###########|
+    |###########|
+    |範 例 名 稱|
+    |１|２|３|４|
+    | _ _ _ _ _ |
+
+    */
+
 };
+
+#endif // !BLOCK_H
