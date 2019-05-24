@@ -25,6 +25,9 @@ public:
 	~Player();
 
 	void printPlayer();
+
+	void setPosition(struct position pos);
+	struct position getPosiiton();
 	
 	int getCash();
 	void setCash(int number);
