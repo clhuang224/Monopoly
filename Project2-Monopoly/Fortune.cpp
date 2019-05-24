@@ -3,11 +3,11 @@
 // Intent: 初始化
 // Pre: 位置
 // Post: 初始化完成
-Fortune::Fortune(unsigned newPosition)
+Fortune::Fortune(unsigned newPosition, vector<unsigned> newPasserby)
     : Block(newPosition, "命運", -1, { "  ◢█◣  ",
                                        "  █  █  ",
                                        "    ◢◤  ",
-                                       "    ▅    " })
+                                       "    ▅    " }, newPasserby)
 {
     srand(static_cast<unsigned>(time(NULL)));
 }

@@ -1,18 +1,18 @@
 #include "House.h"
 
 const vector<vector<string>> signList = { { "          ",
+                                            "          ",
                                             "  ⅷⅸ  ",
-                                            "        ",
-                                            "          " } ,
-                                          { "    《    ",
+                                            "        " } ,
+                                          { "          ",
+                                            "    《    ",
                                             "  ⅷⅸ  ",
-                                            "        ",
-                                            "          " } ,
-                                          { "    《    ",
-                                            "  ⅷⅸ  ",
-                                            "        ",
-                                            "          " } ,
-                                          { "  ⅷⅸ  ",
+                                            "        " } ,
+                                          { "   ⅷⅸ   ",
+                                            " ⅷⅸ ",
+                                            "      ",
+                                            "      " } ,
+                                          { "    ",
                                             "ⅷⅸ",
                                             "  」  ",
                                             "    " } };
@@ -20,11 +20,12 @@ const vector<vector<string>> signList = { { "          ",
 // Intent: ﹍て夹粁穦パ单∕﹚
 // Pre: 竚嘿摸单基
 // Post: ﹍てЧΘ
-House::House(unsigned newPosition, string newName, int newType, unsigned newLevel, vector<unsigned> newPriceList)
-    : Block(newPosition, newName, newType, signList[newLevel])
+House::House(unsigned newPosition, string newName, unsigned newLevel, vector<unsigned> newPriceList, vector<unsigned> newPasserby, int newOwner)
+    : Block(newPosition, newName, 1, signList[newLevel], newPasserby)
 {
     level = newLevel;
     priceList = newPriceList;
+    owner = newOwner;
 }
 
 // Intent: 眔┬单

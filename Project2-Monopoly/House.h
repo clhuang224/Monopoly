@@ -6,7 +6,12 @@ class House :
     public Block
 {
 public:
-    House(unsigned newPosition, string newName, int newType, unsigned newLevel, vector<unsigned> newPriceList);
+    House(unsigned newPosition,
+          string newName,
+          unsigned newLevel = 0,
+          vector<unsigned> newPriceList = {0,0,0,0},
+          vector<unsigned> newPasserby = {},
+          int newOwner = -1);
 
     // 取得當下等級
     unsigned getLevel();
@@ -20,6 +25,7 @@ public:
 private:
     unsigned level;
     vector<unsigned> priceList;
+    int owner;
 };
 
 #endif // !HOUSE_H

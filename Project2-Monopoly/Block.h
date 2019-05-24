@@ -9,7 +9,11 @@ using namespace std;
 class Block
 {
 public:
-    Block(unsigned newPosition, string newName, int newType, vector<string> newSign = {});
+    Block(unsigned newPosition,
+          string newName,
+          int newType,
+          vector<string> newSign = {},
+          vector<unsigned> newPasserby = {});
 
     // 取得格子類型
     // -2機會 -1命運 0起點 1房子 2銀行 3監獄 4醫院
@@ -31,6 +35,7 @@ private:
     string name; // 最長四個字
     int type;
     vector<string> sign; // 10x4
+    vector<unsigned> passerby;
 
     /*
     格子格式：

@@ -7,7 +7,7 @@
 class Chance : public Block
 {
 public:
-    Chance(unsigned newPosition);
+    Chance(unsigned newPosition, vector<unsigned> newPasserby = {});
 
     // 抽機會並發生 會回傳訊息
     string getChance(Player agent);

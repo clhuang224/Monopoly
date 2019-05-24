@@ -3,11 +3,11 @@
 // Intent: 初始化
 // Pre: 位置
 // Post: 初始化完成
-Chance::Chance(unsigned newPosition)
+Chance::Chance(unsigned newPosition, vector<unsigned> newPasserby)
     : Block(newPosition, "機會", -2, { "  ◢█◣  ",
                                        "  ███  ",
                                        "  ◥█◤  ",
-                                       "    ▅    " })
+                                       "    ▅    " }, newPasserby)
 {
     srand(static_cast<unsigned>(time(NULL)));
 }

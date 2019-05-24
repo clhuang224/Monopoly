@@ -3,12 +3,13 @@
 // Intent: 初始化
 // Pre: 位置、名稱、類型、等級、標誌
 // Post: 初始化完成
-Block::Block(unsigned newPosition, string newName, int newType, vector<string> newSign)
+Block::Block(unsigned newPosition, string newName, int newType, vector<string> newSign, vector<unsigned> newPasserby)
 {
     position = newPosition;
     name = newName;
     type = newType;
     sign = newSign;
+    passerby = newPasserby;
 }
 
 // Intent: 取得類型
