@@ -1,10 +1,10 @@
 #include "Chance.h"
 
 Chance::Chance(unsigned newPosition)
-    : Block(newPosition, "機會", -2, {"    █    ",
-                                      "    █    ",
-                                      "    █    ",
-                                      "    ▅    "})
+    : Block(newPosition, "機會", -2, { "  ◢█◣  ",
+                                       "  ███  ",
+                                       "  ◥█◤  ",
+                                       "    ▅    " })
 {
     srand(time(NULL));
 }

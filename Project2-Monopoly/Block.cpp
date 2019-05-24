@@ -5,18 +5,7 @@ Block::Block(unsigned newPosition, string newName, int newType, vector<string> n
     position = newPosition;
     name = newName;
     type = newType;
-    switch (type)
-    {
-    case 0:
-        sign = { "         ",
-                 "  ¢b¢b¢© ",
-                 "  ¢v¢v¢« ",
-                 "         " };
-        break;
-    default:
-        sign = newSign;
-    }
-    
+    sign = newSign;
 }
 
 int Block::getType()
