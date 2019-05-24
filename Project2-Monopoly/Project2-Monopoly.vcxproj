@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Chance.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="main.cpp" />
@@ -124,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Chance.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="Map.h" />

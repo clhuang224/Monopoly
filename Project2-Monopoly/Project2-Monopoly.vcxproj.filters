@@ -33,6 +33,9 @@
     <ClCompile Include="Map.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Chance.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -48,6 +51,9 @@
       <Filter>來源檔案</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Chance.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
