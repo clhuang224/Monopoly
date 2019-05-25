@@ -30,7 +30,7 @@ public:
     // 取得格子名稱
     string getName();
 
-	//回傳整個格子 (測試)
+	//回傳整個格子
 	string toString();
 
 private:
