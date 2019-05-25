@@ -28,6 +28,20 @@ string Block::getName()
     return name;
 }
 
+string Block::toString()
+{
+	return " __________\n"
+		   "|          |\n"
+		   "|" + sign[0] + "|\n"
+		   "|" + sign[1] + "|\n"
+		   "|" + sign[2] + "|\n"
+		   "|" + sign[3] + "|\n"
+		   "|" + name + "|\n"
+		   "| | | | |\n"
+		   "|__________|";
+
+}
+
 // Intent: 取得標誌
 // Pre: 格子物件及繼承格子的物件
 // Post: 回傳sign
