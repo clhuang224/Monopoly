@@ -15,12 +15,15 @@ private:
 	int deposit;
 	vector<struct stockData> ownStock;
 	vector<House> ownHouse;
+	int state = 0;
+	int stopRound = 0;
 
 public:
 	~Player();
 	Player(string setName, unsigned int setPosition, int setCash);
 
 	void printPlayer();
+	void stop(int i);
 
 	void setPosition(unsigned int pos);
 	unsigned int getPosiiton();
