@@ -1,33 +1,29 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Stock.h"
 #include "House.h"
 
 using namespace std;
 
-struct position
-{
-	int x;
-	int y;
-};
-
 class Player
 {
 private:
-	struct position currentPosition;
+	string name;
+	unsigned int currentPosition;
 	int cash;
 	int deposit;
-	vector<struct stockShare> ownStock;
+	vector<struct stockData> ownStock;
 	vector<House> ownHouse;
 
 public:
-	Player();
 	~Player();
+	Player(string setName, unsigned int setPosition, int setCash);
 
 	void printPlayer();
 
-	void setPosition(struct position pos);
-	struct position getPosiiton();
+	void setPosition(unsigned int pos);
+	unsigned int getPosiiton();
 	
 	int getCash();
 	void setCash(int number);
@@ -37,12 +33,13 @@ public:
 	int getDeposit();
 	void setDeposit(int number);
 
-	vector<struct stockShare> getOwnStock();
-	void buyStock(struct stockShare buy);
-	void sellStock(int sell);
+	vector<struct stockData> getOwnStock();
+	void buyStock(struct stockData buy);
+	void sellStock(int sell,int newValue);
 
-	vector<House> getOwnHouse();
-	void buyHouse(House buy);
-	void sellHouse(House sell);
+	vector<House&> getOwnHouse();
+	void freeHouse(House &free);
+	void buyHouse(House &buy);
+	void sellHouse(House &sell);
 
 };

@@ -22,6 +22,28 @@ Stock::~Stock()
 {
 }
 
+// 等到框架好一起印
+void Stock::printStockInfo()
+{
+	
+}
+
+vector<struct stockData> Stock::getStockList()
+{
+	return stockList;
+}
+
 void Stock::valueChange()
 {
+	srand(time(NULL));
+	for (int i = 0; i < stockList.size(); i++)
+	{
+		int change = 0;
+		change = rand() % (stockList[i].value / 2);
+		if (rand() % 2 == 0)
+		{
+			change *= -1;
+		}
+		stockList[i].value += change;
+	}
 }

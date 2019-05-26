@@ -19,7 +19,8 @@ public:
 	Stock();
 	~Stock();
 
-	void getStockList();
+	void printStockInfo();
+	vector<struct stockData> getStockList();
 	void valueChange();
 };
 
