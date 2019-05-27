@@ -8,4 +8,4 @@ public:
     Start(unsigned newPosition);
 };
 
-#endif // !START_H
+#endif

@@ -1,6 +1,7 @@
 #ifndef CHANCE_H
 #define CHANCE_H
 #include "Block.h"
+#include "Player.h"
 #include <cstdlib>
 #include <time.h>
 
@@ -13,4 +14,4 @@ public:
     string getChance(Player agent);
 };
 
-#endif // !CHANCE_H
+#endif

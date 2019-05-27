@@ -2,17 +2,19 @@
 #define HOUSE_H
 
 #include "Block.h"
+#include "Player.h"
 class House :
     public Block
 {
 public:
     House(unsigned newPosition,
           string newName,
-          unsigned newLevel = 0,
+		  Player& newOwner,
+		  unsigned newLevel = 0,
 		  unsigned cost=0,
           vector<unsigned> newPriceList = {0,0,0,0},
-          vector<unsigned> newPasserby = {},
-          int newOwner = -1);
+          vector<unsigned> newPasserby = {}
+          );
 
     // 取得當下等級
     unsigned getLevel();
@@ -24,14 +26,14 @@ public:
     void setLevel(unsigned newLevel);
 
 	//設定擁有者
-	void setOwner(int playerID);
+	void setOwner(Player&);
 private:
     unsigned level;
 	//初始價格沒看到欄位 自己加上 by魚展
 	unsigned cost_of_own;
     vector<unsigned> tollsList;
-    int owner;
+	Player owner;
 };
 
-#endif // !HOUSE_H
+#endif
 

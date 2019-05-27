@@ -1,6 +1,7 @@
 #ifndef FORTUNE_H
 #define FORTUNE_H
 #include "Block.h"
+#include "player.h"
 #include <cstdlib>
 #include <time.h>
 
@@ -13,4 +14,4 @@ public:
     string getFortune(Player agent);
 };
 
-#endif // !FORTUNE_H
+#endif

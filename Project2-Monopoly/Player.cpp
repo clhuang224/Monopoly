@@ -8,12 +8,39 @@ Player::~Player()
 {
 }
 
+Player::Player()
+{
+	name = "Bank";
+}
+
+Player::Player(const Player &p)
+{
+	name = p.name;
+	currentPosition = p.currentPosition;
+	cash = p.cash;
+	deposit = p.deposit;
+	ownStock = p.ownStock;
+	state = p.state;
+	stopRound = p.stopRound;
+}
+
 Player::Player(string setName, unsigned int setPosition, int setCash)
 {
 	name = setName;
 	currentPosition = setPosition;
 	cash = setCash;
 	deposit = 0;
+}
+
+void Player::operator=(Player p)
+{
+	name = p.name;
+	currentPosition = p.currentPosition;
+	cash = p.cash;
+	deposit = p.deposit;
+	ownStock = p.ownStock;
+	state = p.state;
+	stopRound = p.stopRound;
 }
 
 // µ¥®Ø¬[¦n
@@ -26,7 +53,7 @@ void Player::setPosition(unsigned int pos)
 	currentPosition = pos;
 }
 
-unsigned int Player::getPosiiton()
+unsigned int Player::getPosition()
 {
 	return currentPosition;
 }
@@ -84,39 +111,39 @@ void Player::sellStock(int sell, int newValue)
 
 
 
-vector<House&> Player::getOwnHouse()
-{
-	return ownHouse;
-}
-
-void Player::setOwnHouse(House& h)
-{
-	ownHouse.push_back(h);
-}
-
-void Player::freeHouse(House& free)
-{
-	ownHouse.push_back(free);
-}
-
-void Player::buyHouse(House& buy)
-{
-	cash -= buy.getPrice();
-	ownHouse.push_back(buy);
-}
-
-void Player::sellHouse(House& sell)
-{
-	cash += sell.getPrice();
-	for (int i = 0; i < ownHouse.size(); i++)
-	{
-		if (sell.getName() == ownHouse[i].getName())
-		{
-			ownHouse.erase(ownHouse.begin() + i);
-			break;
-		}
-	}
-}
+//vector<House&> Player::getOwnHouse()
+//{
+//	return ownHouse;
+//}
+//
+//void Player::setOwnHouse(House& h)
+//{
+//	ownHouse.push_back(h);
+//}
+//
+//void Player::freeHouse(House& free)
+//{
+//	ownHouse.push_back(free);
+//}
+//
+//void Player::buyHouse(House& buy)
+//{
+//	cash -= buy.getPrice();
+//	ownHouse.push_back(buy);
+//}
+//
+//void Player::sellHouse(House& sell)
+//{
+//	cash += sell.getPrice();
+//	for (int i = 0; i < ownHouse.size(); i++)
+//	{
+//		if (sell.getName() == ownHouse[i].getName())
+//		{
+//			ownHouse.erase(ownHouse.begin() + i);
+//			break;
+//		}
+//	}
+//}
 
 void Player::stop(int i)
 {

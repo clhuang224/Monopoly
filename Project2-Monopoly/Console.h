@@ -28,4 +28,4 @@ void setCursorVisable(bool);
 // 設定輸出顏色
 void SetColor(int = 0x07);
 
-#endif // !CONSOLE_H
+#endif

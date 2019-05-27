@@ -35,16 +35,6 @@ public:
 	//肚俱
 	string toString();
 
-	////砞﹚局Τ House
-	//virtual void setOwner() = 0;
-
-	//// 眔讽基 House
-	//virtual unsigned getPrice() = 0;
-
-	//// 砞﹚单 sign穦繦ぇэ跑 House
-	//virtual void setLevel(unsigned newLevel) = 0;
-
-
 private:
     unsigned position;
     string name; // 程
@@ -68,4 +58,4 @@ private:
 
 };
 
-#endif // !BLOCK_H
+#endif

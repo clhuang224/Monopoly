@@ -29,6 +29,6 @@ private:
     static void player(vector<note>, double);
 };
 
-#endif // !MUSIC_H
+#endif
 
 

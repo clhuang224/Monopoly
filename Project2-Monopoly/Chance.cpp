@@ -23,10 +23,10 @@ string Chance::getChance(Player agent)
         agent.stop(1);
         return "吃飯沒洗手，生病，休息一回合";
     case 1:
-        agent.setMoney(agent.getMoney() + 100);
+        agent.setCash(agent.getCash() + 100);
         return "逛街超爽的撿到一百元";
     case 2:
-        agent.setMoney(agent.getMoney() - 300);
+        agent.setCash(agent.getCash() - 300);
         return "觀光旅遊花費三百元";
     }
 }

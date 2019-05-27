@@ -20,8 +20,8 @@ const vector<vector<string>> signList = { { "          ",
 // Intent: 初始化（標誌會由等級決定）
 // Pre: 位置、名稱、類型、等級、價格列表
 // Post: 初始化完成
-House::House(unsigned newPosition, string newName, unsigned newLevel, unsigned cost = 0, vector<unsigned> newPriceList, vector<unsigned> newPasserby, int newOwner)
-	: Block(newPosition, newName, 1, signList[newLevel], newPasserby)
+House::House(unsigned newPosition, string newName, Player& newOwner, unsigned newLevel, unsigned cost, vector<unsigned> newPriceList, vector<unsigned> newPasserby)
+	:Block(newPosition, newName, 1, signList[newLevel], newPasserby)
 {
 	level = newLevel;
 	cost_of_own = cost;//by魚展
@@ -46,9 +46,9 @@ void House::setLevel(unsigned newLevel)
     setSign(signList[newLevel]);
 }
 
-void House::setOwner(int playerID)
+void House::setOwner(Player& p)
 {
-	owner = playerID;
+	owner = p;
 }
 
 // Intent: 取得房子價錢

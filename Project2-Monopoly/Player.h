@@ -1,8 +1,9 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
 #include <vector>
 #include <string>
 #include "Stock.h"
-#include "House.h"
+//#include "House.h"
 
 using namespace std;
 
@@ -14,19 +15,23 @@ private:
 	int cash;
 	int deposit;
 	vector<struct stockData> ownStock;
-	vector<House&> ownHouse;
+	//vector<House&> ownHouse;
 	int state = 0;
 	int stopRound = 0;
 
 public:
 	~Player();
+	Player();
+	Player(const Player&);
 	Player(string setName, unsigned int setPosition, int setCash);
+
+	void operator=(Player);
 
 	void printPlayer();
 	void stop(int i);
 
 	void setPosition(unsigned int pos);
-	unsigned int getPosiiton();
+	unsigned int getPosition();
 	
 	int getCash();
 	void setCash(int number);
@@ -40,10 +45,12 @@ public:
 	void buyStock(struct stockData buy);
 	void sellStock(int sell,int newValue);
 
-	vector<House&> getOwnHouse();
+	/*vector<House&> getOwnHouse();
 	void setOwnHouse(House&);
 	void freeHouse(House &free);
 	void buyHouse(House &buy);
-	void sellHouse(House &sell);
+	void sellHouse(House &sell);*/
 
 };
+
+#endif

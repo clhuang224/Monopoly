@@ -1,10 +1,12 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
+#include "Block.h"
 #include "Player.h"
-#include "Map.h"
 #include "Start.h"
 #include "House.h"
 #include "Chance.h"
 #include "Fortune.h"
+#include "Map.h"
 #include <ctime>
 #include <string>
 #include <vector>
@@ -26,6 +28,7 @@ private:
 	vector<Player> players;
 	size_t run = 0;
 	Map map;
-
+	Player bank;
 };
 
+#endif

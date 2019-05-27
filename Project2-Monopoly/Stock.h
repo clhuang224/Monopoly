@@ -1,7 +1,8 @@
-#pragma once
+#ifndef STOCK_H
+#define STOCK_H
+
 #include <string>
 #include <vector>
-
 using namespace std;
 
 struct stockData
@@ -24,5 +25,4 @@ public:
 	void valueChange();
 };
 
-
-
+#endif

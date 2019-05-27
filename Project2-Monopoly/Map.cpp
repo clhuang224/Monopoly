@@ -5,17 +5,14 @@ Map::Map()
 
 }
 
-Map::Map(Map & m)
+Map::Map(const Map & m)
 {
 	map = m.map;
 }
 
-Map::Map(vector<Block&> mapContent, string name)
+Map::Map(vector<Block*> mapContent, string name)
 {
-	for (int i = 0; i <= mapContent.size() - 1; i++)
-	{
-		map.push_back(mapContent[i]);
-	}
+	map = mapContent;
 	mapSize = mapContent.size();
 	mapName = name;
 }
@@ -55,19 +52,19 @@ void Map::updateMap()
 	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
 	{
-		output[i][0] = map[i].toString();
+		output[i][0] = map[i]->toString();
 	}
 	for (int i = 0; i <= length - 1; i++) //下方的 Block
 	{
-		output[width - 1][i] = map[width + i].toString();
+		output[width - 1][i] = map[width + i]->toString();
 	}
 	for (int i = 0; i <= width - 1; i++) //右方的 Block
 	{
-		output[width - 1 - i][length - 1] = map[width + length + i].toString();
+		output[width - 1 - i][length - 1] = map[width + length + i]->toString();
 	}
 	for (int i = 0; i <= length - 2; i++) //上方的 Block
 	{
-		output[length - 1 - i][0] = map[width + length + width + i].toString();
+		output[length - 1 - i][0] = map[width + length + width + i]->toString();
 	}
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
@@ -93,7 +90,7 @@ COORD Map::getConsoleCursorPosition()
 	return cbsi.dwCursorPosition;
 }
 
-vector<Block&> Map::getMap()
+vector<Block*> Map::getMap()
 {
 	return map;
 }
