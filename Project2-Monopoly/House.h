@@ -9,6 +9,7 @@ public:
     House(unsigned newPosition,
           string newName,
           unsigned newLevel = 0,
+		  unsigned cost=0,
           vector<unsigned> newPriceList = {0,0,0,0},
           vector<unsigned> newPasserby = {},
           int newOwner = -1);
@@ -16,15 +17,19 @@ public:
     // 眔讽单
     unsigned getLevel();
 
-    // 砞﹚单 sign穦繦ぇэ跑
+	// 眔讽基
+	unsigned getPrice();
+
+	// 砞﹚单 sign穦繦ぇэ跑
     void setLevel(unsigned newLevel);
 
-    // 眔讽基
-    unsigned getPrice();
-
+	//砞﹚局Τ
+	void setOwner(int playerID);
 private:
     unsigned level;
-    vector<unsigned> priceList;
+	//﹍基⊿逆  by辰甶
+	unsigned cost_of_own;
+    vector<unsigned> tollsList;
     int owner;
 };
 

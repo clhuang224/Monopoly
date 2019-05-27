@@ -86,7 +86,12 @@ void Player::sellStock(int sell, int newValue)
 
 vector<House&> Player::getOwnHouse()
 {
-	return vector<House&>();
+	return ownHouse;
+}
+
+void Player::setOwnHouse(House& h)
+{
+	ownHouse.push_back(h);
 }
 
 void Player::freeHouse(House& free)

@@ -5,7 +5,12 @@ Map::Map()
 
 }
 
-Map::Map(vector<Block> mapContent, array<int, 4> playerPositionsInput)
+Map::Map(Map & m)
+{
+	map = m.map;
+}
+
+Map::Map(vector<Block&> mapContent, array<int, 4> playerPositionsInput,string name)
 {
 	for (int i = 0; i <= mapContent.size() - 1; i++)
 	{
@@ -13,6 +18,7 @@ Map::Map(vector<Block> mapContent, array<int, 4> playerPositionsInput)
 	}
 	playerPositions = playerPositionsInput;
 	mapSize = mapContent.size();
+	mapName = name;
 }
 
 Map::~Map()

@@ -48,6 +48,9 @@
     <ClCompile Include="Stock.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h">
@@ -78,6 +81,9 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Stock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

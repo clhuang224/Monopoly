@@ -119,6 +119,7 @@
     <ClCompile Include="Chance.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Fortune.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Chance.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Fortune.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Music.h" />

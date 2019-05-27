@@ -14,7 +14,7 @@ private:
 	int cash;
 	int deposit;
 	vector<struct stockData> ownStock;
-	vector<House> ownHouse;
+	vector<House&> ownHouse;
 	int state = 0;
 	int stopRound = 0;
 
@@ -41,6 +41,7 @@ public:
 	void sellStock(int sell,int newValue);
 
 	vector<House&> getOwnHouse();
+	void setOwnHouse(House&);
 	void freeHouse(House &free);
 	void buyHouse(House &buy);
 	void sellHouse(House &sell);
