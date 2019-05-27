@@ -62,11 +62,12 @@ Game::Game(string loadMapFile)
 				players.push_back(playerTmp);
 				string house;
 				unsigned int houseRank;
-				//這邊只改了map部分的房子擁有者id (int)
+				//關聯了地產與玩家間的擁有關係
 				while (commandLine >> house >> houseRank)
 				{
 					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
 					((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
+					players.back().setOwnHouse((House*)(mapContent[stoi(house)]));
 				}
 			}
 		}
@@ -92,5 +93,6 @@ size_t Game::rollTheDice(size_t amount)
 
 void Game::printUI()
 {
-	map.updateMap();
+	map.updateMap();//印地圖
+	for (Player i : players) i.printPlayer();//印人物
 }

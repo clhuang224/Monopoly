@@ -34,6 +34,7 @@ void Map::updateMap()
 	//找出最接近正方形的長和寬，且長 >= 寬
 	int length = ceil((float)(mapSize - 4) / 4) + 2;
 	int width = (mapSize - length * 2) / 2 + 2;
+	cout << length << " " << width;
 	vector<vector<string> > output(width, vector<string>(length,string())); //width x length 的二維 vector
 	for (int i = 0; i <= width - 1; i++) //初始化 output
 	{
@@ -66,6 +67,7 @@ void Map::updateMap()
 	{
 		output[length - 1 - i][0] = map[width - 1 + length - 1 + width - 1 + i]->toString();
 	}
+
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
 		for (int j = 0; j <= length - 1; j++)
