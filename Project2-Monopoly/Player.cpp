@@ -1,8 +1,6 @@
-#include <string>
 #include <cstdlib>
 #include <time.h>
 #include "Player.h"
-#include "Stock.h"
 
 Player::~Player()
 {
@@ -111,39 +109,39 @@ void Player::sellStock(int sell, int newValue)
 
 
 
-//vector<House&> Player::getOwnHouse()
-//{
-//	return ownHouse;
-//}
-//
-//void Player::setOwnHouse(House& h)
-//{
-//	ownHouse.push_back(h);
-//}
-//
-//void Player::freeHouse(House& free)
-//{
-//	ownHouse.push_back(free);
-//}
-//
-//void Player::buyHouse(House& buy)
-//{
-//	cash -= buy.getPrice();
-//	ownHouse.push_back(buy);
-//}
-//
-//void Player::sellHouse(House& sell)
-//{
-//	cash += sell.getPrice();
-//	for (int i = 0; i < ownHouse.size(); i++)
-//	{
-//		if (sell.getName() == ownHouse[i].getName())
-//		{
-//			ownHouse.erase(ownHouse.begin() + i);
-//			break;
-//		}
-//	}
-//}
+vector<House*> Player::getOwnHouse()
+{
+	return ownHouse;
+}
+
+void Player::setOwnHouse(House* h)
+{
+	ownHouse.push_back(h);
+}
+
+void Player::freeHouse(House* free)
+{
+	ownHouse.push_back(free);
+}
+
+void Player::buyHouse(House* buy)
+{
+	cash -= buy->getPrice();
+	ownHouse.push_back(buy);
+}
+
+void Player::sellHouse(House* sell)
+{
+	cash += sell->getPrice();
+	for (int i = 0; i < ownHouse.size(); i++)
+	{
+		if (sell->getName() == ownHouse[i]->getName())
+		{
+			ownHouse.erase(ownHouse.begin() + i);
+			break;
+		}
+	}
+}
 
 void Player::stop(int i)
 {

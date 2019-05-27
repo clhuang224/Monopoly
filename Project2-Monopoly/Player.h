@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "Stock.h"
-//#include "House.h"
+#include "House.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ private:
 	int cash;
 	int deposit;
 	vector<struct stockData> ownStock;
-	//vector<House&> ownHouse;
+	vector<House*> ownHouse;
 	int state = 0;
 	int stopRound = 0;
 
@@ -45,11 +45,11 @@ public:
 	void buyStock(struct stockData buy);
 	void sellStock(int sell,int newValue);
 
-	/*vector<House&> getOwnHouse();
-	void setOwnHouse(House&);
-	void freeHouse(House &free);
-	void buyHouse(House &buy);
-	void sellHouse(House &sell);*/
+	vector<House*> getOwnHouse();
+	void setOwnHouse(House*);
+	void freeHouse(House* free);
+	void buyHouse(House* buy);
+	void sellHouse(House* sell);
 
 };
 

@@ -1,15 +1,16 @@
 #ifndef HOUSE_H
 #define HOUSE_H
-
 #include "Block.h"
-#include "Player.h"
+
+extern class Player;
+
 class House :
     public Block
 {
 public:
     House(unsigned newPosition,
           string newName,
-		  Player& newOwner,
+		  Player* newOwner,
 		  unsigned newLevel = 0,
 		  unsigned cost=0,
           vector<unsigned> newPriceList = {0,0,0,0},
@@ -26,13 +27,13 @@ public:
     void setLevel(unsigned newLevel);
 
 	//設定擁有者
-	void setOwner(Player&);
+	void setOwner(Player*);
 private:
     unsigned level;
 	//初始價格沒看到欄位 自己加上 by魚展
 	unsigned cost_of_own;
     vector<unsigned> tollsList;
-	Player owner;
+	Player* owner;
 };
 
 #endif

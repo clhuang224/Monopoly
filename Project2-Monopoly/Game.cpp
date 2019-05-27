@@ -31,7 +31,7 @@ Game::Game(string loadMapFile)
 				int cost;
 				price.resize(4);
 				mapFile >> cost >> price[0] >> price[1] >> price[2] >> price[3];
-				House *blockTmp = new House((unsigned int)position, blockName, bank, 0, cost, price, vector<unsigned>());
+				House *blockTmp = new House((unsigned int)position, blockName, &bank, 0, cost, price, vector<unsigned>());
 				mapContent.push_back(blockTmp);
 			}
 			if (blockType == CHANCE)
@@ -65,7 +65,7 @@ Game::Game(string loadMapFile)
 				//這邊只改了map部分的房子擁有者id (int)
 				while (commandLine >> house >> houseRank)
 				{
-					((House*)(mapContent[stoi(house)]))->setOwner(players.back());
+					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
 					((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
 				}
 			}

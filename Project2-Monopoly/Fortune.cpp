@@ -1,4 +1,5 @@
 #include "Fortune.h"
+#include "Player.h"
 
 // Intent: 初始化
 // Pre: 位置
@@ -15,12 +16,12 @@ Fortune::Fortune(unsigned newPosition, vector<unsigned> newPasserby)
 // Intent: 抽命運
 // Pre: 玩家
 // Post: 回傳訊息
-string Fortune::getFortune(Player agent)
+string Fortune::getFortune(Player* agent)
 {
     switch ((rand() % 3))
     {
     case 0:
-        agent.setPosition(agent.getPosition()-3);
+        agent->setPosition(agent->getPosition()-3);
         return "遇上土石流，後退三格";
     case 1:
         // 使用者用圖形介面選格子之類的
