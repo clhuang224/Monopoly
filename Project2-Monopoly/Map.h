@@ -13,20 +13,18 @@ class Map
 {
 public:
 	Map();
-	Map(Map&);
-	//mapContent 存放著地圖上所有的 Block；playerPositionsInput 存放著所有玩家的位置
-	Map(vector<Block&> mapContent, array<int, 4> playerPositionsInput, string name);
+	Map(Map&); //mapContent 存放著地圖上所有的 Block
+	Map(vector<Block&> mapContent, string name);
 	~Map();
 	void updateMap();
 	void setConsoleCursorPosition(int x, int y);
 	COORD getConsoleCursorPosition();
-	void setCertainPlayerPosition(int playerID, int newPosition);
-	int getCertainPlayerPosition(int playerID);
+	void setMapSize(int mapSizeInput);
 	int getMapSize();
+	void setMapName(string mapNameInput);
+	string getMapName();
 private:
 	vector<Block&> map;
-	array<int, 4> playerPositions;
 	int mapSize;
-	//我也不知道這要幹嘛，.txt有地圖名子 by昱展
 	string mapName;
 };

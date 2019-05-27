@@ -10,13 +10,12 @@ Map::Map(Map & m)
 	map = m.map;
 }
 
-Map::Map(vector<Block&> mapContent, array<int, 4> playerPositionsInput,string name)
+Map::Map(vector<Block&> mapContent, string name)
 {
 	for (int i = 0; i <= mapContent.size() - 1; i++)
 	{
 		map.push_back(mapContent[i]);
 	}
-	playerPositions = playerPositionsInput;
 	mapSize = mapContent.size();
 	mapName = name;
 }
@@ -87,38 +86,22 @@ COORD Map::getConsoleCursorPosition()
 	return cbsi.dwCursorPosition;
 }
 
-void Map::setCertainPlayerPosition(int playerID, int newPosition)
+void Map::setMapSize(int mapSizeInput)
 {
-	if (playerID < 0 || playerID > 3)
-	{
-		cout << "Invalid playerID" << endl;
-		return;
-	}
-	else if (newPosition < 0 || newPosition > mapSize - 1)
-	{
-		cout << "Invalid newPosition" << endl;
-		return;
-	}
-	else
-	{
-		playerPositions[playerID] = newPosition;
-	}
-}
-
-int Map::getCertainPlayerPosition(int playerID)
-{
-	if (playerID < 0 || playerID > 3)
-	{
-		cout << "Invalid playerID" << endl;
-		return -1;
-	}
-	else
-	{
-		return playerPositions[playerID];
-	}
+	mapSize = mapSizeInput;
 }
 
 int Map::getMapSize()
 {
 	return mapSize;
+}
+
+void Map::setMapName(string mapNameInput)
+{
+	mapName = mapNameInput;
+}
+
+string Map::getMapName()
+{
+	return mapName;
 }
