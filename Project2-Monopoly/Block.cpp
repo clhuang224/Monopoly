@@ -30,6 +30,7 @@ string Block::getName()
 
 string Block::toString()
 {
+	name.insert(name.begin(), 10 - name.length(), ' ');
 	return " __________\n"
 		   "|          |\n"
 		   "|" + sign[0] + "|\n"
@@ -37,8 +38,8 @@ string Block::toString()
 		   "|" + sign[2] + "|\n"
 		   "|" + sign[3] + "|\n"
 		   "|" + name + "|\n"
-		   "| | | | |\n"
-		   "|__________|";
+		   "|  | | |   |\n"
+		   "|__________|\n";
 
 }
 

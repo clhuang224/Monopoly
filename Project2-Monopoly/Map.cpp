@@ -42,7 +42,7 @@ void Map::updateMap()
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			output[i][j] = "XXXXXXXXXXXX\n" //測試用
+			output[i][j] = "XXXXXXXXXXXX\n"
 						   "X          X\n"
 						   "X          X\n"
 						   "X          X\n"
@@ -50,7 +50,7 @@ void Map::updateMap()
 						   "X          X\n"
 						   "X          X\n"
 						   "X          X\n"
-						   "XXXXXXXXXXXX";
+						   "XXXXXXXXXXXX\n";
 		}
 	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
@@ -67,24 +67,30 @@ void Map::updateMap()
 	}
 	for (int i = 1; i <= length - 2; i++) //上方的 Block
 	{
-		output[length - 1 - i][0] = map[width - 1 + length - 1 + width - 1 + i]->toString();
+		output[0][length - 1 - i] = map[width - 1 + length - 1 + width - 1 + i]->toString();
 	}
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
+			setConsoleCursorPosition(13 * j, 9 * i);
 			cout << output[i][j];
-			setConsoleCursorPosition(getConsoleCursorPosition().X + 1, getConsoleCursorPosition().Y - 8);
+			//cout << getConsoleCursorPosition().X << " " << getConsoleCursorPosition().Y;
+			/*position temp = getCursorPosition();
+			temp.y = temp.y - 8;
+			SetPosition(temp);*/
 		}
-		//setConsoleCursorPosition(getConsoleCursorPosition().X, getConsoleCursorPosition().Y + 10);
-		cout << endl;
+		//setConsoleCursorPosition(0, getConsoleCursorPosition().Y + 10);
+		//cout << endl;
 	}
 	//cout << "length: " << length << endl << "width: " << width << endl;
 }
 
 void Map::setConsoleCursorPosition(int x, int y)
 {
-	COORD coordinates = {x, y};
+	COORD coordinates;
+	coordinates.X = x;
+	coordinates.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
 }
 
