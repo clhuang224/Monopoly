@@ -1,6 +1,6 @@
 #include "Game.h"
 
-
+//目的：讀取資料檔並建構地圖、玩家
 Game::Game(string loadMapFile)
 {
 	fstream mapFile(loadMapFile);
@@ -8,8 +8,9 @@ Game::Game(string loadMapFile)
 	{
 		string mapName;
 		vector<Block*> mapContent;
-		array<int, 4> playerPositions;
+		array<int, 4> playerPositions = { -1,-1,-1,-1 };//最多4人
 
+		//參照.txt第一列
 		mapFile >> mapName >> remainingRound >> playerAmount;
 		
 		string commandTmp;
@@ -49,14 +50,14 @@ Game::Game(string loadMapFile)
 
 		string playerID;
 		int playerPosition, playerCash;
-		while (getline(cin, commandTmp))
+		while (getline(mapFile, commandTmp))
 		{
 			if (!commandTmp.empty())
 			{
 				stringstream commandLine(commandTmp);
 				commandLine >> playerID >> playerPosition >> playerCash;
 				playerPositions[stoi(playerID)] = playerPosition;
-				//player這邊要給名子有點怪，這邊先用id轉，需要再改
+				//player這邊要給名子有點怪，需要再改
 				Player playerTmp("Player"+playerID, playerPosition, playerCash);
 				players.push_back(playerTmp);
 				string house;
@@ -91,4 +92,5 @@ size_t Game::rollTheDice(size_t amount)
 
 void Game::printUI()
 {
+	map.updateMap();
 }

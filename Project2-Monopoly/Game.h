@@ -23,12 +23,12 @@ public:
 	size_t rollTheDice(size_t amount);
 	void printUI();
 private:
-	int playerAmount = 0;
+	int playerAmount = 0;//玩家數量
 	int remainingRound = 0;
 	vector<Player> players;
 	size_t run = 0;
-	Map map;
-	Player bank;
+	Map map;//遊戲地圖
+	Player bank;//defult宣告直接等於銀行
 };
 
 #endif

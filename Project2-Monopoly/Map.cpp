@@ -34,20 +34,20 @@ void Map::updateMap()
 	//找出最接近正方形的長和寬，且長 >= 寬
 	int length = ceil((float)(mapSize - 4) / 4) + 2;
 	int width = (mapSize - length * 2) / 2 + 2;
-	vector<vector<string>> output(width, vector<string>(length)); //width x length 的二維 vector
+	vector<vector<string> > output(width, vector<string>(length)); //width x length 的二維 vector
 	for (int i = 0; i <= width - 1; i++) //初始化 output
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
 			output[i][j] = "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            ";
+								"            \n"
+								"            \n"
+								"            \n"
+								"            \n"
+								"            \n"
+								"            \n"
+								"            \n"
+								"            ";
 		}
 	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
@@ -71,6 +71,7 @@ void Map::updateMap()
 		for (int j = 0; j <= length - 1; j++)
 		{
 			cout << output[i][j];
+			//這邊要改，加上i，j之類的
 			setConsoleCursorPosition(getConsoleCursorPosition().X, getConsoleCursorPosition().Y - 8);
 		}
 		cout << endl;
