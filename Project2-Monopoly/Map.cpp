@@ -25,6 +25,13 @@ Map::~Map()
 
 }
 
+void Map::operator=(Map rhs)
+{
+	map = rhs.getMap();
+	mapSize = rhs.getMapSize();
+	mapName = rhs.getMapName();
+}
+
 void Map::updateMap()
 {
 	//找出最接近正方形的長和寬，且長 >= 寬
@@ -84,6 +91,11 @@ COORD Map::getConsoleCursorPosition()
 	CONSOLE_SCREEN_BUFFER_INFO cbsi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cbsi);
 	return cbsi.dwCursorPosition;
+}
+
+vector<Block&> Map::getMap()
+{
+	return map;
 }
 
 void Map::setMapSize(int mapSizeInput)

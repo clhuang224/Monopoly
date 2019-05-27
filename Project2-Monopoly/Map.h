@@ -16,9 +16,11 @@ public:
 	Map(Map&); //mapContent 存放著地圖上所有的 Block
 	Map(vector<Block&> mapContent, string name);
 	~Map();
+	void operator=(Map M);
 	void updateMap();
 	void setConsoleCursorPosition(int x, int y);
 	COORD getConsoleCursorPosition();
+	vector<Block&> getMap();
 	void setMapSize(int mapSizeInput);
 	int getMapSize();
 	void setMapName(string mapNameInput);
