@@ -5,9 +5,11 @@ Map::Map()
 
 }
 
-Map::Map(const Map & m)
+Map::Map(const Map& m)
 {
 	map = m.map;
+	mapSize = m.mapSize;
+	mapName = m.mapName;
 }
 
 Map::Map(vector<Block*> mapContent, string name)
@@ -34,21 +36,21 @@ void Map::updateMap()
 	//找出最接近正方形的長和寬，且長 >= 寬
 	int length = ceil((float)(mapSize - 4) / 4) + 2;
 	int width = (mapSize - length * 2) / 2 + 2;
-	cout << length << " " << width;
-	vector<vector<string> > output(width, vector<string>(length,string())); //width x length 的二維 vector
+	//cout << "length: " << length << endl << "width: " << width << endl;
+	vector<vector<string>> output(width, vector<string>(length)); //width x length 的二維 vector
 	for (int i = 0; i <= width - 1; i++) //初始化 output
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			output[i][j] = "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            \n"
-						   "            ";
+			output[i][j] = "XXXXXXXXXXXX\n" //測試用
+						   "X          X\n"
+						   "X          X\n"
+						   "X          X\n"
+						   "X          X\n"
+						   "X          X\n"
+						   "X          X\n"
+						   "X          X\n"
+						   "XXXXXXXXXXXX";
 		}
 	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
@@ -67,17 +69,17 @@ void Map::updateMap()
 	{
 		output[length - 1 - i][0] = map[width - 1 + length - 1 + width - 1 + i]->toString();
 	}
-
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
 			cout << output[i][j];
-			//這邊要改，加上i，j之類的
-			setConsoleCursorPosition(getConsoleCursorPosition().X, getConsoleCursorPosition().Y - 8);
+			setConsoleCursorPosition(getConsoleCursorPosition().X + 1, getConsoleCursorPosition().Y - 8);
 		}
+		//setConsoleCursorPosition(getConsoleCursorPosition().X, getConsoleCursorPosition().Y + 10);
 		cout << endl;
 	}
+	//cout << "length: " << length << endl << "width: " << width << endl;
 }
 
 void Map::setConsoleCursorPosition(int x, int y)

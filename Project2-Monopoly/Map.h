@@ -14,7 +14,7 @@ class Map
 {
 public:
 	Map();
-	Map(const Map&); //mapContent 存放著地圖上所有的 Block
+	Map(const Map& m); //mapContent 存放著地圖上所有的 Block
 	Map(vector<Block*> mapContent, string name);
 	~Map();
 	void operator=(Map M);
