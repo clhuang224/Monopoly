@@ -40,31 +40,31 @@ void Map::updateMap()
 		for (int j = 0; j <= length - 1; j++)
 		{
 			output[i][j] = "            \n"
-								"            \n"
-								"            \n"
-								"            \n"
-								"            \n"
-								"            \n"
-								"            \n"
-								"            \n"
-								"            ";
+						   "            \n"
+						   "            \n"
+						   "            \n"
+						   "            \n"
+						   "            \n"
+						   "            \n"
+						   "            \n"
+						   "            ";
 		}
 	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
 	{
 		output[i][0] = map[i]->toString();
 	}
-	for (int i = 0; i <= length - 1; i++) //下方的 Block
+	for (int i = 1; i <= length - 1; i++) //下方的 Block
 	{
-		output[width - 1][i] = map[width + i]->toString();
+		output[width - 1][i] = map[width - 1 + i]->toString();
 	}
-	for (int i = 0; i <= width - 1; i++) //右方的 Block
+	for (int i = 1; i <= width - 1; i++) //右方的 Block
 	{
-		output[width - 1 - i][length - 1] = map[width + length + i]->toString();
+		output[width - 1 - i][length - 1] = map[width - 1 + length - 1 + i]->toString();
 	}
-	for (int i = 0; i <= length - 2; i++) //上方的 Block
+	for (int i = 1; i <= length - 2; i++) //上方的 Block
 	{
-		output[length - 1 - i][0] = map[width + length + width + i]->toString();
+		output[length - 1 - i][0] = map[width - 1 + length - 1 + width - 1 + i]->toString();
 	}
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
