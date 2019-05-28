@@ -18,16 +18,21 @@ Chance::Chance(unsigned newPosition, vector<unsigned> newPasserby)
 // Post: 回傳訊息
 string Chance::getChance(Player* agent)
 {
+    string message;
     switch ((rand() % 3))
     {
     case 0:
         agent->stop(1);
-        return "吃飯沒洗手，生病，休息一回合";
+        message = "吃飯沒洗手，生病，休息一回合";
+        break;
     case 1:
         agent->setCash(agent->getCash() + 100);
-        return "逛街超爽的撿到一百元";
+        message = "逛街超爽的撿到一百元";
+        break;
     case 2:
         agent->setCash(agent->getCash() - 300);
-        return "觀光旅遊花費三百元";
+        message = "觀光旅遊花費三百元";
+        break;
     }
+    return message;
 }
