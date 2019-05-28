@@ -31,7 +31,7 @@ Game::Game(string loadMapFile)
 				int cost;
 				price.resize(4);
 				mapFile >> cost >> price[0] >> price[1] >> price[2] >> price[3];
-				House *blockTmp = new House((unsigned int)position, blockName, bank, 0, cost, price, vector<unsigned>());
+				House *blockTmp = new House((unsigned int)position, blockName, &bank, 0, cost, price, vector<unsigned>());
 				mapContent.push_back(blockTmp);
 			}
 			if (blockType == CHANCE)
@@ -65,7 +65,7 @@ Game::Game(string loadMapFile)
 				//硂娩эmap场だ┬局Τid (int)
 				while (commandLine >> house >> houseRank)
 				{
-					((House*)(mapContent[stoi(house)]))->setOwner(players.back());
+					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
 					((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
 				}
 			}
@@ -92,7 +92,14 @@ size_t Game::rollTheDice(size_t amount)
 
 void Game::printUI()
 {
-	map.updateMap();
+	//籹瓜+
+	/*籹某Mapㄏノㄧ计秸ノㄓだ秨籹ぃ礛–Ω硂或穦皗脅*/
+	array<int, 4> playerPositions;
+	for (int i = 0; i < players.size(); i++)
+		playerPositions[i] = players[i].getPosition();
+	map.updateMap(playerPositions);
+
+
 }
 
 vector<Player> Game::getPlayers()

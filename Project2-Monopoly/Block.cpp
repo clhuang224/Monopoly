@@ -44,18 +44,18 @@ vector<string> Block::getSign()
     sign = newSign;
 }
 
- void Block::setOutput(char player1 = ' ', char player2 = ' ', char player3 = ' ', char player4 = ' ')
+ void Block::setOutput(char player1, char player2, char player3, char player4)
  {
 	 name = center(name, 10);
 	 output = "____________"
-			 "|          |"
-			 "|" + sign[0] + "|"
-			 "|" + sign[1] + "|"
-			 "|" + sign[2] + "|"
-			 "|" + sign[3] + "|"
-			 "|" + name + "|"
-			 "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
-			 "|__________|";
+		 "|          |"
+		 "|" + sign[0] + "|"
+		 "|" + sign[1] + "|"
+		 "|" + sign[2] + "|"
+		 "|" + sign[3] + "|"
+		 "|" + name + "|"
+		 "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
+		 "|__________|";
  }
 
  string Block::center(const string s, const int w)

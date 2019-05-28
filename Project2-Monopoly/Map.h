@@ -1,7 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
 #include "Block.h"
-#include "Game.h"
 #include "Player.h"
 #include <array>
 #include <cmath>
