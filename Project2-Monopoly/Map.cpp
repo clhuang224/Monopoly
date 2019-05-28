@@ -53,7 +53,6 @@ void Map::updateMap(array<int, 4> playerPositions)
 						   "XXXXXXXXXXXX";
 		}
 	}
-
 	for (int i = 0; i <= map.size() - 1; i++) //重置玩家位置
 	{
 		map[i]->setOutput();
@@ -85,8 +84,7 @@ void Map::updateMap(array<int, 4> playerPositions)
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			setConsoleCursorPosition(12 * j, 1 + 9 * i);
-			for (int k = 0; k <= 8; k++)
+			for (int k = 0; k <= 8; k++) //一個 Block
 			{
 				for (int l = 0; l <= 11; l++)
 				{
@@ -94,7 +92,9 @@ void Map::updateMap(array<int, 4> playerPositions)
 				}
 				setConsoleCursorPosition(getConsoleCursorPosition().X - 12, getConsoleCursorPosition().Y + 1);
 			}
+			setConsoleCursorPosition(getConsoleCursorPosition().X + 12, getConsoleCursorPosition().Y - 9);
 		}
+		setConsoleCursorPosition(0, getConsoleCursorPosition().Y + 9);
 	}
 }
 
