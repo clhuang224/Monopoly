@@ -124,6 +124,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Option.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Start.cpp" />
     <ClCompile Include="Stock.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="House.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Music.h" />
+    <ClInclude Include="Option.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Start.h" />
     <ClInclude Include="Stock.h" />

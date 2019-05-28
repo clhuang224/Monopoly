@@ -7,6 +7,7 @@
 #include "Chance.h"
 #include "Fortune.h"
 #include "Map.h"
+#include "Option.h"
 #include <ctime>
 #include <string>
 #include <vector>
@@ -20,14 +21,16 @@ class Game
 public:
 	Game(string loadMapFile);
 	~Game();
+	friend class Option;
 
+	void runGame();
 	void printUI();
-	void readKeyBoard();
 	vector<Player> getPlayers();
 	size_t rollTheDice();
 private:
 	int playerAmount = 0;//玩家數量
 	int remainingRound = 0;
+	bool is_FinishRound = false;//某個玩家的回合是否要結束
 	vector<Player> players;
 	size_t run = 0;
 	Map map;//遊戲地圖
