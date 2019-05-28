@@ -31,7 +31,7 @@ Game::Game(string loadMapFile)
 				int cost;
 				price.resize(4);
 				mapFile >> cost >> price[0] >> price[1] >> price[2] >> price[3];
-				House *blockTmp = new House((unsigned int)position, blockName, &bank, 0, cost, price, vector<unsigned>());
+				House *blockTmp = new House((unsigned int)position, blockName, bank, 0, cost, price, vector<unsigned>());
 				mapContent.push_back(blockTmp);
 			}
 			if (blockType == CHANCE)
@@ -62,12 +62,11 @@ Game::Game(string loadMapFile)
 				players.push_back(playerTmp);
 				string house;
 				unsigned int houseRank;
-				//關聯了地產與玩家間的擁有關係
+				//這邊只改了map部分的房子擁有者id (int)
 				while (commandLine >> house >> houseRank)
 				{
-					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
+					((House*)(mapContent[stoi(house)]))->setOwner(players.back());
 					((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
-					players.back().setOwnHouse((House*)(mapContent[stoi(house)]));
 				}
 			}
 		}
@@ -93,6 +92,10 @@ size_t Game::rollTheDice(size_t amount)
 
 void Game::printUI()
 {
-	map.updateMap();//印地圖
-	for (Player i : players) i.printPlayer();//印人物
+	map.updateMap();
+}
+
+vector<Player> Game::getPlayers()
+{
+	return players;
 }

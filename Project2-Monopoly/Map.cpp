@@ -31,7 +31,7 @@ void Map::operator=(Map rhs)
 	mapName = rhs.getMapName();
 }
 
-void Map::updateMap()
+void Map::updateMap(array<int, 4> playerPositions)
 {
 	//找出最接近正方形的長和寬，且長 >= 寬
 	int length = ceil((float)(mapSize - 4) / 4) + 2;
@@ -42,48 +42,55 @@ void Map::updateMap()
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			output[i][j] = "XXXXXXXXXXXX\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "X          X\n"
-						   "XXXXXXXXXXXX\n";
+			output[i][j] = "XXXXXXXXXXXX"
+						   "X          X"
+						   "X          X"
+						   "X          X"
+						   "X          X"
+						   "X          X"
+						   "X          X"
+						   "X          X"
+						   "XXXXXXXXXXXX";
 		}
 	}
+
+	//插入玩家位置
+	map[playerPositions[0]]->setOutput('1', ' ', ' ', ' ');
+	map[playerPositions[1]]->setOutput(' ', '2', ' ', ' ');
+	map[playerPositions[2]]->setOutput(' ', ' ', '3', ' ');
+	map[playerPositions[3]]->setOutput(' ', ' ', ' ', '4');
+
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
 	{
-		output[i][0] = map[i]->toString();
+		output[i][0] = map[i]->getOutput();
 	}
 	for (int i = 1; i <= length - 1; i++) //下方的 Block
 	{
-		output[width - 1][i] = map[width - 1 + i]->toString();
+		output[width - 1][i] = map[width - 1 + i]->getOutput();
 	}
 	for (int i = 1; i <= width - 1; i++) //右方的 Block
 	{
-		output[width - 1 - i][length - 1] = map[width - 1 + length - 1 + i]->toString();
+		output[width - 1 - i][length - 1] = map[width - 1 + length - 1 + i]->getOutput();
 	}
 	for (int i = 1; i <= length - 2; i++) //上方的 Block
 	{
-		output[0][length - 1 - i] = map[width - 1 + length - 1 + width - 1 + i]->toString();
+		output[0][length - 1 - i] = map[width - 1 + length - 1 + width - 1 + i]->getOutput();
 	}
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			setConsoleCursorPosition(13 * j, 9 * i);
-			cout << output[i][j];
-			//cout << getConsoleCursorPosition().X << " " << getConsoleCursorPosition().Y;
-			/*position temp = getCursorPosition();
-			temp.y = temp.y - 8;
-			SetPosition(temp);*/
+			setConsoleCursorPosition(12 * j, 1 + 9 * i);
+			for (int k = 0; k <= 8; k++)
+			{
+				for (int l = 0; l <= 11; l++)
+				{
+					cout << output[i][j][12 * k + l];
+				}
+				setConsoleCursorPosition(getConsoleCursorPosition().X - 12, getConsoleCursorPosition().Y + 1);
+			}
 		}
-		//setConsoleCursorPosition(0, getConsoleCursorPosition().Y + 10);
-		//cout << endl;
 	}
-	//cout << "length: " << length << endl << "width: " << width << endl;
 }
 
 void Map::setConsoleCursorPosition(int x, int y)

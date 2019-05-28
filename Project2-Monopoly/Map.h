@@ -1,7 +1,8 @@
 #ifndef MAP_H
 #define MAP_H
 #include "Block.h"
-#include "Console.h"
+#include "Game.h"
+#include "Player.h"
 #include <array>
 #include <cmath>
 #include <iostream>
@@ -19,7 +20,7 @@ public:
 	Map(vector<Block*> mapContent, string name);
 	~Map();
 	void operator=(Map M);
-	void updateMap();
+	void updateMap(array<int, 4> playerPositions);
 	void setConsoleCursorPosition(int x, int y);
 	COORD getConsoleCursorPosition();
 	vector<Block*> getMap();

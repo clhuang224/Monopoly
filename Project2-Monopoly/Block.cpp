@@ -28,21 +28,6 @@ string Block::getName()
     return name;
 }
 
-string Block::toString()
-{
-	name.insert(name.begin(), 10 - name.length(), ' ');
-	return " __________\n"
-		   "|          |\n"
-		   "|" + sign[0] + "|\n"
-		   "|" + sign[1] + "|\n"
-		   "|" + sign[2] + "|\n"
-		   "|" + sign[3] + "|\n"
-		   "|" + name + "|\n"
-		   "|  | | |   |\n"
-		   "|__________|\n";
-
-}
-
 // Intent: 取得標誌
 // Pre: 格子物件及繼承格子的物件
 // Post: 回傳sign
@@ -58,3 +43,38 @@ vector<string> Block::getSign()
 {
     sign = newSign;
 }
+
+ void Block::setOutput(char player1 = ' ', char player2 = ' ', char player3 = ' ', char player4 = ' ')
+ {
+	 name = center(name, 10);
+	 output = "____________"
+			 "|          |"
+			 "|" + sign[0] + "|"
+			 "|" + sign[1] + "|"
+			 "|" + sign[2] + "|"
+			 "|" + sign[3] + "|"
+			 "|" + name + "|"
+			 "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
+			 "|__________|";
+ }
+
+ string Block::center(const string s, const int w)
+ {
+	 stringstream ss, spaces;
+	 int pad = w - s.size();
+	 for (int i = 0; i < pad / 2; ++i)
+	 {
+		 spaces << " ";
+	 }
+	 ss << spaces.str() << s << spaces.str();
+	 if (pad > 0 && pad % 2 != 0)
+	 {
+		 ss << " ";
+	 }
+	 return ss.str();
+ }
+
+ string Block::getOutput()
+ {
+	 return output;
+ }

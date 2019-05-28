@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 using namespace std;
 
@@ -32,8 +33,12 @@ public:
     // 取得格子名稱
     string getName();
 
+	void setOutput(char player1 = ' ', char player2 = ' ', char player3 = ' ', char player4 = ' ');
+
+	string center(const string s, const int w);
+
 	//回傳整個格子
-	string toString();
+	string getOutput();
 
 private:
     unsigned position;
@@ -41,10 +46,11 @@ private:
     int type;
     vector<string> sign; // 10x4
     vector<unsigned> passerby;
+	string output;
 
     /*
     格子格式：
-     __________
+    ____________
     |          |
     |##########|
     |##########|

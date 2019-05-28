@@ -20,10 +20,9 @@ public:
 	Game(string loadMapFile);
 	~Game();
 
-	//丟骰子
 	size_t rollTheDice(size_t amount);
-	//所有的印出
 	void printUI();
+	vector<Player> getPlayers();
 private:
 	int playerAmount = 0;//玩家數量
 	int remainingRound = 0;
