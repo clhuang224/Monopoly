@@ -1,5 +1,7 @@
 #include "Game.h"
 
+const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
+
 //目的：讀取資料檔並建構地圖、玩家
 Game::Game(string loadMapFile)
 {
@@ -82,27 +84,64 @@ Game::~Game()
 {
 }
 
-size_t Game::rollTheDice(size_t amount)
+size_t Game::rollTheDice()
 {
 	size_t output = 0;
 	srand(time(NULL));
-	for (int i = 0; i < amount; i++)output += (rand() % 6 + 1);
+	output += (rand() % 6 + 1);
 	return output;
 }
 
 void Game::printUI()
 {
-	//印製地圖+人物
-	/*人物印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
+	cout << "----------------------------------------------\n\n";
+	//印人
+	/*這裡缺一段框框*/
+	for (Player i : players)
+		i.printPlayer();
+
+	cout << "----------------------------------------------\n";
+
+	//印輪到誰&回合
+
+	cout << "----------------------------------------------\n";
+
+	//印地圖
+	/*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
 	array<int, 4> playerPositions;
 	for (int i = 0; i < players.size(); i++)
 		playerPositions[i] = players[i].getPosition();
 	map.updateMap(playerPositions);
 
-
+	/*這邊可能缺一個游標位置設置*/
+	cout << "\n----------------------------------------------\n";
 }
 
 vector<Player> Game::getPlayers()
 {
 	return players;
+}
+
+void Game::readKeyBoard()
+{
+	char keyin;
+	while (1)
+	{
+		switch (keyin = _getch())
+		{
+		case UP:                                        // 上
+
+		case DOWN:                                      // 下
+
+		case  LEFT:                                     // 左
+
+		case  RIGHT:                                     // 右
+
+		case ENTER:
+
+		case ESC:                                      // 選單
+
+			break;
+		}
+	}
 }

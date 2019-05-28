@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <conio.h>
 #include <fstream>
 #include <sstream>
 using namespace std;
@@ -20,9 +21,10 @@ public:
 	Game(string loadMapFile);
 	~Game();
 
-	size_t rollTheDice(size_t amount);
 	void printUI();
+	void readKeyBoard();
 	vector<Player> getPlayers();
+	size_t rollTheDice();
 private:
 	int playerAmount = 0;//ª±®a¼Æ¶q
 	int remainingRound = 0;
