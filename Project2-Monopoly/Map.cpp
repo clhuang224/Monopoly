@@ -54,6 +54,11 @@ void Map::updateMap(array<int, 4> playerPositions)
 		}
 	}
 
+	for (int i = 0; i <= map.size() - 1; i++) //重置玩家位置
+	{
+		map[i]->setOutput();
+	}
+
 	//插入玩家位置
 	map[playerPositions[0]]->setOutput('1', ' ', ' ', ' ');
 	map[playerPositions[1]]->setOutput(' ', '2', ' ', ' ');
