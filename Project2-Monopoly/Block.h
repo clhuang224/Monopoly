@@ -19,19 +19,29 @@ public:
           vector<string> newSign = {},
           vector<unsigned> newPasserby = {});
 
-    // 取得格子類型
-    // -2機會 -1命運 0起點 1房子 2銀行 3監獄 4醫院
-    // basemap.txt裡沒有2~4的格子 但如果要自製地圖就可以用
+    Block(Block&);
+
+    Block& operator=(Block);
+
+    // 類型：-2機會 -1命運 0起點 1房子
     int getType();
+    void setType(int);
 
-    // 取得格子標誌
+    // 位置
+    unsigned getPosition();
+    void setPosition(unsigned);
+
+    // 標誌
     vector<string> getSign();
-
-    // 設定格子標誌
     void setSign(vector<string> newSign);
 
-    // 取得格子名稱
+    // 名稱
     string getName();
+    void setName(string);
+
+    // 路人
+    vector<unsigned> getPasserby();
+    void setPasserby(vector<unsigned>);
 
 	void setOutput(int playerID);
 

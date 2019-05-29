@@ -17,6 +17,10 @@ public:
           vector<unsigned> newPasserby = {}
           );
 
+    House(House&);
+
+    House& operator=(House);
+
     // 取得當下等級
     unsigned getLevel();
 
@@ -36,8 +40,7 @@ public:
 	void setOwner(Player*);
 private:
     unsigned level;
-	//初始價格沒看到欄位 自己加上 by魚展
-	unsigned cost_of_own;
+	unsigned costOfOwn;
     vector<unsigned> tollsList;
 	Player* owner;
 };

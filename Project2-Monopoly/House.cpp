@@ -21,13 +21,42 @@ const vector<vector<string>> signList = { { "          ",
 // Intent: ﹍て夹粁穦パ单∕﹚
 // Pre: 竚嘿摸单基
 // Post: ﹍てЧΘ
-House::House(unsigned newPosition, string newName, Player* newOwner, unsigned newLevel, unsigned cost, vector<unsigned> newPriceList, vector<unsigned> newPasserby)
+House::House(unsigned newPosition, string newName, Player* newOwner, unsigned newLevel, unsigned costOfOwn, vector<unsigned> newPriceList, vector<unsigned> newPasserby)
 	:Block(newPosition, newName, 1, signList[newLevel], newPasserby)
 {
 	level = newLevel;
-	cost_of_own = cost;//by辰甶
+	costOfOwn = costOfOwn;
 	tollsList = newPriceList;
 	owner = newOwner;
+}
+
+// Intent: ﹍て
+// Pre: Blockン
+// Post: ﹍てЧΘ
+House::House(House& another)
+    :Block(another)
+{
+    level = another.level;
+    costOfOwn = another.costOfOwn;
+    tollsList = another.tollsList;
+    owner = another.owner;
+}
+
+// Intent: ﹚竡=
+// Pre: Houseン
+// Post: assignЧΘ
+House& House::operator=(House another)
+{
+    setType(another.getType());
+    setPosition(another.getPosition());
+    setName(another.getName());
+    setSign(signList[another.getLevel()]);
+    setPasserby(another.getPasserby());
+    level = another.level;
+    costOfOwn = another.costOfOwn;
+    tollsList = another.tollsList;
+    owner = another.owner;
+    return (*this);
 }
 
 // Intent: 眔┬单
@@ -67,5 +96,5 @@ unsigned House::getPrice()
 
 unsigned House::getCostOfOwn()
 {
-	return cost_of_own;
+	return costOfOwn;
 }

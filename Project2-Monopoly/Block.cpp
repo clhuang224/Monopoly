@@ -12,12 +12,51 @@ Block::Block(unsigned newPosition, string newName, int newType, vector<string> n
     passerby = newPasserby;
 }
 
+// Intent: 初始化
+// Pre: 另一個Block物件
+// Post: 初始化完成
+Block::Block(Block& another)
+{
+    position = another.position;
+    name = another.name;
+    type = another.type;
+    sign = another.sign;
+    passerby = another.passerby;
+}
+
+// Intent: 定義=
+// Pre: 另一個Block物件
+// Post: assign完成
+Block& Block::operator=(Block another)
+{
+    position = another.position;
+    name = another.name;
+    type = another.type;
+    sign = another.sign;
+    passerby = another.passerby;
+
+    return (*this);
+}
+
 // Intent: 取得類型
 // Pre: 格子物件及繼承格子的物件
 // Post: 回傳type
 int Block::getType()
 {
     return type;
+}
+void Block::setType(int newType)
+{
+    type = newType;
+}
+
+unsigned Block::getPosition()
+{
+    return position;
+}
+void Block::setPosition(unsigned newPosition)
+{
+    position = newPosition;
 }
 
 // Intent: 取得名稱
@@ -26,6 +65,19 @@ int Block::getType()
 string Block::getName()
 {
     return name;
+}
+void Block::setName(string newName)
+{
+    name = newName;
+}
+
+vector<unsigned> Block::getPasserby()
+{
+    return passerby;
+}
+void Block::setPasserby(vector<unsigned> newPasserby)
+{
+    passerby = newPasserby;
 }
 
 // Intent: 取得標誌
