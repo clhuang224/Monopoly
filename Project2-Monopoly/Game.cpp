@@ -136,7 +136,7 @@ void Game::runGame()
 		
 		if (remainingRound > 0)
 		{
-			for (int &correntPlayerID = run; correntPlayerID < players.size(); correntPlayerID++)//每回合執行(玩家數量)次
+			for (run; run < players.size(); run++)//每回合執行(玩家數量)次
 			{
 				is_FinishRound = false;
 				while (!is_FinishRound)//該玩家在這回合的所有操作
@@ -150,8 +150,7 @@ void Game::runGame()
 					//丟骰子後，執行新位置上的效果
 					if (is_FinishRound)
 					{
-						Player &correntPlayer = players[correntPlayerID];
-						Block* block = map.getMap().at(correntPlayer.getPosition());
+						Block* block = map.getMap().at(players[run].getPosition());
 						if (block->getType() == HOUSE)
 						{
 							House* house = (House*)block;
@@ -162,24 +161,31 @@ void Game::runGame()
 								/*待補完整的輸出訊息*/
 
 							}
-							else if (house->getOwner() != &correntPlayer)
+							else if (house->getOwner() != &players[run])
 							{
 								/*這邊好像有bug，會出現house->getOwner()->getName()=""*/
 								cout << "這片土地屬於"<< house->getOwner()->getName()<<"，過路費為" << house->getPrice() << "\n";
-								correntPlayer.minusCash(house->getPrice());//現金交過路費
+								players[run].minusCash(house->getPrice());//現金交過路費
 								house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
 								/*待補完整的輸出訊息*/
+							}
+							else
+							{
+								cout << "OH NO!";
+								system("pause");
 							}
 						}
 						if (block->getType() == CHANCE)
 						{
-							string message = Chance::getChance(&correntPlayer);
+							string message = Chance::getChance(&players[run]);
 							cout << message;
+							system("pause");
 						}
 						if (block->getType() == FORTUNE)
 						{
-							string message = Fortune::getFortune(&correntPlayer);
+							string message = Fortune::getFortune(&players[run]);
 							cout << message;
+							system("pause");
 						}
 					}
 				}
