@@ -22,7 +22,7 @@ public:
 	void updateMap(array<int, 4> playerPositions);
 	void setConsoleCursorPosition(int x, int y);
 	COORD getConsoleCursorPosition();
-	vector<Block*> getMap();
+	vector<Block*> &getMap();
 	void setMapSize(int mapSizeInput);
 	int getMapSize();
 	void setMapName(string mapNameInput);

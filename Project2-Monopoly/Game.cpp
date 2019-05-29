@@ -1,12 +1,70 @@
 #include "Game.h"
 
-const int MAX_ROUND = 20;
-
-//目的：讀取資料檔並建構地圖、玩家
 Game::Game(string loadMapFile)
 {
-	fstream mapFile(loadMapFile);
-	if(mapFile.is_open())
+	load(loadMapFile);
+}
+Game::~Game()
+{
+}
+
+void Game::save(string filename)
+{
+	_mkdir("save");
+	filename = "./save/" + filename;
+	fstream savefile;
+	savefile.open(filename, ios::out | ios::trunc);
+	if (savefile.is_open())
+	{
+		//第一行
+		savefile << map.getMapName() << " " << remainingRound << " " << playerAmount << "\n";
+		//map區
+		for (int i = 0; i < map.getMapSize(); i++)
+		{
+			string id = to_string(i);
+			vector<Block*> blocks = map.getMap();
+			if (id.size() == 1)id = '0' + id;
+			savefile << id << " " << blocks.at(i)->getName() << " " << blocks.at(i)->getType();
+			if (blocks.at(i)->getType() == HOUSE)
+			{
+				House* house = (House*)blocks.at(i);
+				vector<unsigned> tolls = house->getTollsList();
+				savefile << " " << house->getCostOfOwn() << " " << tolls[0] << " " << tolls[1] << " " << tolls[2] << " " << tolls[3];
+			}
+			savefile << "\n";
+		}
+		//playerstate
+		savefile << "playerstate " << run << "\n";
+		//player區
+		for (int i = 0; i < playerAmount; i++)
+		{
+			string p = to_string(players[i].getPosition());
+			if (p.size() == 1)p = '0' + p;
+			savefile << i << " " << p << " " << players[i].getCash() << "|" << players[i].getDeposit();
+			for (int j = 0; j < players[i].getOwnHouse().size(); j++)
+			{
+				string tmp = to_string(players[i].getOwnHouse().at(j)->getPosition());
+				if (tmp.size() == 1)tmp = '0' + tmp;
+				savefile << " " << tmp << " " << players[i].getOwnHouse().at(j)->getLevel();
+			}
+			savefile << "\n";
+		}
+
+		savefile.close();
+	}
+	else
+	{
+		/*文件創建or讀取失敗的敘述??*/
+		cout << "error";
+	}
+}
+
+void Game::load(string filename)
+{
+	clear();
+
+	fstream mapFile(filename);
+	if (mapFile.is_open())
 	{
 		string mapName;
 		vector<Block*> mapContent;
@@ -14,7 +72,9 @@ Game::Game(string loadMapFile)
 
 		//參照.txt第一列
 		mapFile >> mapName >> remainingRound >> playerAmount;
-		
+
+		players.resize(playerAmount);
+
 		string commandTmp;
 		while (mapFile >> commandTmp && commandTmp != "playerstate")
 		{
@@ -47,38 +107,50 @@ Game::Game(string loadMapFile)
 				mapContent.push_back(blockTmp);
 			}
 		}
-		
+
 		mapFile >> run;
 
-		string playerID, playerMoney;
-		int playerPosition, cash, deposit;
+		string playerID, playerPosition, playerMoney;
+		int cash, deposit;
 		while (getline(mapFile, commandTmp))
 		{
 			if (!commandTmp.empty())
 			{
 				stringstream commandLine(commandTmp);
 				commandLine >> playerID >> playerPosition >> playerMoney;
-				int devidePoint = playerMoney.find_first_of("|", 0);
-				cash=stoi(playerMoney.substr(0, devidePoint));
-				string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
-				if (depositTmp.size() == 0)deposit = 0;
-				else deposit = stoi(depositTmp);
-				playerPositions[stoi(playerID)] = playerPosition;
-				Player playerTmp("Player" + playerID, playerPosition, cash, deposit);
-				players.push_back(playerTmp);
+
+				//存款部分
+				size_t devidePoint = playerMoney.find_first_of("|", 0);
+				if (devidePoint >= playerMoney.size())
+				{
+					deposit = 0;
+					cash = stoi(playerMoney);
+				}
+				else
+				{
+					cash = stoi(playerMoney.substr(0, devidePoint));
+					string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
+					if (depositTmp.size() == 0)deposit = 0;
+					else deposit = stoi(depositTmp);
+				}
+				playerPositions[stoi(playerID)] = stoi(playerPosition);
+				Player playerTmp(string("Player 0") + playerID, stoi(playerPosition), cash, deposit);
+
+				players.at(stoi(playerID)) = playerTmp;
 
 				string house;
 				unsigned int houseRank;
 				//這邊改了map部分內house的 擁有者指標 以及 房屋等級
 				while (commandLine >> house >> houseRank)
 				{
-					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
+					((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
 					((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
+					players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
 				}
 			}
 		}
-		Map mapTmp(mapContent, mapName);
-		map = mapTmp;
+
+		map = Map(mapContent, mapName);
 		mapFile.close();
 	}
 	else
@@ -86,69 +158,16 @@ Game::Game(string loadMapFile)
 		//report alert?
 	}
 }
-Game::~Game()
-{
-}
 
-void Game::save(string filename)
+void Game::clear()
 {
-	_mkdir("save");
-	filename = "aaa.txt";
-	fstream savefile;
-	savefile.open(filename, ios::trunc);
-	if (savefile.is_open())
-	{
-		//第一行
-		savefile << map.getMapName() << " " << remainingRound << " " << playerAmount << "\n";
-		//map區
-		for (int i = 0; i < map.getMapSize(); i++)
-		{
-			string id = to_string(i);
-			vector<Block*> blocks = map.getMap();
-			if (id.size() == 1)id = '0' + id;
-			savefile << id << " " << blocks.at(i)->getName() << " " << blocks.at(i)->getType();
-			if (blocks.at(i)->getType() == HOUSE)
-			{
-				House* house = (House*)blocks.at(i);
-				vector<unsigned> tolls = house->getTollsList();
-				savefile << " " << house->getCostOfOwn() << " " << tolls[0] << " " << tolls[1] << " " << tolls[2] << " " << tolls[3];
-			}
-			savefile << "\n";
-		}
-		//playerstate
-		savefile << "playerstate " << run << "\n";
-		//player區
-		for (int i = 0; i < playerAmount; i++)
-		{
-			string p = to_string(players[i].getPosition());
-			if (p.size() == i)p = '0' + p;
-			savefile << i << " " << p << " " << players[i].getCash() << "|" << players[i].getDeposit();
-			for (int j = 0; j < players[i].getOwnHouse().size(); j++)
-			{
-				string tmp = to_string(players[i].getOwnHouse().at(j)->getPosition());
-				if (tmp.size() == 1)tmp = '0' + tmp;
-				savefile << " " << tmp << " " << players[i].getOwnHouse().at(j)->getLevel();
-			}
-			savefile << "\n";
-		}
-	}
-	else
-	{
-		/*文件創建or讀取失敗的敘述??*/
-		cout << "error";
-	}
-}
-
-void Game::load()
-{
-}
-
-size_t Game::rollTheDice()
-{
-	size_t output = 0;
-	srand((unsigned)time(NULL));
-	output += (rand() % 6 + 1);
-	return output;
+	playerAmount = 0;
+	remainingRound = 20;
+	is_FinishRound = false;
+	players.clear();
+	run = 0;
+	map = Map();
+	bank = Player();
 }
 
 void Game::printUI()
@@ -163,7 +182,7 @@ void Game::printUI()
 	cout << "----------------------------------------------\n";
 
 	//待補印輪到誰&回合
-	cout << "輪到："<<run << "            剩餘" << remainingRound<<"回合\n";
+	cout << "輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n";
 
 	cout << "----------------------------------------------\n";
 
@@ -178,11 +197,6 @@ void Game::printUI()
 	cout << "\n----------------------------------------------\n";
 }
 
-vector<Player> Game::getPlayers()
-{
-	return players;
-}
-
 void Game::runGame()
 {
 	setCursorVisable(false);
@@ -190,20 +204,18 @@ void Game::runGame()
 
 	while (true)
 	{
-		/*待補print回合數*/
-		//cout << " 現在回合：" << MAX_ROUND - remainingRound << '\n';
-		
 		if (remainingRound > 0)
 		{
 			for (; run < players.size(); run++)//每回合執行(玩家數量)次
 			{
+				printUI();
 				is_FinishRound = false;
 				while (!is_FinishRound)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
 					//骰完骰子就不可以再操作銀行、買股票
 					/*option:BANK,STOCK,THROW_DICE*/
-					Option(this, { "BANK","STOCK","THROW_DICE" });
+					Option(this, { "銀行","擲骰子" });
 					/*待補輸出訊息*/
 
 					//丟骰子後，執行新位置上的效果
@@ -215,8 +227,8 @@ void Game::runGame()
 							House* house = (House*)block;
 							if (house->getOwner() == &bank)
 							{
-								cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn()<<"\n";
-								Option(this, { "BUY_FROM_BANK","NOT_BUY_FROM_BANK" });
+								cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn() << "\n";
+								Option(this, { "購買此空地","不購買" });
 								/*待補完整的輸出訊息*/
 
 							}
@@ -228,7 +240,7 @@ void Game::runGame()
 							else if (house->getOwner() != &players[run])
 							{
 								/*這邊好像有bug，會出現house->getOwner()->getName()=""*/
-								cout << "這片土地屬於"<< house->getOwner()->getName()<<"，過路費為" << house->getPrice() << "\n";
+								cout << "這片土地屬於" << house->getOwner()->getName() << "，過路費為" << house->getPrice() << "\n";
 								players[run].minusCash(house->getPrice());//現金交過路費
 								house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
 								/*待補完整的輸出訊息*/
@@ -261,7 +273,7 @@ void Game::runGame()
 					}
 				}
 			}
-			
+
 			remainingRound--;
 			run = 0;
 		}
@@ -272,4 +284,17 @@ void Game::runGame()
 			/*option 離開遊戲*/
 		}
 	}
+}
+
+size_t Game::rollTheDice()
+{
+	size_t output = 0;
+	srand((unsigned)time(NULL));
+	output += (rand() % 6 + 1);
+	return output;
+}
+
+vector<Player> &Game::getPlayers()
+{
+	return players;
 }

@@ -25,20 +25,20 @@ public:
 	friend class Option;
 
 	void save(string);
-	void load();
-
-	void runGame();
+	void load(string);
+	void clear();
 	void printUI();
-	vector<Player> getPlayers();
+	void runGame();
 	size_t rollTheDice();
+	vector<Player> &getPlayers();
 private:
 	int playerAmount = 0;//玩家數量
 	int remainingRound = 0;//剩餘回合數
 	bool is_FinishRound = false;//某個玩家的回合是否要結束
-	vector<Player> players;
 	int run = 0;//現在是誰的回合
 	Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
+	vector<Player> players;//玩家(下層class均直接指向此Vec的元素)
 };
 
 #endif

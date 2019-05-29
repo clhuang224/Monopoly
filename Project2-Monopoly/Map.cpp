@@ -121,7 +121,7 @@ COORD Map::getConsoleCursorPosition()
 	return cbsi.dwCursorPosition;
 }
 
-vector<Block*> Map::getMap()
+vector<Block*> &Map::getMap()
 {
 	return map;
 }

@@ -31,7 +31,7 @@ Option::Option(Game* game,vector<string> input)
 				PrintOption(p);
 				break;
 			case ENTER:
-				if (input[p] == "THROW_DICE")
+				if (input[p] == "擲骰子")
 				{
 					/*"骰<verb>"的實作*/
 					//int position = (ptr->players.at(ptr->run).getPosition() + 1);//固定走一步 用於測試
@@ -40,7 +40,7 @@ Option::Option(Game* game,vector<string> input)
 					ptr->printUI();
 					ptr->is_FinishRound = true;
 				}
-				if (input[p] == "BANK")
+				if (input[p] == "銀行")
 				{
 					/*"銀行"的實作*/
 					bool inBank = true;
@@ -171,12 +171,7 @@ Option::Option(Game* game,vector<string> input)
 
 					SetPosition(temp);
 				}
-				if (input[p] == "STOCK")
-				{
-					/*"股票"的實作*/
-					
-				}
-				if (input[p] == "BUY_FROM_BANK")
+				if (input[p] == "購買此空地")
 				{
 					/*"買空屋"的實作*/
 					/*待補游標位置設定*/
