@@ -22,16 +22,17 @@ string Fortune::getFortune(Player* agent)
     switch (rand() % 3)
     {
     case 0:
+		/*不確定需不需要補上退後三步的購買空地or收過路費???目前沒有*/
         agent->setPosition(agent->getPosition()-3);
         message = "遇上土石流，後退三格";
         break;
     case 1:
         // 使用者用圖形介面選格子之類的
-        // agent.setPosition(newPosition);
+        //agent->setPosition(newPosition);
         message = "遇到大神帶路，移動至想要的地區";
         break;
     case 2:
-        // agent.setPosition(randomPosition);
+        //agent->setPosition(randomPosition);
         message = "撞上時空門，隨機傳送";
         break;
     }

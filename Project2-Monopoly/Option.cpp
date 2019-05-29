@@ -30,6 +30,7 @@ Option::Option(Game* game,vector<string> input)
 				if (input[p] == "THROW_DICE")
 				{
 					/*"骰<verb>"的實作*/
+					//int position = (ptr->players.at(ptr->run).getPosition() + 1);//固定走一步 用於測試
 					int position = (ptr->players.at(ptr->run).getPosition() + ptr->rollTheDice()) % (ptr->map.getMapSize());
 					ptr->players.at(ptr->run).setPosition(position);
 					ptr->printUI();
@@ -50,8 +51,10 @@ Option::Option(Game* game,vector<string> input)
 					/*"買空屋"的實作*/
 					/*待補游標位置設定*/
 					ptr->players.at(ptr->run).buyHouse((House*)ptr->map.getMap().at(ptr->players.at(ptr->run).getPosition()));
-					cout << "\n恭喜購買成功";
+					ptr->printUI();
+					cout << "\n恭喜購買成功                          \n";
 					system("pause");
+					ptr->printUI();
 				}
 				options_flag = false;//停止選擇Option的內容
 				break;

@@ -65,7 +65,7 @@ Game::Game(string loadMapFile)
 
 				string house;
 				unsigned int houseRank;
-				//這邊只改了map部分的房子擁有者id (int)
+				//這邊改了map部分內house的 擁有者指標 以及 房屋等級
 				while (commandLine >> house >> houseRank)
 				{
 					((House*)(mapContent[stoi(house)]))->setOwner(&players.back());
@@ -105,6 +105,7 @@ void Game::printUI()
 	cout << "----------------------------------------------\n";
 
 	//待補印輪到誰&回合
+	cout << "輪到："<<run << "            剩餘" << remainingRound<<"回合\n";
 
 	cout << "----------------------------------------------\n";
 
@@ -136,7 +137,7 @@ void Game::runGame()
 		
 		if (remainingRound > 0)
 		{
-			for (run; run < players.size(); run++)//每回合執行(玩家數量)次
+			for (; run < players.size(); run++)//每回合執行(玩家數量)次
 			{
 				is_FinishRound = false;
 				while (!is_FinishRound)//該玩家在這回合的所有操作
@@ -150,7 +151,7 @@ void Game::runGame()
 					//丟骰子後，執行新位置上的效果
 					if (is_FinishRound)
 					{
-						Block* block = map.getMap().at(players[run].getPosition());
+						Block* block = map.getMap().at(players[run].getPosition());//讀取此玩家位置上的block指標
 						if (block->getType() == HOUSE)
 						{
 							House* house = (House*)block;
@@ -161,6 +162,11 @@ void Game::runGame()
 								/*待補完整的輸出訊息*/
 
 							}
+							else if (house->getOwner() == &players[run])
+							{
+								cout << "這片土地是你的\n，目前房屋等級為" << house->getLevel() << "\n";
+								Option(this, { "UPGRADE","KEEPNOW" });
+							}
 							else if (house->getOwner() != &players[run])
 							{
 								/*這邊好像有bug，會出現house->getOwner()->getName()=""*/
@@ -168,6 +174,9 @@ void Game::runGame()
 								players[run].minusCash(house->getPrice());//現金交過路費
 								house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
 								/*待補完整的輸出訊息*/
+								cout << "\n";
+								system("pause");
+								printUI();
 							}
 							else
 							{
@@ -178,14 +187,18 @@ void Game::runGame()
 						if (block->getType() == CHANCE)
 						{
 							string message = Chance::getChance(&players[run]);
-							cout << message;
+							printUI();
+							cout << message << "\n";
 							system("pause");
+							printUI();
 						}
 						if (block->getType() == FORTUNE)
 						{
 							string message = Fortune::getFortune(&players[run]);
-							cout << message;
+							printUI();
+							cout << message << "\n";
 							system("pause");
+							printUI();
 						}
 					}
 				}
