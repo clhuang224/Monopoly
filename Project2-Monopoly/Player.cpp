@@ -145,6 +145,7 @@ void Player::sellHouse(House* sell)
 {
 	/*本處的所有權變更待補 by魚展*/
 	cash += sell->getPrice();//這個價格也要注意一下 by魚展
+	sell->setOwner(NULL);
 	for (int i = 0; i < ownHouse.size(); i++)
 	{
 		if (sell->getName() == ownHouse[i]->getName())

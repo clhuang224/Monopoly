@@ -64,7 +64,6 @@ Game::Game(string loadMapFile)
 				if (depositTmp.size() == 0)deposit = 0;
 				else deposit = stoi(depositTmp);
 				playerPositions[stoi(playerID)] = playerPosition;
-				//player這邊要給名子有點怪，可能需要改
 				Player playerTmp("Player" + playerID, playerPosition, cash, deposit);
 				players.push_back(playerTmp);
 

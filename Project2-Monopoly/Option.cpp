@@ -1,5 +1,7 @@
 #include "Option.h"
 #include "Game.h"
+#include "Stock.h"
+#include "Player.h"
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
@@ -40,6 +42,21 @@ Option::Option(Game* game,vector<string> input)
 				if (input[p] == "BANK")
 				{
 					/*"銀行"的實作*/
+					int deposit = ptr->players[ptr->run].getDeposit();
+					int cash = ptr->players[ptr->run].getCash();
+
+
+					int amount = 0;
+					cin >> amount;
+					if (amount < cash)
+					{
+
+					}
+					else if (amount % 100 != 0)
+					{
+
+					}
+
 					
 				}
 				if (input[p] == "STOCK")
