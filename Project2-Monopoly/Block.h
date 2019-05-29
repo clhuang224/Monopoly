@@ -33,7 +33,7 @@ public:
     // 取得格子名稱
     string getName();
 
-	void setOutput(char player1 = ' ', char player2 = ' ', char player3 = ' ', char player4 = ' ');
+	void setOutput(int playerID);
 
 	string center(const string s, const int w);
 
@@ -62,6 +62,7 @@ private:
 
     */
 
+	char player1 = ' ', player2 = ' ', player3 = ' ', player4 = ' ';
 };
 
 #endif

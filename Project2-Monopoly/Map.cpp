@@ -55,14 +55,14 @@ void Map::updateMap(array<int, 4> playerPositions)
 	}
 	for (int i = 0; i <= map.size() - 1; i++) //重置玩家位置
 	{
-		map[i]->setOutput();
+		map[i]->setOutput(-1);
 	}
 
 	//插入玩家位置
-	map[playerPositions[0]]->setOutput('1', ' ', ' ', ' ');
-	map[playerPositions[1]]->setOutput(' ', '2', ' ', ' ');
-	map[playerPositions[2]]->setOutput(' ', ' ', '3', ' ');
-	map[playerPositions[3]]->setOutput(' ', ' ', ' ', '4');
+	map[playerPositions[0]]->setOutput(1);
+	map[playerPositions[1]]->setOutput(2);
+	map[playerPositions[2]]->setOutput(3);
+	map[playerPositions[3]]->setOutput(4);
 
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
 	{
