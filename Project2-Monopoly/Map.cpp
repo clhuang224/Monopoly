@@ -34,7 +34,15 @@ void Map::operator=(Map rhs)
 void Map::updateMap(array<int, 4> playerPositions)
 {
 	//找出最接近正方形的長和寬，且長 >= 寬
-	int length = ceil((float)(mapSize - 4) / 4) + 2;
+	int length;
+	if (mapSize >= 24)
+	{
+		length = 11;
+	}
+	else
+	{
+		length = ceil((float)(mapSize - 4) / 4) + 2;
+	}
 	int width = (mapSize - length * 2) / 2 + 2;
 	//cout << "length: " << length << endl << "width: " << width << endl;
 	vector<vector<string>> output(width, vector<string>(length)); //width x length 的二維 vector
