@@ -1,9 +1,9 @@
 #include "Start.h"
 
 Start::Start(unsigned newPosition)
-    : Block(newPosition, "起點", 0, { "          ",
-                                      "  ▁▁◣  ",
-                                      "  ▔▔◤  ",
-                                      "          " })
+    : Block(newPosition, "起點", 0, { "    █    ",
+                                      "    █    ",
+                                      " ◥██◤ ",
+                                      "   ◥◤   " })
 {
 }

@@ -44,9 +44,30 @@ vector<string> Block::getSign()
     sign = newSign;
 }
 
- void Block::setOutput(char player1, char player2, char player3, char player4)
+ void Block::setOutput(int playerID)
  {
 	 name = center(name, 10);
+	 switch (playerID)
+	 {
+	 case -1:
+		 player1 = ' ';
+		 player2 = ' ';
+		 player3 = ' ';
+		 player4 = ' ';
+		 break;
+	 case 1:
+		 player1 = '1';
+		 break;
+	 case 2:
+		 player2 = '2';
+		 break;
+	 case 3:
+		 player3 = '3';
+		 break;
+	 case 4:
+		 player4 = '4';
+		 break;
+	 }
 	 output = "____________"
 		 "|          |"
 		 "|" + sign[0] + "|"
