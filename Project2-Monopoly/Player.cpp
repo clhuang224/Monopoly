@@ -117,6 +117,16 @@ void Player::sellStock(int sell, int newValue)
 	deposit += newValue;
 }
 
+int Player::getColor()
+{
+	return color;
+}
+
+void Player::setColor(int co)
+{
+	color = co;
+}
+
 
 
 vector<House*> Player::getOwnHouse()

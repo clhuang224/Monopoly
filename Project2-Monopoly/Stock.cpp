@@ -22,11 +22,6 @@ Stock::~Stock()
 {
 }
 
-// 等到框架好一起印
-void Stock::printStockInfo()
-{
-	
-}
 
 vector<struct stockData> Stock::getStockList()
 {

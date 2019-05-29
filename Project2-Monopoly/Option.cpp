@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Stock.h"
 #include "Player.h"
+#include "Console.h"
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
@@ -42,22 +43,133 @@ Option::Option(Game* game,vector<string> input)
 				if (input[p] == "BANK")
 				{
 					/*"銀行"的實作*/
+					bool inBank = true;
 					int deposit = ptr->players[ptr->run].getDeposit();
 					int cash = ptr->players[ptr->run].getCash();
 
-
-					int amount = 0;
-					cin >> amount;
-					if (amount < cash)
-					{
-
-					}
-					else if (amount % 100 != 0)
-					{
-
-					}
-
+					position temp = getCursorPosition();
+					position nowPos = { 40,17 }; SetPosition(nowPos); SetColor(14);
+					cout << " /$$$$$$$    /$$$$$$     /$$   /$$   /$$   /$$" ; nowPos = { 40,18 }; SetPosition(nowPos);
+					cout << "| $$__  $$  / $$__  $$  | $$$  |$$  | $$  /$$"; nowPos = { 40,19 }; SetPosition(nowPos);
+					cout << "| $$  \\ $$  | $$   \\$$  | $$$$ |$$  | $$ /$$"; nowPos = { 40,20 };  SetPosition(nowPos);
+					cout << "| $$$$$$$   | $$$$$$$$  | $$ $$ $$  | $$$$$"; nowPos = { 40,21 }; SetPosition(nowPos);
+					cout << "| $$__  $$  | $$__  $$  | $$  $$$$  | $$  $$"; nowPos = { 40,22 };  SetPosition(nowPos);
+					cout << "| $$  \\ $$  | $$  | $$  | $$\\  $$$  | $$\\  $$"; nowPos = { 40,23 };  SetPosition(nowPos);
+					cout << "| $$$$$$$/  | $$  | $$  | $$ \\  $$  | $$ \\  $$"; nowPos = { 40,24 };  SetPosition(nowPos);
+					cout << "| _______/  |__/  |__/  |__ / \\__/  |__ / \\__/ ";
+					SetColor(7); nowPos = { 46,28 }; SetPosition(nowPos);
+					cout << "歡迎來到銀行 !!! 需要什麼服務呢 ?";
 					
+					int nowPoint = 0;
+					while (inBank)
+					{
+						nowPos = { 56,30 }; SetPosition(nowPos);
+						cout << "存款";
+						nowPos = { 64,30 }; SetPosition(nowPos);
+						cout << "提款";
+						nowPos = { 56,32 }; SetPosition(nowPos);
+						cout << "查看今日股票";
+						nowPos = { 58,34 }; SetPosition(nowPos);
+						cout << "買入股票";
+						nowPos = { 58,36 }; SetPosition(nowPos);
+						cout << "賣出股票";
+						nowPos = { 58,38 }; SetPosition(nowPos);
+						cout << "離開銀行";
+
+						switch (nowPoint)
+						{
+						case 0:
+							SetColor(240);
+							nowPos = { 56,30 }; SetPosition(nowPos);
+							cout << "存款";
+							SetColor(7);
+							break;
+						case 1:
+							SetColor(240);
+							nowPos = { 64,30 }; SetPosition(nowPos);
+							cout << "提款";
+							SetColor(7);
+							break;
+						case 2:
+							SetColor(240);
+							nowPos = { 56,32 }; SetPosition(nowPos);
+							cout << "查看今日股票";
+							SetColor(7);
+							break;
+						case 3:
+							SetColor(240);
+							nowPos = { 58,34 }; SetPosition(nowPos);
+							cout << "買入股票";
+							SetColor(7);
+							break;
+						case 4:
+							SetColor(240);
+							nowPos = { 58,36 }; SetPosition(nowPos);
+							cout << "賣出股票";
+							SetColor(7);
+							break;
+						case 5:
+							SetColor(240);
+							nowPos = { 58,38 }; SetPosition(nowPos);
+							cout << "離開銀行";
+							SetColor(7);
+							break;
+						}
+
+						switch (char keyin = _getch())
+						{
+						case DOWN:
+							if (nowPoint < 5)
+							{
+								nowPoint++;
+							}
+							break;
+						case UP:
+							if (nowPoint > 0)
+							{
+								nowPoint--;
+							}
+							break;
+						case ENTER:
+
+							switch (nowPoint)
+							{
+							// 存款
+							case 0:
+								break;
+
+							// 提款
+							case 1:
+								break;
+
+							// 查看股票
+							case 2:
+								break;
+
+							// 買入股票
+							case 3:
+								break;
+
+							// 賣出股票
+							case 4:
+								break;
+
+							// 離開銀行
+							case 5:
+								inBank = false;
+								break;
+							}
+							break;
+						}
+					}
+
+					for (int i = 17; i < 40; i++)
+					{
+						nowPos = { 40, i }; SetPosition(nowPos);
+						cout << "                                               ";
+					}
+
+					SetPosition(temp);
 				}
 				if (input[p] == "STOCK")
 				{

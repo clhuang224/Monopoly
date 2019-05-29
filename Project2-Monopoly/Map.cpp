@@ -50,15 +50,15 @@ void Map::updateMap(array<int, 4> playerPositions)
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			output[i][j] = "XXXXXXXXXXXX"
-						   "X          X"
-						   "X          X"
-						   "X          X"
-						   "X          X"
-						   "X          X"
-						   "X          X"
-						   "X          X"
-						   "XXXXXXXXXXXX";
+			output[i][j] = "            "
+						   "            "
+						   "            "
+						   "            "
+						   "            "
+						   "            "
+						   "            "
+						   "            "
+						   "            ";
 		}
 	}
 	for (int i = 0; i <= map.size() - 1; i++) //­«¸mª±®a¦ì¸m

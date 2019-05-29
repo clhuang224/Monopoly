@@ -18,6 +18,7 @@ private:
 	vector<House*> ownHouse;
 	int state = 0;
 	int stopRound = 0;
+	int color = 7;
 
 public:
 	~Player();
@@ -47,6 +48,9 @@ public:
 	vector<struct stockData> getOwnStock();
 	void buyStock(struct stockData buy);
 	void sellStock(int sell,int newValue);
+
+	int getColor();
+	void setColor(int co);
 
 	vector<House*> getOwnHouse();
 	void setOwnHouse(House*);
