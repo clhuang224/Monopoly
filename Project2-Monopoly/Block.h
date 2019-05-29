@@ -40,6 +40,8 @@ public:
 	//回傳整個格子
 	string getOutput();
 
+	//取得block位置
+	unsigned getPosition();
 private:
     unsigned position;
     string name; // 最長四個字

@@ -99,3 +99,8 @@ vector<string> Block::getSign()
  {
 	 return output;
  }
+
+ unsigned Block::getPosition()
+ {
+	 return position;
+ }

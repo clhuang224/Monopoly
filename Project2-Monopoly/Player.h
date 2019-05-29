@@ -23,7 +23,7 @@ public:
 	~Player();
 	Player();
 	Player(const Player&);
-	Player(string setName, unsigned int setPosition, int setCash);
+	Player(string setName, unsigned int setPosition, int setCash, int setDeposit);
 
 	void operator=(Player);
 

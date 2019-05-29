@@ -1,13 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
+#include "Map.h"
 #include "Block.h"
 #include "Player.h"
 #include "Start.h"
 #include "House.h"
 #include "Chance.h"
 #include "Fortune.h"
-#include "Map.h"
 #include "Option.h"
+#include <direct.h>
 #include <ctime>
 #include <string>
 #include <vector>
@@ -22,6 +23,9 @@ public:
 	Game(string loadMapFile);
 	~Game();
 	friend class Option;
+
+	void save(string);
+	void load();
 
 	void runGame();
 	void printUI();

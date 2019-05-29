@@ -50,17 +50,22 @@ Game::Game(string loadMapFile)
 		
 		mapFile >> run;
 
-		string playerID;
-		int playerPosition, playerCash;
+		string playerID, playerMoney;
+		int playerPosition, cash, deposit;
 		while (getline(mapFile, commandTmp))
 		{
 			if (!commandTmp.empty())
 			{
 				stringstream commandLine(commandTmp);
-				commandLine >> playerID >> playerPosition >> playerCash;
+				commandLine >> playerID >> playerPosition >> playerMoney;
+				int devidePoint = playerMoney.find_first_of("|", 0);
+				cash=stoi(playerMoney.substr(0, devidePoint));
+				string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
+				if (depositTmp.size() == 0)deposit = 0;
+				else deposit = stoi(depositTmp);
 				playerPositions[stoi(playerID)] = playerPosition;
-				//player這邊要給名子有點怪，需要再改
-				Player playerTmp("Player"+playerID, playerPosition, playerCash);
+				//player這邊要給名子有點怪，可能需要改
+				Player playerTmp("Player" + playerID, playerPosition, cash, deposit);
 				players.push_back(playerTmp);
 
 				string house;
@@ -75,6 +80,7 @@ Game::Game(string loadMapFile)
 		}
 		Map mapTmp(mapContent, mapName);
 		map = mapTmp;
+		mapFile.close();
 	}
 	else
 	{
@@ -82,6 +88,59 @@ Game::Game(string loadMapFile)
 	}
 }
 Game::~Game()
+{
+}
+
+void Game::save(string filename)
+{
+	_mkdir("save");
+	filename = "aaa.txt";
+	fstream savefile;
+	savefile.open(filename, ios::trunc);
+	if (savefile.is_open())
+	{
+		//第一行
+		savefile << map.getMapName() << " " << remainingRound << " " << playerAmount << "\n";
+		//map區
+		for (int i = 0; i < map.getMapSize(); i++)
+		{
+			string id = to_string(i);
+			vector<Block*> blocks = map.getMap();
+			if (id.size() == 1)id = '0' + id;
+			savefile << id << " " << blocks.at(i)->getName() << " " << blocks.at(i)->getType();
+			if (blocks.at(i)->getType() == HOUSE)
+			{
+				House* house = (House*)blocks.at(i);
+				vector<unsigned> tolls = house->getTollsList();
+				savefile << " " << house->getCostOfOwn() << " " << tolls[0] << " " << tolls[1] << " " << tolls[2] << " " << tolls[3];
+			}
+			savefile << "\n";
+		}
+		//playerstate
+		savefile << "playerstate " << run << "\n";
+		//player區
+		for (int i = 0; i < playerAmount; i++)
+		{
+			string p = to_string(players[i].getPosition());
+			if (p.size() == i)p = '0' + p;
+			savefile << i << " " << p << " " << players[i].getCash() << "|" << players[i].getDeposit();
+			for (int j = 0; j < players[i].getOwnHouse().size(); j++)
+			{
+				string tmp = to_string(players[i].getOwnHouse().at(j)->getPosition());
+				if (tmp.size() == 1)tmp = '0' + tmp;
+				savefile << " " << tmp << " " << players[i].getOwnHouse().at(j)->getLevel();
+			}
+			savefile << "\n";
+		}
+	}
+	else
+	{
+		/*文件創建or讀取失敗的敘述??*/
+		cout << "error";
+	}
+}
+
+void Game::load()
 {
 }
 

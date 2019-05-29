@@ -34,6 +34,9 @@ public:
 
 	//設定擁有者
 	void setOwner(Player*);
+
+	//取得路費清單 寫檔用
+	vector<unsigned> getTollsList();
 private:
     unsigned level;
 	//初始價格沒看到欄位 自己加上 by魚展
