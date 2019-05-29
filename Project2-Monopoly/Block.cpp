@@ -121,14 +121,14 @@ vector<string> Block::getSign()
 		 break;
 	 }
 	 output = "____________"
-		 "|          |"
-		 "|" + sign[0] + "|"
-		 "|" + sign[1] + "|"
-		 "|" + sign[2] + "|"
-		 "|" + sign[3] + "|"
-		 "|" + name + "|"
-		 "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
-		 "|__________|";
+			  "|          |"
+			  "|" + sign[0] + "|"
+			  "|" + sign[1] + "|"
+			  "|" + sign[2] + "|"
+			  "|" + sign[3] + "|"
+			  "|" + name + "|"
+			  "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
+			  "|__________|";
  }
 
  string Block::center(const string s, const int w)
