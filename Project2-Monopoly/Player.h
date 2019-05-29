@@ -27,6 +27,9 @@ public:
 
 	void operator=(Player);
 
+	string getName();
+	void setName(string);
+
 	void printPlayer();
 	void stop(int i);
 

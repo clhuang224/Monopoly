@@ -10,7 +10,7 @@ extern class Game;
 class Option
 {
 public:
-	Option(Game *, int playerID,vector<string>);
+	Option(Game *, vector<string>);
 	~Option();
 private:
 	Game *ptr;

@@ -12,7 +12,7 @@ public:
     Fortune(unsigned newPosition, vector<unsigned> newPasserby = {});
 
     // 抽命運並發生 會回傳訊息
-    string getFortune(Player* agent);
+	static string getFortune(Player* agent);
 };
 
 #endif

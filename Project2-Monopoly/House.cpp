@@ -38,6 +38,11 @@ unsigned House::getLevel()
     return level;
 }
 
+Player * House::getOwner()
+{
+	return owner;
+}
+
 // Intent: 設定房子等級（標誌會隨等級改變）
 // Pre: 新等級
 // Post: level和sign被改變
@@ -58,4 +63,9 @@ void House::setOwner(Player* p)
 unsigned House::getPrice()
 {
     return tollsList[level];
+}
+
+unsigned House::getCostOfOwn()
+{
+	return cost_of_own;
 }

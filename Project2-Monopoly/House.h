@@ -23,6 +23,12 @@ public:
 	// 眔讽基
 	unsigned getPrice();
 
+	//眔潦禦基
+	unsigned getCostOfOwn();
+
+	//眔局Τ
+	Player* getOwner();
+
 	// 砞﹚单 sign穦繦ぇэ跑
     void setLevel(unsigned newLevel);
 

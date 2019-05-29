@@ -29,10 +29,10 @@ public:
 	size_t rollTheDice();
 private:
 	int playerAmount = 0;//玩家數量
-	int remainingRound = 0;
+	int remainingRound = 0;//剩餘回合數
 	bool is_FinishRound = false;//某個玩家的回合是否要結束
 	vector<Player> players;
-	size_t run = 0;
+	int run = 0;//現在是誰的回合
 	Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
 };

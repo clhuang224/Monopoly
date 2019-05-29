@@ -62,6 +62,7 @@ Game::Game(string loadMapFile)
 				//player這邊要給名子有點怪，需要再改
 				Player playerTmp("Player"+playerID, playerPosition, playerCash);
 				players.push_back(playerTmp);
+
 				string house;
 				unsigned int houseRank;
 				//這邊只改了map部分的房子擁有者id (int)
@@ -87,7 +88,7 @@ Game::~Game()
 size_t Game::rollTheDice()
 {
 	size_t output = 0;
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 	output += (rand() % 6 + 1);
 	return output;
 }
@@ -97,13 +98,13 @@ void Game::printUI()
 	SetPosition({ 0,0 });
 	cout << "----------------------------------------------\n\n";
 	//印人
-	/*這裡缺一段框框*/
+	/*這裡待再監察*/
 	for (Player i : players)
 		i.printPlayer();
 
 	cout << "----------------------------------------------\n";
 
-	//印輪到誰&回合
+	//待補印輪到誰&回合
 
 	cout << "----------------------------------------------\n";
 
@@ -114,7 +115,7 @@ void Game::printUI()
 		playerPositions[i] = players[i].getPosition();
 	map.updateMap(playerPositions);
 
-	/*這邊可能缺一個游標位置設置*/
+	/*這邊或map結尾可能缺一個游標位置設置，暫時用換行代替*/
 	cout << "\n----------------------------------------------\n";
 }
 
@@ -128,7 +129,6 @@ void Game::runGame()
 	setCursorVisable(false);
 	printUI();
 
-	char keyin;
 	while (true)
 	{
 		/*待補print回合數*/
@@ -136,20 +136,57 @@ void Game::runGame()
 		
 		if (remainingRound > 0)
 		{
-			for (int correntPlayerID = 0; correntPlayerID < players.size(); correntPlayerID++)//每回合執行(玩家數量)次
+			for (int &correntPlayerID = run; correntPlayerID < players.size(); correntPlayerID++)//每回合執行(玩家數量)次
 			{
 				is_FinishRound = false;
 				while (!is_FinishRound)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
-					//骰完骰子就結束回合
+					//骰完骰子就不可以再操作銀行、買股票
 					/*option:BANK,STOCK,THROW_DICE*/
-					Option(this, correntPlayerID, { "BANK","STOCK","THROW_DICE" });
+					Option(this, { "BANK","STOCK","THROW_DICE" });
 					/*待補輸出訊息*/
+
+					//丟骰子後，執行新位置上的效果
+					if (is_FinishRound)
+					{
+						Player &correntPlayer = players[correntPlayerID];
+						Block* block = map.getMap().at(correntPlayer.getPosition());
+						if (block->getType() == HOUSE)
+						{
+							House* house = (House*)block;
+							if (house->getOwner() == &bank)
+							{
+								cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn()<<"\n";
+								Option(this, { "BUY_FROM_BANK","NOT_BUY_FROM_BANK" });
+								/*待補完整的輸出訊息*/
+
+							}
+							else if (house->getOwner() != &correntPlayer)
+							{
+								/*這邊好像有bug，會出現house->getOwner()->getName()=""*/
+								cout << "這片土地屬於"<< house->getOwner()->getName()<<"，過路費為" << house->getPrice() << "\n";
+								correntPlayer.minusCash(house->getPrice());//現金交過路費
+								house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
+								/*待補完整的輸出訊息*/
+							}
+						}
+						if (block->getType() == CHANCE)
+						{
+							string message = Chance::getChance(&correntPlayer);
+							cout << message;
+						}
+						if (block->getType() == FORTUNE)
+						{
+							string message = Fortune::getFortune(&correntPlayer);
+							cout << message;
+						}
+					}
 				}
 			}
 			
 			remainingRound--;
+			run = 0;
 		}
 		else
 		{

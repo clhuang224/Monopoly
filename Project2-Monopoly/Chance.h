@@ -12,7 +12,7 @@ public:
     Chance(unsigned newPosition, vector<unsigned> newPasserby = {});
 
     // 抽機會並發生 會回傳訊息
-    string getChance(Player* agent);
+    static string getChance(Player* agent);
 };
 
 #endif

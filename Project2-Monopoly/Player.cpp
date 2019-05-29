@@ -41,6 +41,16 @@ void Player::operator=(Player p)
 	stopRound = p.stopRound;
 }
 
+string Player::getName()
+{
+	return name;
+}
+
+void Player::setName(string n)
+{
+	name = n;
+}
+
 // 等框架好
 void Player::printPlayer()
 {
@@ -126,13 +136,15 @@ void Player::freeHouse(House* free)
 
 void Player::buyHouse(House* buy)
 {
-	cash -= buy->getPrice();
+	cash -= buy->getCostOfOwn();//原本的是讀取房屋等級對應的價格getPrice()，現改成空屋的價格 by魚展
+	buy->setOwner(this);//房屋要設定所有權者
 	ownHouse.push_back(buy);
 }
 
 void Player::sellHouse(House* sell)
 {
-	cash += sell->getPrice();
+	/*本處的所有權變更待補 by魚展*/
+	cash += sell->getPrice();//這個價格也要注意一下 by魚展
 	for (int i = 0; i < ownHouse.size(); i++)
 	{
 		if (sell->getName() == ownHouse[i]->getName())
