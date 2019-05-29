@@ -10,6 +10,8 @@ class Fortune : public Block
 {
 public:
     Fortune(unsigned newPosition, vector<unsigned> newPasserby = {});
+    Fortune(Fortune&);
+    Fortune& operator=(Fortune);
 
     // 抽命運並發生 會回傳訊息
 	static string getFortune(Player* agent);

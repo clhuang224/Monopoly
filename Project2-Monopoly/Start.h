@@ -5,7 +5,9 @@
 class Start : public Block
 {
 public:
-    Start(unsigned newPosition);
+    Start(unsigned newPosition, vector<unsigned> newPasserby = {});
+    Start(Start&);
+    Start& operator=(Start);
 };
 
 #endif

@@ -34,7 +34,7 @@ House::House(unsigned newPosition, string newName, Player* newOwner, unsigned ne
 // Pre: 另一個Block物件
 // Post: 初始化完成
 House::House(House& another)
-    :Block(another)
+    :Block(another.getPosition(),another.getName(),another.getType(),another.getSign(),another.getPasserby())
 {
     level = another.level;
     costOfOwn = another.costOfOwn;

@@ -13,6 +13,25 @@ Chance::Chance(unsigned newPosition, vector<unsigned> newPasserby)
     srand(static_cast<unsigned>(time(NULL)));
 }
 
+Chance::Chance(Chance& another)
+    : Block(another.getPosition(), "機會", -2, { "  ◢█◣  ",
+                                                 "  ███  ",
+                                                 "  ◥█◤  ",
+                                                 "    ▅    " }, another.getPasserby())
+{
+}
+
+Chance& Chance::operator=(Chance another)
+{
+    setPosition(another.getPosition());
+    setName(another.getName());
+    setType(another.getType());
+    setSign(another.getSign());
+    setPasserby(another.getPasserby());
+
+    return (*this);
+}
+
 // Intent: 抽機會
 // Pre: 玩家
 // Post: 回傳訊息

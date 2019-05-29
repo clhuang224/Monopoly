@@ -13,6 +13,25 @@ Fortune::Fortune(unsigned newPosition, vector<unsigned> newPasserby)
     srand(static_cast<unsigned>(time(NULL)));
 }
 
+Fortune::Fortune(Fortune& another)
+    : Block(another.getPosition(), "命運", -1, { "  ◢█◣  ",
+                                                 "  █  █  ",
+                                                 "    ◢◤  ",
+                                                 "    ▅    " }, another.getPasserby())
+{
+}
+
+Fortune& Fortune::operator=(Fortune another)
+{
+    setPosition(another.getPosition());
+    setName(another.getName());
+    setType(another.getType());
+    setSign(another.getSign());
+    setPasserby(another.getPasserby());
+
+    return (*this);
+}
+
 // Intent: 抽命運
 // Pre: 玩家
 // Post: 回傳訊息
