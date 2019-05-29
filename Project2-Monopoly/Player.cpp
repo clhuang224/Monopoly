@@ -22,12 +22,12 @@ Player::Player(const Player &p)
 	stopRound = p.stopRound;
 }
 
-Player::Player(string setName, unsigned int setPosition, int setCash)
+Player::Player(string setName, unsigned int setPosition, int setCash, int setDeposit)
 {
 	name = setName;
 	currentPosition = setPosition;
 	cash = setCash;
-	deposit = 0;
+	deposit = setDeposit;
 }
 
 void Player::operator=(Player p)

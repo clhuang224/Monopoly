@@ -86,6 +86,11 @@ void House::setOwner(Player* p)
 	owner = p;
 }
 
+vector<unsigned> House::getTollsList()
+{
+	return tollsList;
+}
+
 // Intent: 取得房子價錢
 // Pre: 房子物件
 // Post: 回傳priceList[level]

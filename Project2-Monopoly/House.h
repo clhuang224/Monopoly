@@ -38,6 +38,9 @@ public:
 
 	//設定擁有者
 	void setOwner(Player*);
+
+	//取得路費清單 寫檔用
+	vector<unsigned> getTollsList();
 private:
     unsigned level;
 	unsigned costOfOwn;

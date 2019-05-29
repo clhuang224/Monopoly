@@ -3,7 +3,7 @@
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
-const string menu[] = { "SAVE","LOAD","MUSIC_SET","CLOSE_GAME" };
+const vector<string> menu = { "SAVE","LOAD","MUSIC_SET","CLOSE_GAME" };
 Option::Option(Game* game,vector<string> input)
 {
 	options = input;
@@ -12,6 +12,7 @@ Option::Option(Game* game,vector<string> input)
 	{
 		int p = 0;
 		int p_menu;
+		string filename;
 		bool options_flag = true;
 		PrintOption(p);
 		while (options_flag)
@@ -61,6 +62,7 @@ Option::Option(Game* game,vector<string> input)
 			case ESC:
 				p_menu = 0;
 				bool menu_flag = true;
+				PrintMenu(0);
 				while (menu_flag)
 				{
 					switch (char keyin_menu = _getch())
@@ -75,6 +77,19 @@ Option::Option(Game* game,vector<string> input)
 						break;
 					case ENTER:
 						/*待game補讀取、儲存、音樂調整、離開遊戲的fun()*/
+						switch (p_menu)
+						{
+						case 0:
+							cin >> filename;
+							ptr->save(filename);
+							break;
+						case 1:
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+						}
 						break;
 					case ESC://退回上一選單內容
 						menu_flag = false;
@@ -112,5 +127,19 @@ void Option::PrintOption(int choosen)
 
 void Option::PrintMenu(int choosen)
 {
-	/*待補*/
+	position p = getCursorPosition();
+	/*待改x才能放置在正確位置，待補選項列上清除目前已印出的字*/
+	p.x = 0;
+	SetPosition(p);
+	cout << "                                    \n                                    ";
+	SetPosition(p);
+	for (int i = 0; i < menu.size(); i++)
+	{
+		if (i == choosen) SetColor(0x70);
+		else SetColor();
+
+		cout << menu[i];
+		SetColor();
+		cout << " ";
+	}
 }
