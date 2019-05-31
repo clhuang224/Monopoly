@@ -83,7 +83,7 @@ string Block::getName()
 void Block::setName(string newName)
 {
 	name = newName;
-	name = center(name, 10);
+	//name = center(name, 10);
 }
 
 vector<unsigned> Block::getPasserby()
@@ -134,6 +134,7 @@ void Block::setOutput(int playerID)
 		player4 = '4';
 		break;
 	}
+	name = center(name, 10);
 	output = "____________"
 		"|          |"
 		"|" + sign[0] + "|"
