@@ -6,7 +6,7 @@
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
-const vector<string> menu = { "SAVE","LOAD","MUSIC_SET","CLOSE_GAME" };
+const vector<string> menu = { "儲存遊戲","載入存檔","音樂設定","離開遊戲" };
 Option::Option(Game* game,vector<string> input)
 {
 	options = input;
@@ -36,6 +36,8 @@ Option::Option(Game* game,vector<string> input)
 					/*"骰<verb>"的實作*/
 					//int position = (ptr->players.at(ptr->run).getPosition() + 1);//固定走一步 用於測試
 					int position = (ptr->players.at(ptr->run).getPosition() + ptr->rollTheDice()) % (ptr->map.getMapSize());
+					cout << "前進到" << position << "\n";
+					system("pause");
 					ptr->players.at(ptr->run).setPosition(position);
 					ptr->printUI();
 					ptr->is_FinishRound = true;
@@ -171,6 +173,13 @@ Option::Option(Game* game,vector<string> input)
 
 					SetPosition(temp);
 				}
+				if (input[p] == "升級")
+				{
+					House* house = (House*)ptr->map.getMap().at(ptr->players.at(ptr->run).getPosition());
+					house->setLevel((house->getLevel()) + 1);
+					cout << "\n恭喜升級成功                          \n";
+					system("pause");
+				}
 				if (input[p] == "購買此空地")
 				{
 					/*"買空屋"的實作*/
@@ -179,6 +188,7 @@ Option::Option(Game* game,vector<string> input)
 					ptr->printUI();
 					cout << "\n恭喜購買成功                          \n";
 					system("pause");
+					cout << "                                                   ";
 					ptr->printUI();
 				}
 				options_flag = false;//停止選擇Option的內容
@@ -200,7 +210,7 @@ Option::Option(Game* game,vector<string> input)
 						PrintMenu(p_menu);
 						break;
 					case ENTER:
-						/*待game補讀取、儲存、音樂調整、離開遊戲的fun()*/
+						/*待補音樂調整的fun()*/
 						switch (p_menu)
 						{
 						case 0:
@@ -208,11 +218,17 @@ Option::Option(Game* game,vector<string> input)
 							ptr->save(filename);
 							break;
 						case 1:
+							cin >> ptr->newGameName;
+							ptr->restartFlag = true;
+							ptr->is_FinishRound = false;
+							menu_flag = false;
+							options_flag = false;
 							break;
 						case 2:
+							/*待補音樂設定*/
 							break;
 						case 3:
-							break;
+							exit(0);
 						}
 						break;
 					case ESC://退回上一選單內容

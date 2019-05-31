@@ -1,8 +1,8 @@
 #include "Game.h"
 
-Game::Game(string loadMapFile)
+Game::Game(string input)
 {
-	load(loadMapFile);
+	load(input);
 }
 Game::~Game()
 {
@@ -63,7 +63,7 @@ void Game::load(string filename)
 {
 	clear();
 
-	fstream mapFile(filename);
+	fstream mapFile("./save/"+filename);
 	if (mapFile.is_open())
 	{
 		string mapName;
@@ -173,18 +173,17 @@ void Game::clear()
 void Game::printUI()
 {
 	SetPosition({ 0,0 });
-	cout << "----------------------------------------------\n\n";
+	cout << "------------------------------------------------------------------------------------------------------------------------------------\n\n";
+
 	//印人
 	/*這裡待再監察*/
 	for (Player i : players)
 		i.printPlayer();
 
-	cout << "----------------------------------------------\n";
+	cout << "------------------------------------------------------------------------------------------------------------------------------------\n";
 
 	//待補印輪到誰&回合
-	cout << "輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n";
-
-	cout << "----------------------------------------------\n";
+	cout << "\n                                                輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n\n";
 
 	//印地圖
 	/*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
@@ -206,16 +205,16 @@ void Game::runGame()
 	{
 		if (remainingRound > 0)
 		{
-			for (; run < players.size(); run++)//每回合執行(玩家數量)次
+			for (; run < players.size()&&!restartFlag; run++)//每回合執行(玩家數量)次
 			{
 				printUI();
 				is_FinishRound = false;
-				while (!is_FinishRound)//該玩家在這回合的所有操作
+				cout << "目前位置：" << players[run].getPosition() << "                                     \n";
+				while (!is_FinishRound&&!restartFlag)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
 					//骰完骰子就不可以再操作銀行、買股票
-					/*option:BANK,STOCK,THROW_DICE*/
-					Option(this, { "銀行","擲骰子" });
+					Option(this, { "擲骰子","銀行" });
 					/*待補輸出訊息*/
 
 					//丟骰子後，執行新位置上的效果
@@ -228,6 +227,7 @@ void Game::runGame()
 							if (house->getOwner() == &bank)
 							{
 								cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn() << "\n";
+
 								Option(this, { "購買此空地","不購買" });
 								/*待補完整的輸出訊息*/
 
@@ -235,7 +235,12 @@ void Game::runGame()
 							else if (house->getOwner() == &players[run])
 							{
 								cout << "這片土地是你的\n，目前房屋等級為" << house->getLevel() << "\n";
-								Option(this, { "UPGRADE","KEEPNOW" });
+								if (house->getLevel() < 3)
+								{
+									int price = house->getPrice();
+									cout << "升級要花" << price << "元，是否升級?\n";
+									Option(this, { "升級","不升級" });
+								}
 							}
 							else if (house->getOwner() != &players[run])
 							{
@@ -276,6 +281,14 @@ void Game::runGame()
 
 			remainingRound--;
 			run = 0;
+
+			if (restartFlag)
+			{
+				restartFlag = false;
+				load(newGameName);
+
+				newGameName.clear();
+			}
 		}
 		else
 		{

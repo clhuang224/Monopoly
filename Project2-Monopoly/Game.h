@@ -20,7 +20,7 @@ using namespace std;
 class Game
 {
 public:
-	Game(string loadMapFile);
+	Game(string);
 	~Game();
 	friend class Option;
 
@@ -35,7 +35,9 @@ private:
 	int playerAmount = 0;//玩家數量
 	int remainingRound = 0;//剩餘回合數
 	bool is_FinishRound = false;//某個玩家的回合是否要結束
+	bool restartFlag = false;
 	int run = 0;//現在是誰的回合
+	string newGameName;
 	Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
 	vector<Player> players;//玩家(下層class均直接指向此Vec的元素)

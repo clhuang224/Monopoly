@@ -21,11 +21,11 @@ const vector<vector<string>> signList = { { "          ",
 // Intent: 初始化（標誌會由等級決定）
 // Pre: 位置、名稱、類型、等級、價格列表
 // Post: 初始化完成
-House::House(unsigned newPosition, string newName, Player* newOwner, unsigned newLevel, unsigned costOfOwn, vector<unsigned> newPriceList, vector<unsigned> newPasserby)
+House::House(unsigned newPosition, string newName, Player* newOwner, unsigned newLevel, unsigned newCostOfOwn, vector<unsigned> newPriceList, vector<unsigned> newPasserby)
 	:Block(newPosition, newName, 1, signList[newLevel], newPasserby)
 {
 	level = newLevel;
-	costOfOwn = costOfOwn;
+	costOfOwn = newCostOfOwn;
 	tollsList = newPriceList;
 	owner = newOwner;
 }
