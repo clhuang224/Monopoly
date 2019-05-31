@@ -13,64 +13,66 @@ enum { CHANCE = -2, FORTUNE = -1, START = 0, HOUSE = 1, BANK = 2, PRISON = 3, HO
 class Block
 {
 public:
-    Block(unsigned newPosition,
-          string newName,
-          int newType,
-          vector<string> newSign = {},
-          vector<unsigned> newPasserby = {});
+	Block();
 
-    Block(Block&);
+	Block(unsigned newPosition,
+		string newName,
+		int newType,
+		vector<string> newSign = {},
+		vector<unsigned> newPasserby = {});
 
-    Block& operator=(Block);
+	Block(Block&);
 
-    // 類型：-2機會 -1命運 0起點 1房子
-    int getType();
-    void setType(int);
+	Block& operator=(Block);
 
-    // 位置
-    unsigned getPosition();
-    void setPosition(unsigned);
+	// 類型：-2機會 -1命運 0起點 1房子
+	int getType();
+	void setType(int);
 
-    // 標誌
-    vector<string> getSign();
-    void setSign(vector<string> newSign);
+	// 位置
+	unsigned getPosition();
+	void setPosition(unsigned);
 
-    // 名稱
-    string getName();
-    void setName(string);
+	// 標誌
+	vector<string> getSign();
+	void setSign(vector<string> newSign);
 
-    // 路人
-    vector<unsigned> getPasserby();
-    void setPasserby(vector<unsigned>);
+	// 名稱
+	string getName();
+	void setName(string);
+
+	// 路人
+	vector<unsigned> getPasserby();
+	void setPasserby(vector<unsigned>);
 
 	void setOutput(int playerID);
 
 	string center(const string s, const int w);
 
-	//回傳整個格子
+	//回傳整個格子的 string 型態
 	string getOutput();
 
 private:
-    unsigned position;
-    string name; // 最長四個字
-    int type;
-    vector<string> sign; // 10x4
-    vector<unsigned> passerby;
+	unsigned position;
+	string name; // 最長四個字
+	int type;
+	vector<string> sign; // 10x4
+	vector<unsigned> passerby;
 	string output;
 
-    /*
-    格子格式：
-    ____________
-    |          |
-    |##########|
-    |##########|
-    |##########|
-    |##########|
-    |範 例 名 稱|
-    |１|２|３|４|
-    |__________|
+	/*
+	格子格式：
+	____________
+	|          |
+	|##########|
+	|##########|
+	|##########|
+	|##########|
+	|範 例 名 稱|
+	|１|２|３|４|
+	|__________|
 
-    */
+	*/
 
 	char player1 = ' ', player2 = ' ', player3 = ' ', player4 = ' ';
 };
