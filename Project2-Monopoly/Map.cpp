@@ -44,49 +44,53 @@ void Map::updateMap(array<int, 4> playerPositions)
 		length = ceil((float)(mapSize - 4) / 4) + 2;
 	}
 	int width = (mapSize - length * 2) / 2 + 2;
-	//cout << "length: " << length << endl << "width: " << width << endl;
-	vector<vector<string>> output(width, vector<string>(length)); //width x length 的二維 vector
-	for (int i = 0; i <= width - 1; i++) //初始化 output
-	{
-		for (int j = 0; j <= length - 1; j++)
-		{
-			output[i][j] = "            "
-						   "            "
-						   "            "
-						   "            "
-						   "            "
-						   "            "
-						   "            "
-						   "            "
-						   "            ";
-		}
-	}
+
+	vector<vector<Block*>> output(width, vector<Block*>(length)); //width x length 的二維 vector
 	for (int i = 0; i <= map.size() - 1; i++) //重置玩家位置
 	{
 		map[i]->setOutput(-1);
 	}
 
 	//插入玩家位置
-	map[playerPositions[0]]->setOutput(1);
-	map[playerPositions[1]]->setOutput(2);
-	map[playerPositions[2]]->setOutput(3);
-	map[playerPositions[3]]->setOutput(4);
+	if (playerPositions[0] != -1)
+	{
+		map[playerPositions[0]]->setOutput(1);
+	}
+	if (playerPositions[1] != -1)
+	{
+		map[playerPositions[1]]->setOutput(2);
+	}
+	if (playerPositions[2] != -1)
+	{
+		map[playerPositions[2]]->setOutput(3);
+	}
+	if (playerPositions[3] != -1)
+	{
+		map[playerPositions[3]]->setOutput(4);
+	}
 
+	for (int i = 1; i <= width - 2; i++) //中間的 Block
+	{
+		for (int j = 1; j <= length - 2; j++)
+		{
+			output[i][j] = new Block();
+		}
+	}
 	for (int i = 0; i <= width - 1; i++) //左方的 Block
 	{
-		output[i][0] = map[i]->getOutput();
+		output[i][0] = map[i];
 	}
 	for (int i = 1; i <= length - 1; i++) //下方的 Block
 	{
-		output[width - 1][i] = map[width - 1 + i]->getOutput();
+		output[width - 1][i] = map[width - 1 + i];
 	}
 	for (int i = 1; i <= width - 1; i++) //右方的 Block
 	{
-		output[width - 1 - i][length - 1] = map[width - 1 + length - 1 + i]->getOutput();
+		output[width - 1 - i][length - 1] = map[width - 1 + length - 1 + i];
 	}
 	for (int i = 1; i <= length - 2; i++) //上方的 Block
 	{
-		output[0][length - 1 - i] = map[width - 1 + length - 1 + width - 1 + i]->getOutput();
+		output[0][length - 1 - i] = map[width - 1 + length - 1 + width - 1 + i];
 	}
 	for (int i = 0; i <= width - 1; i++) //印出 output
 	{
@@ -94,9 +98,23 @@ void Map::updateMap(array<int, 4> playerPositions)
 		{
 			for (int k = 0; k <= 8; k++) //一個 Block
 			{
-				for (int l = 0; l <= 11; l++)
+				if (k == 6 && output[i][j]->getType() == 1 && ((House*)output[i][j])->getOwner()->getName() != "Bank") //存名稱的那列
 				{
-					cout << output[i][j][12 * k + l];
+					cout << "|";
+					stringstream stream;
+					stream << hex << ((House*)output[i][j])->getOwner()->getColor();
+					string result(stream.str());
+					SetColor(stoi("0x" + result + '7', nullptr, 16));
+					cout << output[i][j]->getName();
+					SetColor(0x07);
+					cout << "|";
+				}
+				else
+				{
+					for (int l = 0; l <= 11; l++) //Block 裡的一列
+					{
+						cout << output[i][j]->getOutput()[12 * k + l];
+					}
 				}
 				setConsoleCursorPosition(getConsoleCursorPosition().X - 12, getConsoleCursorPosition().Y + 1);
 			}

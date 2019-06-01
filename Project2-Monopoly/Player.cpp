@@ -146,6 +146,7 @@ void Player::setOwnHouse(House* h)
 
 void Player::freeHouse(House* free)
 {
+	free->setOwner(this);
 	ownHouse.push_back(free);
 }
 

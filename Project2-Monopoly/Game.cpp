@@ -1,8 +1,8 @@
 #include "Game.h"
 
-Game::Game(string loadMapFile)
+Game::Game(string input)
 {
-	load(loadMapFile);
+	load(input);
 }
 Game::~Game()
 {
@@ -63,7 +63,7 @@ void Game::load(string filename)
 {
 	clear();
 
-	fstream mapFile(filename);
+	fstream mapFile("./save/"+filename);
 	if (mapFile.is_open())
 	{
 		string mapName;
@@ -165,6 +165,7 @@ void Game::clear()
 	remainingRound = 20;
 	is_FinishRound = false;
 	players.clear();
+	lose = { false,false,false,false };
 	run = 0;
 	map = Map();
 	bank = Player();
@@ -173,16 +174,13 @@ void Game::clear()
 void Game::printUI()
 {
 	SetPosition({ 0,0 });
-	cout << "----------------------------------------------\n\n";
+	cout << "------------------------------------------------------------------------------------------------------------------------------------\n\n";
+
 	/*這裡待再監察*/
 	
+cout << "------------------------------------------------------------------------------------------------------------------------------------\n";
 
-	cout << "----------------------------------------------\n";
-
-	//待補印輪到誰&回合
-	cout << "輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n";
-
-	cout << "----------------------------------------------\n";
+	cout << "\n                                                輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n\n";
 
 	//印地圖
 	/*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
@@ -194,7 +192,17 @@ void Game::printUI()
 	printPlayer();
 
 	/*這邊或map結尾可能缺一個游標位置設置，暫時用換行代替*/
-	cout << "\n----------------------------------------------\n";
+	cout << "------------------------------------------------------------------------------------------------------------------------------------\n";
+
+	clearNotationUI();
+}
+
+void Game::clearNotationUI()
+{
+	SetPosition({ 0,53 });
+	for (int i = 0; i < 6; i++)
+		cout << "                                                                                                                                    \n";
+	SetPosition({ 0,53 });
 }
 
 void Game::runGame()
@@ -206,17 +214,19 @@ void Game::runGame()
 	{
 		if (remainingRound > 0)
 		{
-			for (; run < players.size(); run++)//每回合執行(玩家數量)次
+			for (; run < players.size() && !restartFlag; run++)//每回合執行(玩家數量)次
 			{
+				if (lose[run])continue;//跳過輸家回合
+
 				printUI();
 				is_FinishRound = false;
-				while (!is_FinishRound)//該玩家在這回合的所有操作
+				cout << "輪到" << players[run].getName() << "的回合！！\n";
+				cout << "目前在 " << map.getMap().at(players[run].getPosition())->getName() << "位置是：" << players[run].getPosition() << "\n";
+				while (!is_FinishRound && !restartFlag)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
 					//骰完骰子就不可以再操作銀行、買股票
-					/*option:BANK,STOCK,THROW_DICE*/
-					Option(this, { "銀行","擲骰子" });
-					/*待補輸出訊息*/
+					Option(this, { "擲骰子","銀行" });
 
 					//丟骰子後，執行新位置上的效果
 					if (is_FinishRound)
@@ -228,23 +238,32 @@ void Game::runGame()
 							if (house->getOwner() == &bank)
 							{
 								cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn() << "\n";
+
 								Option(this, { "購買此空地","不購買" });
 								/*待補完整的輸出訊息*/
 
 							}
 							else if (house->getOwner() == &players[run])
 							{
-								cout << "這片土地是你的\n，目前房屋等級為" << house->getLevel() << "\n";
-								Option(this, { "UPGRADE","KEEPNOW" });
+								cout << "這片土地是你的\n，目前房屋等級為" << house->getLevel() << "級\n";
+								if (house->getLevel() < 3)
+								{
+									int price = house->getPrice();
+									cout << "升級要花" << price << "元，是否升級?\n";
+									Option(this, { "升級","不升級" });
+							}
+								else
+								{
+									cout << "很棒 是最高級 不用升級\n";
+									system("pause");
+								}
 							}
 							else if (house->getOwner() != &players[run])
 							{
-								/*這邊好像有bug，會出現house->getOwner()->getName()=""*/
-								cout << "這片土地屬於" << house->getOwner()->getName() << "，過路費為" << house->getPrice() << "\n";
+								cout << "這片土地屬於" << house->getOwner()->getName() << "，給其過路費" << house->getPrice() << "元\n";
 								players[run].minusCash(house->getPrice());//現金交過路費
 								house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
 								/*待補完整的輸出訊息*/
-								cout << "\n";
 								system("pause");
 								printUI();
 							}
@@ -272,10 +291,27 @@ void Game::runGame()
 						}
 					}
 				}
+
+				//破產宣告
+				if (players[run].getCash() < 0) 
+				{
+					players[run].setCash(-1);
+					lose[run] = true;
+					cout << players[run].getName() << "已破產！！\n";
+					system("pause");
+					printUI();
+			}
 			}
 
 			remainingRound--;
 			run = 0;
+
+			if (restartFlag)
+			{
+				restartFlag = false;
+				load(newGameName);
+				newGameName.clear();
+		}
 		}
 		else
 		{
