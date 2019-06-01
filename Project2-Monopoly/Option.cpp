@@ -23,11 +23,11 @@ Option::Option(Game* game, vector<string> input)
 		{
 			switch (char keyin = _getch())
 			{
-			case LEFT:
+			case UP:
 				p = p > 0 ? p - 1 : p;
 				PrintOption(p);
 				break;
-			case RIGHT:
+			case DOWN:
 				p = p < options.size() - 1 ? p + 1 : p;
 				PrintOption(p);
 				break;
@@ -41,7 +41,7 @@ Option::Option(Game* game, vector<string> input)
 					cout << "前進到" << ptr->map.getMap().at(position)->getName() << " 位置：" << position << "\n";
 					system("pause");
 					ptr->printUI();
-					ptr->is_FinishRound = true;
+					ptr->isFinishRound = true;
 				}
 				if (input[p] == "銀行")
 				{
@@ -371,7 +371,7 @@ Option::Option(Game* game, vector<string> input)
 						case 1:
 							cin >> ptr->newGameName;
 							ptr->restartFlag = true;
-							ptr->is_FinishRound = false;
+							ptr->isFinishRound = false;
 							menu_flag = false;
 							options_flag = false;
 							break;
@@ -401,17 +401,12 @@ Option::~Option()
 
 void Option::PrintOption(int choosen)
 {
-	position p = getCursorPosition();
-	/*待改x才能放置在正確位置，待補選項列上清除目前已印出的字*/
-	p.x = 0 ;
-	SetPosition(p);
-	cout << "                                    \n                                    ";
-	SetPosition(p);
 	for (int i = 0; i < options.size(); i++)
 	{
 		if(i== choosen) SetColor(0x70);
 		else SetColor();
 
+        SetPosition({ 55,20 + 2 * i });
 		cout << options[i];
 		SetColor();
 		cout << " ";
