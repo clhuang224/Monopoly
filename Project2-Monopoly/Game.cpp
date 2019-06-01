@@ -366,24 +366,24 @@ void Game::printPlayer()
 	SetColor(7);
 	for (int i = 0; i < 28; i++)
 	{
-		usePos = { 95, 15 + i }; SetPosition(usePos);
+		usePos = { 95, 9 + i }; SetPosition(usePos);
 		cout << "|                  |";
 	}
 
 	for (int i = 0; i < players.size(); i++)
 	{
-		usePos = { 96, 14 + i * 7 }; SetPosition(usePos);
+		usePos = { 96, 8 + i * 7 }; SetPosition(usePos);
 		cout << "__________________";
 
 		SetColor(players[i].getColor());
-		usePos = { 100, 17 + i * 7 }; SetPosition(usePos);
+		usePos = { 100, 11 + i * 7 }; SetPosition(usePos);
 		cout << players[i].getName();
 		SetColor(7);
 
-		usePos = { 101, 19 + i * 7 }; SetPosition(usePos);
+		usePos = { 101, 13 + i * 7 }; SetPosition(usePos);
 		cout << "$ " << players[i].getCash();
 
-		usePos = { 96, 21 + i * 7 }; SetPosition(usePos);
+		usePos = { 96, 15 + i * 7 }; SetPosition(usePos);
 		cout << "__________________";
 	}
 

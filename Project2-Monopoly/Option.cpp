@@ -49,82 +49,89 @@ Option::Option(Game* game, vector<string> input)
 					bool inBank = true;
 
 					position temp = getCursorPosition();
-					position nowPos = { 30,17 }; SetPosition(nowPos); SetColor(14);
-					cout << " /$$$$$$$    /$$$$$$     /$$   /$$   /$$   /$$"; nowPos = { 30,18 }; SetPosition(nowPos);
-					cout << "| $$__  $$  / $$__  $$  | $$$  |$$  | $$  /$$"; nowPos = { 30,19 }; SetPosition(nowPos);
-					cout << "| $$  \\ $$  | $$   \\$$  | $$$$ |$$  | $$ /$$"; nowPos = { 30,20 };  SetPosition(nowPos);
-					cout << "| $$$$$$$   | $$$$$$$$  | $$ $$ $$  | $$$$$"; nowPos = { 30,21 }; SetPosition(nowPos);
-					cout << "| $$__  $$  | $$__  $$  | $$  $$$$  | $$  $$"; nowPos = { 30,22 };  SetPosition(nowPos);
-					cout << "| $$  \\ $$  | $$  | $$  | $$\\  $$$  | $$\\  $$"; nowPos = { 30,23 };  SetPosition(nowPos);
-					cout << "| $$$$$$$/  | $$  | $$  | $$ \\  $$  | $$ \\  $$"; nowPos = { 30,24 };  SetPosition(nowPos);
+					position nowPos = { 30,11 }; SetPosition(nowPos); SetColor(14);
+					cout << " /$$$$$$$    /$$$$$$     /$$   /$$   /$$   /$$"; nowPos = { 30,12 }; SetPosition(nowPos);
+					cout << "| $$__  $$  / $$__  $$  | $$$  |$$  | $$  /$$"; nowPos = { 30,13 }; SetPosition(nowPos);
+					cout << "| $$  \\ $$  | $$   \\$$  | $$$$ |$$  | $$ /$$"; nowPos = { 30,14 };  SetPosition(nowPos);
+					cout << "| $$$$$$$   | $$$$$$$$  | $$ $$ $$  | $$$$$"; nowPos = { 30,15 }; SetPosition(nowPos);
+					cout << "| $$__  $$  | $$__  $$  | $$  $$$$  | $$  $$"; nowPos = { 30,16 };  SetPosition(nowPos);
+					cout << "| $$  \\ $$  | $$  | $$  | $$\\  $$$  | $$\\  $$"; nowPos = { 30,17 };  SetPosition(nowPos);
+					cout << "| $$$$$$$/  | $$  | $$  | $$ \\  $$  | $$ \\  $$"; nowPos = { 30,18 };  SetPosition(nowPos);
 					cout << "| _______/  |__/  |__/  |__ / \\__/  |__ / \\__/ ";
 
 					int nowPoint = 0;
 					while (inBank)
 					{
-						SetColor(7); nowPos = { 38,28 }; SetPosition(nowPos);
+						SetColor(7); nowPos = { 38,20 }; SetPosition(nowPos);
 						cout << "歡迎來到銀行 !!! 需要什麼服務呢 ?";
 
 						int deposit = ptr->players[ptr->run].getDeposit();
 						int cash = ptr->players[ptr->run].getCash();
 
-						nowPos = { 45,30 }; SetPosition(nowPos);
+						nowPos = { 48,22 }; SetPosition(nowPos);
 						cout << "存款";
-						nowPos = { 52,30 }; SetPosition(nowPos);
-						cout << "借款";
-						nowPos = { 59,30 }; SetPosition(nowPos);
+						nowPos = { 56,22 }; SetPosition(nowPos);
 						cout << "提款";
-						nowPos = { 48,32 }; SetPosition(nowPos);
+						nowPos = { 48,24 }; SetPosition(nowPos);
+						cout << "借款";
+						nowPos = { 56,24 }; SetPosition(nowPos);
+						cout << "還錢";
+						nowPos = { 48,26 }; SetPosition(nowPos);
 						cout << "查看今日股票";
-						nowPos = { 50,34 }; SetPosition(nowPos);
+						nowPos = { 50,28 }; SetPosition(nowPos);
 						cout << "買入股票";
-						nowPos = { 50,36 }; SetPosition(nowPos);
+						nowPos = { 50,30 }; SetPosition(nowPos);
 						cout << "賣出股票";
-						nowPos = { 50,38 }; SetPosition(nowPos);
+						nowPos = { 50,32 }; SetPosition(nowPos);
 						cout << "離開銀行";
 
 						switch (nowPoint)
 						{
 						case 0:
 							SetColor(240);
-							nowPos = { 45,30 }; SetPosition(nowPos);
+							nowPos = { 48,22 }; SetPosition(nowPos);
 							cout << "存款";
 							SetColor(7);
 							break;
-
 						case 1:
 							SetColor(240);
-							nowPos = { 52,30 }; SetPosition(nowPos);
-							cout << "借款";
+							nowPos = { 56,22 }; SetPosition(nowPos);
+							cout << "提款";
 							SetColor(7);
 							break;
 						case 2:
 							SetColor(240);
-							nowPos = { 59,30 }; SetPosition(nowPos);
-							cout << "提款";
+							nowPos = { 48,24 }; SetPosition(nowPos);
+							cout << "借款";
 							SetColor(7);
 							break;
 						case 3:
 							SetColor(240);
-							nowPos = { 48,32 }; SetPosition(nowPos);
-							cout << "查看今日股票";
+							nowPos = { 56,24 }; SetPosition(nowPos);
+							cout << "還錢";
 							SetColor(7);
 							break;
 						case 4:
 							SetColor(240);
-							nowPos = { 50,34 }; SetPosition(nowPos);
-							cout << "買入股票";
+							nowPos = { 48,26 }; SetPosition(nowPos);
+							cout << "查看今日股票";
 							SetColor(7);
 							break;
 						case 5:
 							SetColor(240);
-							nowPos = { 50,36 }; SetPosition(nowPos);
-							cout << "賣出股票";
+							nowPos = { 50,28 }; SetPosition(nowPos);
+							cout << "買入股票";
 							SetColor(7);
 							break;
 						case 6:
 							SetColor(240);
-							nowPos = { 50,38 }; SetPosition(nowPos);
+							nowPos = { 50,30 }; SetPosition(nowPos);
+							cout << "賣出股票";
+							SetColor(7);
+							break;
+						case 7:
+							SetColor(240);
+							nowPos = { 50,32 }; SetPosition(nowPos);
 							cout << "離開銀行";
 							SetColor(7);
 							break;
@@ -134,7 +141,7 @@ Option::Option(Game* game, vector<string> input)
 						switch (char keyin = _getch())
 						{
 						case DOWN:
-							if (nowPoint < 6)
+							if (nowPoint < 7)
 							{
 								nowPoint++;
 							}
@@ -150,7 +157,7 @@ Option::Option(Game* game, vector<string> input)
 							long int amount;
 							switch (nowPoint)
 							{
-								// 存款
+							// 存款
 							case 0:
 								SetColor(7);
 								for (int i = 28; i < 40; i++)
@@ -220,10 +227,11 @@ Option::Option(Game* game, vector<string> input)
 
 								break;
 
-								// 借款
+							// 借款
 							case 1:
+
 								break;
-								// 提款
+							// 提款
 							case 2:
 								SetColor(7);
 								for (int i = 28; i < 40; i++)
@@ -292,28 +300,26 @@ Option::Option(Game* game, vector<string> input)
 								}
 								break;
 
-								// 查看股票
+							// 查看股票
 							case 3:
 
 								break;
 
-								// 買入股票
+							// 買入股票
 							case 4:
 								break;
 
-								// 賣出股票
+							// 賣出股票
 							case 5:
 								break;
 
-								// 離開銀行
+							// 離開銀行
 							case 6:
 								inBank = false;
 								break;
 							}
 							break;
 						}
-
-
 					}
 
 					for (int i = 17; i < 40; i++)
