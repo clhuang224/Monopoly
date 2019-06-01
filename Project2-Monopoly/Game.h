@@ -21,7 +21,6 @@ class Game
 {
 public:
 	Game(string);
-	~Game();
 	friend class Option;
 
 	void save(string);

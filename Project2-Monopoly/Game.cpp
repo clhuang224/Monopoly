@@ -4,9 +4,6 @@ Game::Game(string input)
 {
 	load(input);
 }
-Game::~Game()
-{
-}
 
 void Game::save(string filename)
 {
@@ -174,14 +171,7 @@ void Game::clear()
 void Game::printUI()
 {
 	SetPosition({ 0,0 });
-	cout << "------------------------------------------------------------------------------------------------------------------------------------\n\n";
-
-	/*這裡待再監察*/
 	
-cout << "------------------------------------------------------------------------------------------------------------------------------------\n";
-
-	cout << "\n                                                輪到：" << run + 1 << "            剩餘" << remainingRound << "回合\n\n";
-
 	//印地圖
 	/*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
 	array<int, 4> playerPositions;
@@ -190,12 +180,10 @@ cout << "-----------------------------------------------------------------------
 		playerPositions[i] = players[i].getPosition();
 	}
 	map.updateMap(playerPositions);
-
 	printPlayer();
-
-	/*這邊或map結尾可能缺一個游標位置設置，暫時用換行代替*/
-	cout << "------------------------------------------------------------------------------------------------------------------------------------\n";
-
+    
+   
+	
 	clearNotationUI();
 }
 
@@ -222,8 +210,41 @@ void Game::runGame()
 
 				printUI();
 				is_FinishRound = false;
-				cout << "輪到" << players[run].getName() << "的回合！！\n";
-				cout << "目前在 " << map.getMap().at(players[run].getPosition())->getName() << "位置是：" << players[run].getPosition() << "\n";
+
+                SetPosition({ 40,34 });
+                SetColor(0x07);
+                cout << "還有 ";
+                SetColor(0x0B);
+                cout << remainingRound;
+                SetColor(0x07);
+                cout << " 回合，輪到 ";
+                SetColor(0x0B);
+                cout << players[run].getName();
+                SetColor(0x07);
+                cout << " 。";
+
+                SetPosition({ 44,35 });
+                SetColor(0x0B);
+                cout << players[run].getName();
+                SetColor(0x07);
+                cout << " 在 ";
+                SetColor(0x0B);
+                string currentPositionName = map.getMap().at(players[run].getPosition())->getName();
+                for (unsigned i = 0; i < currentPositionName.length(); i++)
+                {
+                    if (currentPositionName[i] != ' ')
+                    {
+                        cout << currentPositionName[i];
+                    }
+                }
+                SetColor(0x07);
+                cout << " 。";
+
+                // 印輪到誰的箭頭
+                SetPosition({ 90, 14 + run * 7 });
+                SetColor(0x0B);
+                cout << "→";
+
 				while (!is_FinishRound && !restartFlag)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
