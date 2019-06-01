@@ -160,7 +160,7 @@ void Game::clear()
 {
 	playerAmount = 0;
 	remainingRound = 20;
-	is_FinishRound = false;
+	isFinishRound = false;
 	players.clear();
 	lose = { false,false,false,false };
 	run = 0;
@@ -180,19 +180,56 @@ void Game::printUI()
 		playerPositions[i] = players[i].getPosition();
 	}
 	map.updateMap(playerPositions);
+
+    // 印角色資訊
 	printPlayer();
-    
-   
-	
-	clearNotationUI();
+
+    // 印剩餘回合數、輪到的玩家
+    SetPosition({ 40,34 });
+    SetColor(0x07);
+    cout << "還有 ";
+    SetColor(0x0B);
+    cout << remainingRound;
+    SetColor(0x07);
+    cout << " 回合，輪到 ";
+    SetColor(0x0B);
+    cout << players[run].getName();
+    SetColor(0x07);
+    cout << " 。";
+
+    // 印玩家所在位置
+    SetPosition({ 44,35 });
+    SetColor(0x0B);
+    cout << players[run].getName();
+    SetColor(0x07);
+    cout << " 在 ";
+    SetColor(0x0B);
+    string currentPositionName = map.getMap().at(players[run].getPosition())->getName();
+    for (unsigned i = 0; i < currentPositionName.length(); i++)
+    {
+        if (currentPositionName[i] != ' ')
+        {
+            cout << currentPositionName[i];
+        }
+    }
+    SetColor(0x07);
+    cout << " 。";
+
+    // 印輪到誰的箭頭
+    SetPosition({ 90, 14 + run * 7 });
+    SetColor(0x0B);
+    cout << "→";
+    SetColor(0x07);
 }
 
 void Game::clearNotationUI()
 {
-	SetPosition({ 0,53 });
-	for (int i = 0; i < 6; i++)
-		cout << "                                                                                                                                    \n";
-	SetPosition({ 0,53 });
+	SetPosition({ 15,12 });
+    SetColor(0x07);
+    for (int i = 0; i < 6; i++)
+    {
+        cout << "                                                                                 ";
+    }
 }
 
 void Game::runGame()
@@ -209,50 +246,16 @@ void Game::runGame()
 				if (lose[run])continue;//跳過輸家回合
 
 				printUI();
-				is_FinishRound = false;
+				isFinishRound = false;
 
-                SetPosition({ 40,34 });
-                SetColor(0x07);
-                cout << "還有 ";
-                SetColor(0x0B);
-                cout << remainingRound;
-                SetColor(0x07);
-                cout << " 回合，輪到 ";
-                SetColor(0x0B);
-                cout << players[run].getName();
-                SetColor(0x07);
-                cout << " 。";
-
-                SetPosition({ 44,35 });
-                SetColor(0x0B);
-                cout << players[run].getName();
-                SetColor(0x07);
-                cout << " 在 ";
-                SetColor(0x0B);
-                string currentPositionName = map.getMap().at(players[run].getPosition())->getName();
-                for (unsigned i = 0; i < currentPositionName.length(); i++)
-                {
-                    if (currentPositionName[i] != ' ')
-                    {
-                        cout << currentPositionName[i];
-                    }
-                }
-                SetColor(0x07);
-                cout << " 。";
-
-                // 印輪到誰的箭頭
-                SetPosition({ 90, 14 + run * 7 });
-                SetColor(0x0B);
-                cout << "→";
-
-				while (!is_FinishRound && !restartFlag)//該玩家在這回合的所有操作
+				while (!isFinishRound && !restartFlag)//該玩家在這回合的所有操作
 				{
 					//操作銀行、買股票、骰骰子、Option內置選單鍵
 					//骰完骰子就不可以再操作銀行、買股票
-					Option(this, { "擲骰子","銀行" });
+					Option(this, { "擲骰子","去銀行" });
 
 					//丟骰子後，執行新位置上的效果
-					if (is_FinishRound)
+					if (isFinishRound)
 					{
 						Block* block = map.getMap().at(players[run].getPosition());//讀取此玩家位置上的block指標
 						if (block->getType() == HOUSE)
@@ -386,9 +389,6 @@ void Game::printPlayer()
 		usePos = { 96, 21 + i * 7 }; SetPosition(usePos);
 		cout << "__________________";
 	}
-
-
-	
 	SetColor(7);
 	SetPosition(temp);
 }
