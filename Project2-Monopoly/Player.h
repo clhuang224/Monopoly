@@ -31,7 +31,6 @@ public:
 	string getName();
 	void setName(string);
 
-	void printPlayer();
 	void stop(int i);
 
 	void setPosition(unsigned int pos);
@@ -44,6 +43,9 @@ public:
 
 	int getDeposit();
 	void setDeposit(int number);
+	void minusDeposit(int number);
+	void plusDeposit(int number);
+
 
 	vector<struct stockData> getOwnStock();
 	void buyStock(struct stockData buy);

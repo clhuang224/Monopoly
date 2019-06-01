@@ -51,11 +51,6 @@ void Player::setName(string n)
 	name = n;
 }
 
-// µ¥®Ø¬[¦n
-void Player::printPlayer()
-{
-}
-
 void Player::setPosition(unsigned int pos)
 {
 	currentPosition = pos;
@@ -96,6 +91,16 @@ int Player::getDeposit()
 void Player::setDeposit(int number)
 {
 	deposit = number;
+}
+
+void Player::minusDeposit(int number)
+{
+	deposit -= number;
+}
+
+void Player::plusDeposit(int number)
+{
+	deposit += number;
 }
 
 

@@ -174,10 +174,8 @@ void Game::printUI()
 {
 	SetPosition({ 0,0 });
 	cout << "----------------------------------------------\n\n";
-	//印人
 	/*這裡待再監察*/
-	for (Player i : players)
-		i.printPlayer();
+	
 
 	cout << "----------------------------------------------\n";
 
@@ -192,6 +190,8 @@ void Game::printUI()
 	for (int i = 0; i < players.size(); i++)
 		playerPositions[i] = players[i].getPosition();
 	map.updateMap(playerPositions);
+
+	printPlayer();
 
 	/*這邊或map結尾可能缺一個游標位置設置，暫時用換行代替*/
 	cout << "\n----------------------------------------------\n";
@@ -297,4 +297,39 @@ size_t Game::rollTheDice()
 vector<Player> &Game::getPlayers()
 {
 	return players;
+}
+
+void Game::printPlayer()
+{
+	position temp = getCursorPosition();
+	position usePos;
+
+	SetColor(7);
+	for (int i = 0; i < 28; i++)
+	{
+		usePos = { 95, 14 + i }; SetPosition(usePos);
+		cout << "|                  |";
+	}
+
+	for (int i = 0; i < players.size(); i++)
+	{
+		usePos = { 96, 13 + i * 7 }; SetPosition(usePos);
+		cout << "__________________";
+
+		SetColor(players[i].getColor());
+		usePos = { 100, 16 + i * 7 }; SetPosition(usePos);
+		cout << players[i].getName();
+		SetColor(7);
+
+		usePos = { 101, 18 + i * 7 }; SetPosition(usePos);
+		cout << "$ " << players[i].getCash();
+
+		usePos = { 96, 20 + i * 7 }; SetPosition(usePos);
+		cout << "__________________";
+	}
+
+
+	
+	SetColor(7);
+	SetPosition(temp);
 }

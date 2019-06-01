@@ -39,6 +39,7 @@ private:
 	Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
 	vector<Player> players;//玩家(下層class均直接指向此Vec的元素)
+	void printPlayer();
 };
 
 #endif
