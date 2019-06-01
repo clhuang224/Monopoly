@@ -28,16 +28,19 @@ public:
 	void load(string);
 	void clear();
 	void printUI();
+	void clearNotationUI();
 	void runGame();
 	size_t rollTheDice();
 	vector<Player> &getPlayers();
 private:
 	int playerAmount = 0;//玩家數量
+	int remains = 0;//剩餘玩家數量
+	array<bool,4> lose = { false,false,false,false };//玩家的破產flag
 	int remainingRound = 0;//剩餘回合數
 	bool is_FinishRound = false;//某個玩家的回合是否要結束
-	bool restartFlag = false;
+	bool restartFlag = false;//加載遊戲flag
 	int run = 0;//現在是誰的回合
-	string newGameName;
+	string newGameName;//加載遊戲用的檔名暫存
 	Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
 	vector<Player> players;//玩家(下層class均直接指向此Vec的元素)
