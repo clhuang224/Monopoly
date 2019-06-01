@@ -43,7 +43,7 @@ Option::Option(Game* game, vector<string> input)
 					ptr->printUI();
 					ptr->isFinishRound = true;
 				}
-				if (input[p] == "銀行")
+				if (input[p] == "去銀行")
 				{
 					/*"銀行"的實作*/
 					bool inBank = true;
