@@ -8,7 +8,7 @@
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
 const vector<string> menu = { "儲存遊戲","載入存檔","音樂設定","離開遊戲" };
-Option::Option(Game* game,vector<string> input)
+Option::Option(Game* game, vector<string> input)
 {
 	options = input;
 	ptr = game;
@@ -38,18 +38,19 @@ Option::Option(Game* game,vector<string> input)
 					int position = (ptr->players.at(ptr->run).getPosition() + ptr->rollTheDice()) % (ptr->map.getMapSize());
 					ptr->players.at(ptr->run).setPosition(position);
 					ptr->printUI();
-					cout << "前進到" << ptr->map.getMap().at(position)->getName() <<" 位置："<< position << "\n";
+					cout << "前進到" << ptr->map.getMap().at(position)->getName() << " 位置：" << position << "\n";
 					system("pause");
 					ptr->printUI();
 					ptr->is_FinishRound = true;
 				}
 				if (input[p] == "銀行")
 				{
+					/*"銀行"的實作*/
 					bool inBank = true;
 
 					position temp = getCursorPosition();
 					position nowPos = { 30,17 }; SetPosition(nowPos); SetColor(14);
-					cout << " /$$$$$$$    /$$$$$$     /$$   /$$   /$$   /$$" ; nowPos = { 30,18 }; SetPosition(nowPos);
+					cout << " /$$$$$$$    /$$$$$$     /$$   /$$   /$$   /$$"; nowPos = { 30,18 }; SetPosition(nowPos);
 					cout << "| $$__  $$  / $$__  $$  | $$$  |$$  | $$  /$$"; nowPos = { 30,19 }; SetPosition(nowPos);
 					cout << "| $$  \\ $$  | $$   \\$$  | $$$$ |$$  | $$ /$$"; nowPos = { 30,20 };  SetPosition(nowPos);
 					cout << "| $$$$$$$   | $$$$$$$$  | $$ $$ $$  | $$$$$"; nowPos = { 30,21 }; SetPosition(nowPos);
@@ -57,7 +58,10 @@ Option::Option(Game* game,vector<string> input)
 					cout << "| $$  \\ $$  | $$  | $$  | $$\\  $$$  | $$\\  $$"; nowPos = { 30,23 };  SetPosition(nowPos);
 					cout << "| $$$$$$$/  | $$  | $$  | $$ \\  $$  | $$ \\  $$"; nowPos = { 30,24 };  SetPosition(nowPos);
 					cout << "| _______/  |__/  |__/  |__ / \\__/  |__ / \\__/ ";
-					
+
+					int nowPoint = 0;
+					while (inBank)
+					{
 						SetColor(7); nowPos = { 38,28 }; SetPosition(nowPos);
 						cout << "歡迎來到銀行 !!! 需要什麼服務呢 ?";
 
@@ -129,16 +133,16 @@ Option::Option(Game* game,vector<string> input)
 
 						switch (char keyin = _getch())
 						{
-						case UP:
-							if (nowPoint > 0)
-							{
-								nowPoint--;
-							}
-							break;
 						case DOWN:
 							if (nowPoint < 6)
 							{
 								nowPoint++;
+							}
+							break;
+						case UP:
+							if (nowPoint > 0)
+							{
+								nowPoint--;
 							}
 							break;
 						case ENTER:
@@ -146,37 +150,8 @@ Option::Option(Game* game,vector<string> input)
 							long int amount;
 							switch (nowPoint)
 							{
-							case 0://存款
-								ptr->printUI();
-								cout << "您現在有現金" << ptr->players[ptr->run].getCash() << "元，請問要存入多少錢?(最少0元最多總現金)\n";
-								{
-									int input;
-									bool loop_flag = true;
-									position tmp = getCursorPosition();
-									while (loop_flag)
-									{
-										setCursorVisable(true);
-										cout << "存入：";
-										cin >> input;
-										setCursorVisable(false);
-										if (input >= 0 && input <= ptr->players[ptr->run].getCash())
-										{
-											cout << "存入成功！！";
-											ptr->players[ptr->run].setCash(ptr->players[ptr->run].getCash() - input);
-											ptr->players[ptr->run].setDeposit(ptr->players[ptr->run].getDeposit() + input);
-											loop_flag = false;
-										}
-										else
-										{
-											cout << "存入失敗，請重新輸入，按任意鍵繼續";
-											system("pause>nul");
-											SetPosition(tmp);
-											cout << "                                                                                                                                    \n";
-											cout << "                                                                                                                                    \n";
-											SetPosition(tmp);
-										}
-									}
-								}
+								// 存款
+							case 0:
 								SetColor(7);
 								for (int i = 28; i < 40; i++)
 								{
@@ -185,13 +160,13 @@ Option::Option(Game* game,vector<string> input)
 								}
 
 								nowPos = { 43,28 }; SetPosition(nowPos);
-								cout << "您的戶頭現在有 $ "<< ptr->players[ptr->run].getDeposit();
+								cout << "您的戶頭現在有 $ " << ptr->players[ptr->run].getDeposit();
 								nowPos = { 43,30 }; SetPosition(nowPos);
 								cout << "您當前有現金 $ " << ptr->players[ptr->run].getCash();
 
 								nowPos = { 43,32 }; SetPosition(nowPos);
 								cout << "您想要存多少錢呢 ?";
-								
+
 								nowPos = { 43,34 }; SetPosition(nowPos);
 								SetColor(240);
 								cout << "                 ";
@@ -205,7 +180,7 @@ Option::Option(Game* game,vector<string> input)
 										SetColor(12);
 										nowPos = { 42,36 }; SetPosition(nowPos);
 										cout << "現金不足，已取消存款";
-										
+
 									}
 									else
 									{
@@ -235,7 +210,7 @@ Option::Option(Game* game,vector<string> input)
 									cout << "確認";
 									getchar();
 								}
-								
+
 								SetColor(7);
 								for (int i = 26; i < 40; i++)
 								{
@@ -244,40 +219,11 @@ Option::Option(Game* game,vector<string> input)
 								}
 
 								break;
-							// 借款
+
+								// 借款
 							case 1:
-								ptr->printUI();
-								cout << "您現在有存款" << ptr->players[ptr->run].getDeposit() << "元，請問要提出多少錢?(最少0元最多總現金)\n";
-								{
-									int input;
-									bool loop_flag = true;
-									position tmp = getCursorPosition();
-									while (loop_flag)
-									{
-										setCursorVisable(true);
-										cout << "提出：";
-										cin >> input;
-										setCursorVisable(false);
-										if (input >= 0 && input <= ptr->players[ptr->run].getDeposit())
-										{
-											cout << "提出成功！！";
-											ptr->players[ptr->run].setCash(ptr->players[ptr->run].getCash() + input);
-											ptr->players[ptr->run].setDeposit(ptr->players[ptr->run].getDeposit() - input);
-											loop_flag = false;
-										}
-										else
-										{
-											cout << "提出失敗，請重新輸入，按任意鍵繼續";
-											system("pause>nul");
-											SetPosition(tmp);
-											cout << "                                                                                                                                    \n";
-											cout << "                                                                                                                                    \n";
-											SetPosition(tmp);
-										}
-									}
-								}
 								break;
-							// 提款
+								// 提款
 							case 2:
 								SetColor(7);
 								for (int i = 28; i < 40; i++)
@@ -343,32 +289,31 @@ Option::Option(Game* game,vector<string> input)
 								{
 									nowPos = { 20, i }; SetPosition(nowPos);
 									cout << "                                               ";
-
+								}
 								break;
 
-							// 查看股票
+								// 查看股票
 							case 3:
 
 								break;
 
-							// 買入股票
+								// 買入股票
 							case 4:
 								break;
 
-							// 賣出股票
+								// 賣出股票
 							case 5:
 								break;
 
-							// 離開銀行
+								// 離開銀行
 							case 6:
 								inBank = false;
 								break;
 							}
 							break;
-						case ESC:
-							inBank = false;
-							break;
 						}
+
+
 					}
 
 					for (int i = 17; i < 40; i++)
@@ -376,9 +321,9 @@ Option::Option(Game* game,vector<string> input)
 						nowPos = { 30, i }; SetPosition(nowPos);
 						cout << "                                               ";
 					}
-					ptr->clearNotationUI();
 					SetPosition(temp);
 				}
+
 				if (input[p] == "升級")
 				{
 					House* house = (House*)ptr->map.getMap().at(ptr->players.at(ptr->run).getPosition());
@@ -448,6 +393,8 @@ Option::Option(Game* game,vector<string> input)
 		}
 	}
 }
+
+
 Option::~Option()
 {
 }

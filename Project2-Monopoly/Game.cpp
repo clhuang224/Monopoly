@@ -186,7 +186,9 @@ cout << "-----------------------------------------------------------------------
 	/*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
 	array<int, 4> playerPositions;
 	for (int i = 0; i < players.size(); i++)
+	{
 		playerPositions[i] = players[i].getPosition();
+	}
 	map.updateMap(playerPositions);
 
 	printPlayer();
@@ -343,24 +345,24 @@ void Game::printPlayer()
 	SetColor(7);
 	for (int i = 0; i < 28; i++)
 	{
-		usePos = { 95, 14 + i }; SetPosition(usePos);
+		usePos = { 95, 15 + i }; SetPosition(usePos);
 		cout << "|                  |";
 	}
 
 	for (int i = 0; i < players.size(); i++)
 	{
-		usePos = { 96, 13 + i * 7 }; SetPosition(usePos);
+		usePos = { 96, 14 + i * 7 }; SetPosition(usePos);
 		cout << "__________________";
 
 		SetColor(players[i].getColor());
-		usePos = { 100, 16 + i * 7 }; SetPosition(usePos);
+		usePos = { 100, 17 + i * 7 }; SetPosition(usePos);
 		cout << players[i].getName();
 		SetColor(7);
 
-		usePos = { 101, 18 + i * 7 }; SetPosition(usePos);
+		usePos = { 101, 19 + i * 7 }; SetPosition(usePos);
 		cout << "$ " << players[i].getCash();
 
-		usePos = { 96, 20 + i * 7 }; SetPosition(usePos);
+		usePos = { 96, 21 + i * 7 }; SetPosition(usePos);
 		cout << "__________________";
 	}
 
