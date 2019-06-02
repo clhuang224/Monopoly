@@ -141,6 +141,15 @@ void Player::setColor(int co)
 	color = co;
 }
 
+vector<unsigned> Player::getItem()
+{
+    return item;
+}
+
+void Player::setItem(vector<unsigned> newItem)
+{
+    item = newItem;
+}
 
 
 vector<House*> Player::getOwnHouse()

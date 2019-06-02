@@ -55,6 +55,9 @@ public:
 	int getColor();
 	void setColor(int co);
 
+    vector<unsigned> getItem();
+    void setItem(vector<unsigned>);
+
 	vector<House*> getOwnHouse();
 	void setOwnHouse(House*);
 	void freeHouse(House* free);
