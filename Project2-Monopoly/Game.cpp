@@ -81,6 +81,7 @@ void Game::load(string filename)
             mapFile >> blockName >> blockType;
             if (blockType == START)
             {
+                // 起點隨機得到一個道具
                 Start *blockTmp = new Start((unsigned int)position);
                 mapContent.push_back(blockTmp);
             }
@@ -316,6 +317,21 @@ void Game::runGame()
                         }
                         else if (block->getType() == START)
                         {
+                            unsigned newItem = rand() % 2;
+                            string itemName;
+                            switch (newItem)
+                            {
+                            case 0:
+                                itemName = "遙控骰子";
+                                break;
+                            case 1:
+                                itemName = "路障";
+                                break;
+                            }
+                            vector<unsigned> tempItem = players[run].getItem();
+                            tempItem[newItem]++;
+                            players[run].setItem(tempItem);
+                            Option(this, { "確定" }, { "歡迎拿到起點獎勵：" + itemName + "。" });
                             isFinishRound = true;
                         }
                     }
@@ -350,7 +366,6 @@ void Game::runGame()
                 {
                     if (lose[i] == false)
                     {
-
                         /*可以生成一張證書給優勝者???*/
                         Option(this,
                                { "重新開始","結束遊戲" },
@@ -359,7 +374,6 @@ void Game::runGame()
                         break;
                     }
                 }
-
             }
             // 剩餘金錢（現金＋存款）最多者獲勝
             // 未考慮平手情形

@@ -38,7 +38,8 @@ Chance& Chance::operator=(Chance another)
 string Chance::getChance(Player* agent)
 {
     string message;
-    switch ((rand() % 3))
+    vector<unsigned> tempItem;
+    switch ((rand() % 4))
     {
     case 0:
         agent->stop(1);
@@ -52,6 +53,16 @@ string Chance::getChance(Player* agent)
         agent->setCash(agent->getCash() - 300);
         message = "觀光旅遊花費三百元。";
         break;
+    case 3:
+        tempItem = agent->getItem();
+        tempItem[1]+=2;
+        agent->setItem(tempItem);
+        message = "鄰居送你兩個路障。";
+    case 4:
+        tempItem = agent->getItem();
+        tempItem[0] += 1;
+        agent->setItem(tempItem);
+        message = "你抽到一個遙控骰子。";
     }
     return message;
 }

@@ -13,11 +13,9 @@ enum { CHANCE = -2, FORTUNE = -1, START = 0, HOUSE = 1, BANK = 2, PRISON = 3, HO
 class Block
 {
 public:
-	Block();
-
-	Block(unsigned newPosition,
-		string newName,
-		int newType,
+	Block(unsigned newPosition = 0,
+		string newName = "",
+		int newType = 100,
 		vector<string> newSign = {},
 		vector<unsigned> newPasserby = {});
 
@@ -45,6 +43,10 @@ public:
 	vector<unsigned> getPasserby();
 	void setPasserby(vector<unsigned>);
 
+    // ¸ô»Ù
+    bool getRoadCone();
+    void setRoadCone(bool);
+
 	void setOutput(int playerID);
 
 	string center(const string s, const int w);
@@ -58,6 +60,7 @@ private:
 	int type;
 	vector<string> sign; // 10x4
 	vector<unsigned> passerby;
+    bool roadCone;
 	string output;
 
 	/*

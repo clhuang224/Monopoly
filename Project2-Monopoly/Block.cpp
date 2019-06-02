@@ -1,19 +1,5 @@
 #include "Block.h"
 
-Block::Block()
-{
-	type = 100;
-	output = "            "
-			 "            "
-			 "            "
-			 "            "
-			 "            "
-			 "            "
-			 "            "
-			 "            "
-			 "            ";
-}
-
 // Intent: 初始化
 // Pre: 位置、名稱、類型、等級、標誌
 // Post: 初始化完成
@@ -24,6 +10,16 @@ Block::Block(unsigned newPosition, string newName, int newType, vector<string> n
 	type = newType;
 	sign = newSign;
 	passerby = newPasserby;
+    roadCone = false;
+    output = "            "
+        "            "
+        "            "
+        "            "
+        "            "
+        "            "
+        "            "
+        "            "
+        "            ";
 }
 
 // Intent: 初始化
@@ -36,6 +32,7 @@ Block::Block(Block& another)
 	type = another.type;
 	sign = another.sign;
 	passerby = another.passerby;
+    roadCone = another.roadCone;
 }
 
 // Intent: 定義=
@@ -48,6 +45,7 @@ Block& Block::operator=(Block another)
 	type = another.type;
 	sign = another.sign;
 	passerby = another.passerby;
+    roadCone = another.roadCone;
 
 	return (*this);
 }
@@ -83,7 +81,6 @@ string Block::getName()
 void Block::setName(string newName)
 {
 	name = newName;
-	//name = center(name, 10);
 }
 
 vector<unsigned> Block::getPasserby()
@@ -109,6 +106,15 @@ vector<string> Block::getSign()
 void Block::setSign(vector<string> newSign)
 {
 	sign = newSign;
+}
+
+bool Block::getRoadCone()
+{
+    return roadCone;
+}
+void Block::setRoadCone(bool newRoadCone)
+{
+    roadCone = newRoadCone;
 }
 
 void Block::setOutput(int playerID)
