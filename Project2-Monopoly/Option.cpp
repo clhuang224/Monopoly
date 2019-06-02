@@ -7,16 +7,17 @@
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
 const int OPTION_TOP = 20, OPTION_LEFT = 13, OPTION_WIDTH = 84;
-const vector<string> menu = { "儲存遊戲","載入存檔","音樂設定","離開遊戲" };
+const vector<string> menu = { "儲存遊戲", "載入存檔", "音樂設定", "離開遊戲" };
 Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMessages)
 {
+    clearOption();
     game = thisGame;
     options = newOptions;
     messages = newMessages;
 
     int choosen = 0;
     int choosenInMenu;
-		string filename;
+    string filename;
     bool optionsFlag = true;
     PrintOption(choosen);
     while (optionsFlag)
@@ -43,11 +44,15 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 Option(game, { "確定" }, { "你擲出 " + to_string(diceNumber) + " 點。",
                                            "你來到" + game->map.getMap().at(position)->getName() + "。" });
                 // game->isFinishRound = true;
-			}
-			if (options[choosen] == "去銀行")
-			{
-				/*"銀行"的實作*/
-				bool inBank = true;
+            }
+            else if (options[choosen] == "使用道具")
+            {
+                Option(game, { "確定" }, { "這邊要加入選擇道具的功能。" });
+            }
+            else if (options[choosen] == "進入銀行")
+            {
+                /*"銀行"的實作*/
+                bool inBank = true;
 
 				for (int i = 10; i < 33; i++)
 				{
@@ -608,6 +613,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 				game->restartFlag = true;
 				game->isFinishRound = false;
 				optionsFlag = false;
+                game->printUI();
 			}
 			else if (options[choosen] == "離開遊戲")
 			{
@@ -669,7 +675,6 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 		}
 	}
 }
-	
 
 void Option::clearOption()
 {
