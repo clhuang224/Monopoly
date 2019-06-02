@@ -332,6 +332,7 @@ void Game::runGame()
 
             remainingRound--;
             run = 0;
+			stock.valueChange();
 
             if (restartFlag)
             {

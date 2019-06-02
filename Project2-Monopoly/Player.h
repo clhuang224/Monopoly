@@ -14,7 +14,7 @@ private:
 	unsigned int currentPosition;
 	int cash;
 	int deposit;
-	vector<struct stockData> ownStock;
+	int ownStock[5] = { 0,0,0,0,0 };
 	vector<House*> ownHouse;
 	int state = 0;
 	int stopRound = 0;
@@ -48,9 +48,9 @@ public:
 	void plusDeposit(int number);
 
 
-	vector<struct stockData> getOwnStock();
-	void buyStock(struct stockData buy);
-	void sellStock(int sell,int newValue);
+	int* getOwnStock();
+	void buyStock(int order, struct stockData buy);
+	void sellStock(int order, struct stockData sell);
 
 	int getColor();
 	void setColor(int co);

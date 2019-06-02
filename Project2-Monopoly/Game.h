@@ -8,6 +8,7 @@
 #include "Chance.h"
 #include "Fortune.h"
 #include "Option.h"
+#include "Stock.h"
 #include <direct.h>
 #include <ctime>
 #include <string>
@@ -30,6 +31,7 @@ public:
 	void runGame();
 	size_t rollTheDice();
 	vector<Player> &getPlayers();
+	Stock stock;
     int getRun();
     Map* getMap();
 private:
