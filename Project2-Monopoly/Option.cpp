@@ -45,7 +45,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                            "你來到" + game->map.getMap().at(position)->getName() + "。" });
                 // game->isFinishRound = true;
             }
-            if (options[choosen] == "去銀行")
+            else if (options[choosen] == "去銀行")
             {
                 /*"銀行"的實作*/
                 bool inBank = true;
@@ -351,6 +351,17 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                          "你還有 " + to_string(game->players[game->run].getCash()) + " 現金。" });
                 game->printUI();
             }
+            if (options[choosen] == "重新開始")
+            {
+                game->load("newGame.txt");
+                game->restartFlag = true;
+                game->isFinishRound = false;
+                optionsFlag = false;
+            }
+            else if (options[choosen] == "離開遊戲")
+            {
+                exit(0);
+            }
             optionsFlag = false;//停止選擇Option的內容
             clearOption();
             break;
@@ -375,21 +386,23 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                     /*待補音樂調整的fun()*/
                     switch (choosenInMenu)
                     {
-                    case 0:
+                    case 0: // 儲存遊戲
+                        // 需要提示使用者輸入檔名
                         cin >> filename;
                         game->save(filename);
                         break;
-                    case 1:
+                    case 1: // 載入存檔
+                        // 需要提示使用者輸入檔名
                         cin >> game->newGameName;
                         game->restartFlag = true;
                         game->isFinishRound = false;
                         menu_flag = false;
                         optionsFlag = false;
                         break;
-                    case 2:
+                    case 2: // 設定音樂
                         /*待補音樂設定*/
                         break;
-                    case 3:
+                    case 3: // 離開遊戲
                         exit(0);
                     }
                     break;
@@ -408,7 +421,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 void Option::clearOption()
 {
     SetColor(0x07);
-    for (int j = OPTION_TOP; j < 27; j++)
+    for (int j = OPTION_TOP; j < 33; j++)
     {
         SetPosition({ OPTION_LEFT, j });
         for (int i = 4; i < OPTION_WIDTH - 4; i++)

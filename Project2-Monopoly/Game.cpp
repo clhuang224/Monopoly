@@ -131,7 +131,22 @@ void Game::load(string filename)
                     else deposit = stoi(depositTmp);
                 }
                 playerPositions[stoi(playerID)] = stoi(playerPosition);
-                Player playerTmp(string("Player 0") + playerID, stoi(playerPosition), cash, deposit);
+                Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
+                switch (stoi(playerID))
+                {
+                case 0:
+                    playerTmp.setColor(0x2);
+                    break;
+                case 1:
+                    playerTmp.setColor(0x3);
+                    break;
+                case 2:
+                    playerTmp.setColor(0x4);
+                    break;
+                case 3:
+                    playerTmp.setColor(0x5);
+                    break;
+                }
 
                 players.at(stoi(playerID)) = playerTmp;
 
@@ -299,6 +314,10 @@ void Game::runGame()
                         {
                             Fortune::getFortune(this);
                         }
+                        else if (block->getType() == START)
+                        {
+                            isFinishRound = true;
+                        }
                     }
                 }
                 //破產宣告
@@ -323,9 +342,41 @@ void Game::runGame()
         }
         else
         {
-            /*print 遊戲結束，誰贏了*/
-            /*可以生成一張證書給優勝者???*/
-            /*option 離開遊戲*/
+            // 剩下玩家獲勝
+            if (remains == 1)
+            {
+                for (int i=0;i<lose.size();i++)
+                {
+                    if (lose[i] == false)
+                    {
+
+                        /*可以生成一張證書給優勝者???*/
+                        Option(this,
+                               { "重新開始","結束遊戲" },
+                               { players[i].getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                               });
+                        break;
+                    }
+                }
+                
+            }
+            // 剩餘金錢（現金＋存款）最多者獲勝
+            // 未考慮平手情形
+            else
+            {
+                Player winner = players.at(0);
+                for (int i = 1; i < players.size(); i++)
+                {
+                    if (players.at(i).getCash() + players.at(i).getDeposit() > winner.getCash() + winner.getDeposit())
+                    {
+                        winner = players.at(i);
+                    }
+                }
+                Option(this,
+                       { "重新開始","結束遊戲" },
+                       { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                       });
+            }
         }
     }
 }

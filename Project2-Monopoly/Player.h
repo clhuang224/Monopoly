@@ -18,7 +18,7 @@ private:
 	vector<House*> ownHouse;
 	int state = 0;
 	int stopRound = 0;
-	int color = 7;
+	int color = 0xA;
 
 public:
 	~Player();
