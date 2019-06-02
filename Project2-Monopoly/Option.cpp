@@ -33,6 +33,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             PrintOption(choosen);
 			break;
 		case ENTER:
+            // 主選單
 			if (options[choosen] == "擲骰子")
 			{
                 //int position = (game->players.at(game->run).getPosition() + 1);//固定走一步 用於測試
@@ -588,12 +589,16 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 				}
 				SetPosition(temp);
 			}
+
+            // 升級
 			if (options[choosen] == "升級")
 			{
 				House* house = (House*)game->map.getMap().at(game->players.at(game->run).getPosition());
 					house->setLevel((house->getLevel()) + 1);
 				Option(game, { "確定" }, { "你已將" + house->getName() + "升級到 " + to_string(house->getLevel() + 1) + " 等。" });
 			}
+
+            // 買房子
 			if (options[choosen] == "購買")
 			{
 				/*"買空屋"的實作*/
@@ -607,6 +612,8 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 							"你還有 " + to_string(game->players[game->run].getCash()) + " 現金。" });
 				game->printUI();
 			}
+
+            // 獲勝選項
 			if (options[choosen] == "重新開始")
 			{
 				game->load("newGame.txt");
@@ -619,6 +626,24 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 			{
 				exit(0);
 			}
+
+            // 音樂選單
+            if (options[choosen] == "關閉音樂")
+            {
+                Music::setMusic(0);
+            }
+            else if (options[choosen] == "小蜜蜂")
+            {
+                Music::setMusic(1);
+            }
+            else if (options[choosen] == "全家就是你家")
+            {
+                Music::setMusic(2);
+            }
+            else if (options[choosen] == "綾里真宵")
+            {
+                Music::setMusic(3);
+            }
 			optionsFlag = false;//停止選擇Option的內容
 			clearOption();
 			break;
@@ -658,7 +683,8 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 							optionsFlag = false;
 								break;
 						case 2: // 設定音樂
-								/*待補音樂設定*/
+                            Option(game, { "關閉音樂","小蜜蜂","全家就是你家","綾里真宵" });
+                            menu_flag = false;
 								break;
 						case 3: // 離開遊戲
 								exit(0);

@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include<iostream>
+#include"Music.h"
 using namespace std;
 using std::cout;
 
