@@ -84,7 +84,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 {
                     Option(game, { "確定" }, { "醒醒，你沒有道具。" });
                 }
-                
+
             }
             else if (options[choosen] == "進入銀行")
             {
@@ -684,7 +684,34 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             // 道具選單
             if (options[choosen] == "遙控骰子")
             {
-                // 處理中
+                clearOption();
+                unsigned diceNumber = chooseDice(game, { "請選擇步數。" });
+                // 檢查路上有沒有路障
+                bool stoppedByRoadCone = false;
+                for (auto i = 1; i <= diceNumber; i++)
+                {
+                    if (game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->getRoadCone() == true)
+                    {
+                        game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->setRoadCone(false);
+                        int position = (game->players.at(game->run).getPosition() + i) % (game->map.getMapSize());
+                        game->players.at(game->run).setPosition(position);
+                        game->printUI();
+                        Option(game, { "確定" }, { "你選擇 " + to_string(diceNumber) + " 點。",
+                                                   "但你被路障卡住了。",
+                                                   "你來到" + game->map.getMap().at(position)->getName() + "。" });
+                        stoppedByRoadCone = true;
+                    }
+                }
+                if (stoppedByRoadCone == false)
+                {
+                    int position = (game->players.at(game->run).getPosition() + diceNumber) % (game->map.getMapSize());
+                    game->players.at(game->run).setPosition(position);
+                    game->printUI();
+
+                    Option(game, { "確定" }, { "你選擇 " + to_string(diceNumber) + " 點。",
+                                               "你來到" + game->map.getMap().at(position)->getName() + "。" });
+                }
+                game->diceRolled = true;
             }
             else if (options[choosen] == "路障")
             {
@@ -1010,5 +1037,104 @@ void Option::printBlock(int left, int top, int color)
         cout << '|';
         SetPosition({ left + 11, top + i });
         cout << '|';
+    }
+}
+
+int Option::chooseDice(Game* game, vector<string> messages)
+{
+
+    int chosen = 1;
+    int messagesSize = static_cast<int>(messages.size());
+
+    for (int i = 0; i < messagesSize; i++)
+    {
+        SetColor(0x07);
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(messages[i].length())) / 2,
+                      OPTION_TOP + i });
+        cout << messages[i];
+    }
+
+    SetPosition({ 46, OPTION_TOP + messagesSize + 2 });
+    cout << " ___________ ";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 3 });
+    cout << "|           |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 4 });
+    cout << "|           |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 5 });
+    cout << "|           |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+    cout << "|    █     |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 7 });
+    cout << "|           |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 8 });
+    cout << "|           |";
+    SetPosition({ 46, OPTION_TOP + messagesSize + 9 });
+    cout << "|___________|";
+
+
+    while (true)
+    {
+        switch (_getch())
+        {
+        case UP:
+            chosen = chosen == 6 ? 1 : chosen + 1;
+            break;
+        case DOWN:
+            chosen = chosen == 0 ? 6 : chosen - 1;
+            break;
+        case ENTER:
+            return chosen;
+        }
+        switch (chosen)
+        {
+        case 1:
+            SetPosition({ 46, OPTION_TOP + messagesSize + 4 });
+            cout << "|           |";
+            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            cout << "|    █     |";
+            SetPosition({ 46, OPTION_TOP + messagesSize + 8 });
+            cout << "|           |";
+            break;
+        case 2:
+            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            cout << "|  █       |";
+            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            cout << "|           |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            cout << "|       █  |";
+            break;
+        case 3:
+            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            cout << "|    █     |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            cout << "|    █     |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            cout << "|    █     |";
+            break;
+        case 4:
+            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            cout << "|  █   █  |";
+            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            cout << "|           |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            cout << "|  █   █  |";
+            break;
+        case 5:
+            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            cout << "|  █   █  |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            cout << "|    █     |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            cout << "|  █   █  |";
+            break;
+        case 6:
+            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            cout << "|  █   █  |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            cout << "|  █   █  |";
+            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            cout << "|  █   █  |";
+            break;
+        }
     }
 }
