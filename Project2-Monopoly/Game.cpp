@@ -135,6 +135,7 @@ void Game::load(string filename)
                 }
                 playerPositions[stoi(playerID)] = stoi(playerPosition);
                 Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
+                
                 switch (stoi(playerID))
                 {
                 case 0:
@@ -150,7 +151,6 @@ void Game::load(string filename)
                     playerTmp.setColor(0x5);
                     break;
                 }
-
                 players.at(stoi(playerID)) = playerTmp;
 
                 string house;
@@ -178,7 +178,8 @@ void Game::clear()
 {
     playerAmount = 0;
     remainingRound = 20;
-    isFinishRound = false;
+    diceRolled = false;
+    roundEnd = false;
     players.clear();
     lose = { false,false,false,false };
     run = 0;
@@ -243,7 +244,6 @@ void Game::printUI()
 
 void Game::runGame()
 {
-    setCursorVisable(false);
     printUI();
 
     while (true)
@@ -255,87 +255,93 @@ void Game::runGame()
                 if (lose[run])continue;//跳過輸家回合
 
                 printUI();
-                isFinishRound = false;
+                diceRolled = false;
+                roundEnd = false;
 
-                while (!isFinishRound && !restartFlag)//該玩家在這回合的所有操作
+                while (!diceRolled && !restartFlag)//該玩家在這回合的所有操作
                 {
                     //操作銀行、買股票、骰骰子、Option內置選單鍵
                     //骰完骰子就不可以再操作銀行、買股票
                     Option(this, { "擲骰子","使用道具","進入銀行" });
 
                     //丟骰子後，執行新位置上的效果
-                    while (isFinishRound == false)
+                    if (diceRolled)
                     {
-                        //讀取此玩家位置上的block指標
-                        Block* block = map.getMap().at(players[run].getPosition());
-                        if (block->getType() == HOUSE)
+                        while (roundEnd == false)
                         {
-                            House* house = (House*)block;
-                            if (house->getOwner() == &bank)
+                            //讀取此玩家位置上的block指標
+                            Block* block = map.getMap().at(players[run].getPosition());
+                            if (block->getType() == HOUSE)
                             {
+                                House* house = (House*)block;
+                                if (house->getOwner() == &bank)
+                                {
 
-                                Option(this,
-                                       { "購買","不購買" },
-                                       { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
-                            }
-                            else if (house->getOwner() == &players[run])
-                            {
-                                Option(this,
-                                       { "確定" },
-                                       { "這片土地是你的，目前房屋等級為" + to_string(house->getLevel() + 1) + "級。" });
-
-                                if (house->getLevel() < 3)
+                                    Option(this,
+                                           { "購買","不購買" },
+                                           { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
+                                }
+                                else if (house->getOwner() == &players[run])
                                 {
                                     Option(this,
-                                           { "升級","不升級" },
-                                           { "升級要花" + to_string(house->getPrice()) + "元，是否升級？" });
+                                           { "確定" },
+                                           { "這片土地是你的，目前房屋等級為" + to_string(house->getLevel() + 1) + "級。" });
+
+                                    if (house->getLevel() < 3)
+                                    {
+                                        Option(this,
+                                               { "升級","不升級" },
+                                               { "升級要花" + to_string(house->getPrice()) + "元，是否升級？" });
+                                    }
+                                    else
+                                    {
+                                        Option(this, { "確定" }, { "你的" + house->getName() + "已經是最高級了！" });
+                                    }
                                 }
-                                else
+                                else if (house->getOwner() != &players[run])
                                 {
-                                    Option(this, { "確定" }, { "你的" + house->getName() + "已經是最高級了！" });
+                                    players[run].minusCash(house->getPrice());//現金交過路費
+                                    house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
+                                    Option(this,
+                                           { "確定" },
+                                           { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
+                                             "你支付過路費 " + to_string(house->getPrice()) + " 元給 " + house->getOwner()->getName() + " 。" });
+                                    printUI();
                                 }
+                                diceRolled = true;
+                                roundEnd = true;
                             }
-                            else if (house->getOwner() != &players[run])
+                            else if (block->getType() == CHANCE)
                             {
-                                players[run].minusCash(house->getPrice());//現金交過路費
-                                house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
-                                Option(this,
-                                       { "確定" },
-                                       { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
-                                         "你支付過路費 " + to_string(house->getPrice()) + " 元給 " + house->getOwner()->getName() + " 。" });
+                                Option(this, { "確定" }, { Chance::getChance(&players[run]) });
                                 printUI();
+                                break;
                             }
-                            isFinishRound = true;
-                        }
-                        else if (block->getType() == CHANCE)
-                        {
-                            Option(this, { "確定" }, { Chance::getChance(&players[run]) });
-                            printUI();
-                            break;
-                        }
-                        else if (block->getType() == FORTUNE)
-                        {
-                            Fortune::getFortune(this);
-                        }
-                        else if (block->getType() == START)
-                        {
-                            unsigned newItem = rand() % 2;
-                            string itemName;
-                            switch (newItem)
+                            else if (block->getType() == FORTUNE)
                             {
-                            case 0:
-                                itemName = "遙控骰子";
-                                break;
-                            case 1:
-                                itemName = "路障";
-                                break;
+                                Fortune::getFortune(this);
                             }
-                            vector<unsigned> tempItem = players[run].getItem();
-                            tempItem[newItem]++;
-                            players[run].setItem(tempItem);
-                            Option(this, { "確定" }, { "歡迎拿到起點獎勵：" + itemName + "。" });
-                            isFinishRound = true;
+                            else if (block->getType() == START)
+                            {
+                                unsigned newItem = rand() % 2;
+                                string itemName;
+                                switch (newItem)
+                                {
+                                case 0:
+                                    itemName = "遙控骰子";
+                                    break;
+                                case 1:
+                                    itemName = "路障";
+                                    break;
+                                }
+                                vector<unsigned> tempItem = players[run].getItem();
+                                tempItem[newItem]++;
+                                players[run].setItem(tempItem);
+                                Option(this, { "確定" }, { "歡迎拿到起點獎勵：" + itemName + "。" });
+                                roundEnd = true;
+                            }
                         }
+                        
                     }
                 }
                 //破產宣告

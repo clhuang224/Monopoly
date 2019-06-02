@@ -56,15 +56,13 @@ void Fortune::getFortune(Game* game)
         Option(game, { "確定" }, { "撞上時空門，隨機傳送。",
                                    "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
         break;
+    case 2:
+        agent->setPosition(Option::chooseBlock(game, { "遇到大神帶路，移動至想要的地區。",
+                                                       "請選擇想去的地方。" }));
+        game->printUI();
+        Option(game, { "確定" }, { "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
 
-    // 目前沒有時間處理
-    //case 2:
-    //    // 使用者用圖形介面選格子之類的
-    //    message = "遇到大神帶路，移動至想要的地區。";
-
-    //    Option(game, { "確定" }, { "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
-
-    //    break;
+        break;
     }
 
 }

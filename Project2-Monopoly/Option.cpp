@@ -63,10 +63,28 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                     Option(game, { "確定" }, { "你擲出 " + to_string(diceNumber) + " 點。",
                                                "你來到" + game->map.getMap().at(position)->getName() + "。" });
                 }
+                game->diceRolled = true;
             }
             else if (options[choosen] == "使用道具")
             {
-                Option(game, { "確定" }, { "這邊要加入選擇道具的功能。" });
+                vector<unsigned> tempItem = game->players.at(game->run).getItem();
+                if (tempItem[0] > 0 && tempItem[1] > 0)
+                {
+                    Option(game, { "遙控骰子","路障","取消" }, { "請選擇想使用的道具：" });
+                }
+                else if (tempItem[0] > 0)
+                {
+                    Option(game, { "遙控骰子", "取消" }, { "請選擇想使用的道具：" });
+                }
+                else if (tempItem[1] > 0)
+                {
+                    Option(game, { "路障", "取消" }, { "請選擇想使用的道具：" });
+                }
+                else
+                {
+                    Option(game, { "確定" }, { "醒醒，你沒有道具。" });
+                }
+                
             }
             else if (options[choosen] == "進入銀行")
             {
@@ -636,7 +654,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 game->load("newGame.txt");
                 game->restartFlag = true;
-                game->isFinishRound = false;
+                game->diceRolled = false;
                 optionsFlag = false;
                 game->printUI();
             }
@@ -662,6 +680,30 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 Music::setMusic(3);
             }
+
+            // 道具選單
+            if (options[choosen] == "遙控骰子")
+            {
+                // 處理中
+            }
+            else if (options[choosen] == "路障")
+            {
+                unsigned roadConePosition = chooseBlock(game, { "你要將路障放在哪裡呢？","請選擇你要放的位置。" });
+                if (game->getMap()->getMap()[roadConePosition]->getRoadCone() == true)
+                {
+                    Option(game, { "確定" }, { "這裡已經有路障了，換個地方吧！" });
+                }
+                else
+                {
+                    game->getMap()->getMap()[roadConePosition]->setRoadCone(true);
+                    vector<unsigned> tempItem = game->getPlayers().at(game->getRun()).getItem();
+                    tempItem[1]--;
+                    game->getPlayers().at(game->getRun()).setItem(tempItem);
+                    game->printUI();
+                    Option(game, { "確定" }, { "放好路障了，哼哼！" });
+                }
+            }
+
             optionsFlag = false;//停止選擇Option的內容
             clearOption();
             break;
@@ -696,7 +738,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                         // 需要提示使用者輸入檔名
                         cin >> game->newGameName;
                         game->restartFlag = true;
-                        game->isFinishRound = false;
+                        game->diceRolled = false;
                         menu_flag = false;
                         optionsFlag = false;
                         break;

@@ -19,7 +19,7 @@ private:
 	int state = 0;
 	int stopRound = 0;
 	int color = 0xA;
-    vector<unsigned> item = { 0,0 }; // »»±±»ë¤l/¸ô»Ù
+    vector<unsigned> item = { 1,1 }; // »»±±»ë¤l/¸ô»Ù
 
 public:
 	~Player();
