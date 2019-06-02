@@ -11,6 +11,7 @@ const int OPTION_TOP = 20, OPTION_LEFT = 13, OPTION_WIDTH = 84;
 const vector<string> menu = { "儲存遊戲", "載入存檔", "音樂設定", "離開遊戲" };
 Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMessages)
 {
+    clearOption();
     game = thisGame;
     options = newOptions;
     messages = newMessages;
@@ -45,7 +46,11 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                            "你來到" + game->map.getMap().at(position)->getName() + "。" });
                 // game->isFinishRound = true;
             }
-            else if (options[choosen] == "去銀行")
+            else if (options[choosen] == "使用道具")
+            {
+                Option(game, { "確定" }, { "這邊要加入選擇道具的功能。" });
+            }
+            else if (options[choosen] == "進入銀行")
             {
                 /*"銀行"的實作*/
                 bool inBank = true;
@@ -357,13 +362,14 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 game->restartFlag = true;
                 game->isFinishRound = false;
                 optionsFlag = false;
+                game->printUI();
             }
             else if (options[choosen] == "離開遊戲")
             {
                 exit(0);
             }
-            optionsFlag = false;//停止選擇Option的內容
             clearOption();
+            optionsFlag = false;//停止選擇Option的內容
             break;
         case ESC:
             clearOption();

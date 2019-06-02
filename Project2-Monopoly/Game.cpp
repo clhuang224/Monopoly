@@ -167,7 +167,7 @@ void Game::load(string filename)
     }
     else
     {
-        //report alert?
+        Option(this, { "確定" }, { "讀取遊戲失敗。" });
     }
 }
 
@@ -232,9 +232,9 @@ void Game::printUI()
     cout << " 。";
 
     // 印輪到誰的箭頭
-    SetPosition({ 90, 12 + run * 7 });
+    SetPosition({ 88, 12 + run * 7 });
     SetColor(0x0B);
-    cout << "→";
+    cout << "輪到→";
     SetColor(0x07);
 }
 
@@ -258,7 +258,7 @@ void Game::runGame()
                 {
                     //操作銀行、買股票、骰骰子、Option內置選單鍵
                     //骰完骰子就不可以再操作銀行、買股票
-                    Option(this, { "擲骰子","去銀行" });
+                    Option(this, { "擲骰子","使用道具","進入銀行" });
 
                     //丟骰子後，執行新位置上的效果
                     while (isFinishRound == false)
@@ -345,7 +345,7 @@ void Game::runGame()
             // 剩下玩家獲勝
             if (remains == 1)
             {
-                for (int i=0;i<lose.size();i++)
+                for (int i = 0; i < lose.size(); i++)
                 {
                     if (lose[i] == false)
                     {
@@ -358,7 +358,7 @@ void Game::runGame()
                         break;
                     }
                 }
-                
+
             }
             // 剩餘金錢（現金＋存款）最多者獲勝
             // 未考慮平手情形
