@@ -171,6 +171,7 @@ void Game::clear()
 void Game::printUI()
 {
     SetPosition({ 0,0 });
+    SetColor(0x07);
 
     //印地圖
     /*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
@@ -222,16 +223,6 @@ void Game::printUI()
     SetColor(0x07);
 }
 
-void Game::clearNotationUI()
-{
-    SetPosition({ 15,12 });
-    SetColor(0x07);
-    for (int i = 0; i < 6; i++)
-    {
-        cout << "                                                                                 ";
-    }
-}
-
 void Game::runGame()
 {
     setCursorVisable(false);
@@ -257,74 +248,68 @@ void Game::runGame()
                     //丟骰子後，執行新位置上的效果
                     if (isFinishRound)
                     {
-                        Block* block = map.getMap().at(players[run].getPosition());//讀取此玩家位置上的block指標
+                        //讀取此玩家位置上的block指標
+                        Block* block = map.getMap().at(players[run].getPosition());
                         if (block->getType() == HOUSE)
                         {
                             House* house = (House*)block;
                             if (house->getOwner() == &bank)
                             {
-                                cout << "這片土地尚未被圈佔，此地價格為" << house->getCostOfOwn() << "\n";
 
-                                Option(this, { "購買此空地","不購買" });
-                                /*待補完整的輸出訊息*/
+                                Option(this,
+                                       { "購買","不購買" },
+                                       { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
+
 
                             }
                             else if (house->getOwner() == &players[run])
                             {
-                                cout << "這片土地是你的\n，目前房屋等級為" << house->getLevel() << "級\n";
+                                Option(this,
+                                       { "確定" },
+                                       { "這片土地是你的，目前房屋等級為" + to_string(house->getLevel()) + "級。" });
+
                                 if (house->getLevel() < 3)
                                 {
-                                    int price = house->getPrice();
-                                    cout << "升級要花" << price << "元，是否升級?\n";
-                                    Option(this, { "升級","不升級" });
+                                    Option(this,
+                                           { "升級","不升級" },
+                                           { "升級要花" + to_string(house->getPrice()) + "元，是否升級？" });
                                 }
                                 else
                                 {
-                                    cout << "很棒 是最高級 不用升級\n";
-                                    system("pause");
+                                    Option(this, { "確定" }, { "你的" + house->getName() + "已經是最高級了！" });
                                 }
                             }
                             else if (house->getOwner() != &players[run])
                             {
-                                cout << "這片土地屬於" << house->getOwner()->getName() << "，給其過路費" << house->getPrice() << "元\n";
                                 players[run].minusCash(house->getPrice());//現金交過路費
                                 house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
                                 /*待補完整的輸出訊息*/
-                                system("pause");
+                                Option(this,
+                                       { "確定" },
+                                       { house->getName() + "屬於" + house->getOwner()->getName() + "。",
+                                         "你支付過路費" + to_string(house->getPrice()) + "元。",
+                                         "你還有" + to_string(players[run].getCash()) + "現金。" });
                                 printUI();
-                            }
-                            else
-                            {
-                                cout << "OH NO!";
-                                system("pause");
                             }
                         }
                         if (block->getType() == CHANCE)
                         {
-                            string message = Chance::getChance(&players[run]);
                             printUI();
-                            cout << message << "\n";
-                            system("pause");
-                            printUI();
+                            Option(this, { "確定" }, { Chance::getChance(&players[run]) });
                         }
                         if (block->getType() == FORTUNE)
                         {
-                            string message = Fortune::getFortune(&players[run]);
-                            printUI();
-                            cout << message << "\n";
-                            system("pause");
+                            Option(this, { "確定" }, { Fortune::getFortune(&players[run]) });
                             printUI();
                         }
                     }
                 }
-
                 //破產宣告
                 if (players[run].getCash() < 0)
                 {
                     players[run].setCash(-1);
                     lose[run] = true;
-                    cout << players[run].getName() << "已破產！！\n";
-                    system("pause");
+                    Option(this, { "確定" }, { players[run].getName() + "已破產！！" });
                     printUI();
                 }
             }
