@@ -1,5 +1,7 @@
 #include "Game.h"
 
+const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
+
 Game::Game(string input)
 {
     load(input);
@@ -348,7 +350,7 @@ void Game::runGame()
 
             remainingRound--;
             run = 0;
-			stock.valueChange();
+            stock.valueChange();
 
             if (restartFlag)
             {
@@ -402,123 +404,123 @@ size_t Game::rollTheDice()
     srand((unsigned)time(NULL));
     output += (rand() % 6 + 1);
 
-	position temp = getCursorPosition();
+    position temp = getCursorPosition();
 
-	SetPosition({ 46,18 });
-	cout << " ___________ ";
-	SetPosition({ 46,19 });
-	cout << "|           |";
-	SetPosition({ 46,20 });
-	cout << "|           |";
-	SetPosition({ 46,21 });
-	cout << "|           |";
-	SetPosition({ 46,22 });
-	cout << "|           |";
-	SetPosition({ 46,23 });
-	cout << "|           |";
-	SetPosition({ 46,24 });
-	cout << "|           |";
-	SetPosition({ 46,25 });
-	cout << "|___________|";
+    SetPosition({ 46,18 });
+    cout << " ___________ ";
+    SetPosition({ 46,19 });
+    cout << "|           |";
+    SetPosition({ 46,20 });
+    cout << "|           |";
+    SetPosition({ 46,21 });
+    cout << "|           |";
+    SetPosition({ 46,22 });
+    cout << "|           |";
+    SetPosition({ 46,23 });
+    cout << "|           |";
+    SetPosition({ 46,24 });
+    cout << "|           |";
+    SetPosition({ 46,25 });
+    cout << "|___________|";
 
-	for (int i = 6; i >0; i--)
-	{
-		for(int j = 18; j < 27; j++)
-		{
-			SetPosition({ 47,j });
-			cout << "          ";
-		}
-		switch (rand() % 6)
-		{
-		case 0:
-			SetPosition({ 46,22 });
-			cout << "|    ¢i     |";
-			break;
-		case 1:
-			SetPosition({ 46,20 });
-			cout << "|  ¢i       |";
-			SetPosition({ 46,24 });
-			cout << "|       ¢i  |";
-			break;
-		case 2:
-			SetPosition({ 46,20 });
-			cout << "|    ¢i     |";
-			SetPosition({ 46,22 });
-			cout << "|    ¢i     |";
-			SetPosition({ 46,24 });
-			cout << "|    ¢i     |";
-			break;
-		case 3:
-			SetPosition({ 46,20 });
-			cout << "|  ¢i   ¢i  |";
-			SetPosition({ 46,24 });
-			cout << "|  ¢i   ¢i  |";
-			break;
-		case 4:
-			SetPosition({ 46,20 });
-			cout << "|  ¢i   ¢i  |";
-			SetPosition({ 46,22 });
-			cout << "|    ¢i     |";
-			SetPosition({ 46,24 });
-			cout << "|  ¢i   ¢i  |";
-			break;
-		case 5:
-			SetPosition({ 46,20 });
-			cout << "|  ¢i   ¢i  |";
-			SetPosition({ 46,22 });
-			cout << "|  ¢i   ¢i  |";
-			SetPosition({ 46,24 });
-			cout << "|  ¢i   ¢i  |";
-			break;
-		}
-		Sleep(i * 100);
-	}
+    for (int i = 6; i > 0; i--)
+    {
+        for (int j = 18; j < 27; j++)
+        {
+            SetPosition({ 47,j });
+            cout << "          ";
+        }
+        switch (rand() % 6)
+        {
+        case 0:
+            SetPosition({ 46,22 });
+            cout << "|    ¢i     |";
+            break;
+        case 1:
+            SetPosition({ 46,20 });
+            cout << "|  ¢i       |";
+            SetPosition({ 46,24 });
+            cout << "|       ¢i  |";
+            break;
+        case 2:
+            SetPosition({ 46,20 });
+            cout << "|    ¢i     |";
+            SetPosition({ 46,22 });
+            cout << "|    ¢i     |";
+            SetPosition({ 46,24 });
+            cout << "|    ¢i     |";
+            break;
+        case 3:
+            SetPosition({ 46,20 });
+            cout << "|  ¢i   ¢i  |";
+            SetPosition({ 46,24 });
+            cout << "|  ¢i   ¢i  |";
+            break;
+        case 4:
+            SetPosition({ 46,20 });
+            cout << "|  ¢i   ¢i  |";
+            SetPosition({ 46,22 });
+            cout << "|    ¢i     |";
+            SetPosition({ 46,24 });
+            cout << "|  ¢i   ¢i  |";
+            break;
+        case 5:
+            SetPosition({ 46,20 });
+            cout << "|  ¢i   ¢i  |";
+            SetPosition({ 46,22 });
+            cout << "|  ¢i   ¢i  |";
+            SetPosition({ 46,24 });
+            cout << "|  ¢i   ¢i  |";
+            break;
+        }
+        Sleep(i * 100);
+    }
 
-	switch (output - 1)
-	{
-	case 0:
-		SetPosition({ 46,22 });
-		cout << "|    ¢i     |";
-		break;
-	case 1:
-		SetPosition({ 46,20 });
-		cout << "|  ¢i       |";
-		SetPosition({ 46,24 });
-		cout << "|       ¢i  |";
-		break;
-	case 2:
-		SetPosition({ 46,20 });
-		cout << "|    ¢i     |";
-		SetPosition({ 46,22 });
-		cout << "|    ¢i     |";
-		SetPosition({ 46,24 });
-		cout << "|    ¢i     |";
-		break;
-	case 3:
-		SetPosition({ 46,20 });
-		cout << "|  ¢i   ¢i  |";
-		SetPosition({ 46,24 });
-		cout << "|  ¢i   ¢i  |";
-		break;
-	case 4:
-		SetPosition({ 46,20 });
-		cout << "|  ¢i   ¢i  |";
-		SetPosition({ 46,22 });
-		cout << "|    ¢i     |";
-		SetPosition({ 46,24 });
-		cout << "|  ¢i   ¢i  |";
-		break;
-	case 5:
-		SetPosition({ 46,20 });
-		cout << "|  ¢i   ¢i  |";
-		SetPosition({ 46,22 });
-		cout << "|  ¢i   ¢i  |";
-		SetPosition({ 46,24 });
-		cout << "|  ¢i   ¢i  |";
-		break;
-	}
-	Sleep(1000);
-	SetPosition(temp);
+    switch (output - 1)
+    {
+    case 0:
+        SetPosition({ 46,22 });
+        cout << "|    ¢i     |";
+        break;
+    case 1:
+        SetPosition({ 46,20 });
+        cout << "|  ¢i       |";
+        SetPosition({ 46,24 });
+        cout << "|       ¢i  |";
+        break;
+    case 2:
+        SetPosition({ 46,20 });
+        cout << "|    ¢i     |";
+        SetPosition({ 46,22 });
+        cout << "|    ¢i     |";
+        SetPosition({ 46,24 });
+        cout << "|    ¢i     |";
+        break;
+    case 3:
+        SetPosition({ 46,20 });
+        cout << "|  ¢i   ¢i  |";
+        SetPosition({ 46,24 });
+        cout << "|  ¢i   ¢i  |";
+        break;
+    case 4:
+        SetPosition({ 46,20 });
+        cout << "|  ¢i   ¢i  |";
+        SetPosition({ 46,22 });
+        cout << "|    ¢i     |";
+        SetPosition({ 46,24 });
+        cout << "|  ¢i   ¢i  |";
+        break;
+    case 5:
+        SetPosition({ 46,20 });
+        cout << "|  ¢i   ¢i  |";
+        SetPosition({ 46,22 });
+        cout << "|  ¢i   ¢i  |";
+        SetPosition({ 46,24 });
+        cout << "|  ¢i   ¢i  |";
+        break;
+    }
+    Sleep(1000);
+    SetPosition(temp);
     return output;
 }
 
@@ -568,3 +570,4 @@ Map* Game::getMap()
 {
     return &map;
 }
+

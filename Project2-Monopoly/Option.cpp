@@ -765,3 +765,208 @@ void Option::PrintMenu(int choosen)
         cout << menu[i];
     }
 }
+
+unsigned Option::chooseBlock(Game* game, vector<string> messages)
+{
+    SetColor(0x07);
+    for (int j = OPTION_TOP; j < 33; j++)
+    {
+        SetPosition({ OPTION_LEFT, j });
+        for (int i = 4; i < OPTION_WIDTH - 4; i++)
+        {
+            cout << " ";
+        }
+    }
+    for (int i = 0; i < messages.size(); i++)
+    {
+        SetColor(0x07);
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(messages[i].length())) / 2,
+                      OPTION_TOP + i });
+        cout << messages[i];
+    }
+
+
+    // 這個寫法不能應用到不同形狀的地圖
+    int chosen = 0;
+
+    while (true)
+    {
+        if (chosen <= 4)
+        {
+            printBlock(0, chosen * 9, 0x44);
+        }
+        else if (chosen <= 14)
+        {
+            printBlock((chosen - 4) * 12, 36, 0x44);
+        }
+        else if (chosen <= 18)
+        {
+            printBlock(120, (4 - (chosen - 14)) * 9, 0x44);
+        }
+        else
+        {
+            printBlock((10 - (chosen - 18)) * 12, 0, 0x44);
+        }
+
+        if (chosen == 0)
+        {
+            switch (_getch())
+            {
+            case RIGHT:
+                printBlock(0, 0, 0x07);
+                chosen = game->getMap()->getMap().size();
+                break;
+            case DOWN:
+                printBlock(0, 0, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock(0, 0, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen < 4)
+        {
+            switch (_getch())
+            {
+            case UP:
+                printBlock(0, chosen * 9, 0x07);
+                chosen = (chosen > 0 ? chosen - 1 : 0);
+                break;
+            case DOWN:
+                printBlock(0, chosen * 9, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock(0, chosen * 9, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen == 4)
+        {
+            switch (_getch())
+            {
+            case UP:
+                printBlock(0, chosen * 9, 0x07);
+                chosen--;
+                break;
+            case RIGHT:
+                printBlock(0, chosen * 9, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock(0, chosen * 9, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen < 14)
+        {
+            switch (_getch())
+            {
+            case LEFT:
+                printBlock((chosen - 4) * 12, 36, 0x07);
+                chosen--;
+                break;
+            case RIGHT:
+                printBlock((chosen - 4) * 12, 36, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock((chosen - 4) * 12, 36, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen == 14)
+        {
+            switch (_getch())
+            {
+            case LEFT:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                chosen--;
+                break;
+            case UP:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen < 18)
+        {
+            switch (_getch())
+            {
+            case DOWN:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                chosen--;
+                break;
+            case UP:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                chosen++;
+                break;
+            case ENTER:
+                printBlock(120, (4 - (chosen - 14)) * 9, 0x07);
+                return chosen;
+            }
+        }
+        else if (chosen == 18)
+        {
+            switch (_getch())
+            {
+            case LEFT:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                chosen++;
+                break;
+            case DOWN:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                chosen--;
+                break;
+            case ENTER:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                return chosen;
+            }
+        }
+        else
+        {
+            switch (_getch())
+            {
+            case LEFT:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                chosen = (chosen == game->getMap()->getMap().size() - 1 ? 0 : chosen + 1);
+                break;
+            case RIGHT:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                chosen--;
+                break;
+            case ENTER:
+                printBlock((10 - (chosen - 18)) * 12, 0, 0x07);
+                return chosen;
+            }
+        }
+    }
+
+    return chosen;
+}
+
+void Option::printBlock(int left, int top, int color)
+{
+    SetColor(color);
+
+    // 印橫線
+    for (int i = 0; i <= 11; i++)
+    {
+        SetPosition({ left + i, top });
+        cout << '_';
+        SetPosition({ left + i, top + 8 });
+        cout << '_';
+    }
+    // 印直線
+    for (int i = 1; i <= 8; i++)
+    {
+        SetPosition({ left, top + i });
+        cout << '|';
+        SetPosition({ left + 11, top + i });
+        cout << '|';
+    }
+}

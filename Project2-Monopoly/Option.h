@@ -14,6 +14,8 @@ class Option
 public:
     Option(Game *, vector<string> = { "½T©w" }, vector<string> = {});
     void clearOption();
+    static unsigned chooseBlock(Game *, vector<string>);
+    static void printBlock(int left, int top, int color);
 private:
 	Game *game;
     vector<string> messages;
