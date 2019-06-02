@@ -2,9 +2,9 @@
 #include <Windows.h>
 
 int main() {
-    setConsole(120, 46,15);
+    ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); //視窗最大化
+    setConsole(135, 46, 15);
     setFullScreen();
-	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); //視窗最大化
-	Game game("basemap.txt");
-	game.runGame();
+    Game game("basemap.txt");
+    game.runGame();
 }
