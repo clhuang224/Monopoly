@@ -23,6 +23,7 @@ Player::Player(const Player &p)
 	}
 	state = p.state;
 	stopRound = p.stopRound;
+    color = p.color;
 }
 
 Player::Player(string setName, unsigned int setPosition, int setCash, int setDeposit)
@@ -45,6 +46,7 @@ void Player::operator=(Player p)
 	}
 	state = p.state;
 	stopRound = p.stopRound;
+    color = p.color;
 }
 
 string Player::getName()
