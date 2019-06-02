@@ -17,7 +17,10 @@ Player::Player(const Player &p)
 	currentPosition = p.currentPosition;
 	cash = p.cash;
 	deposit = p.deposit;
-	ownStock = p.ownStock;
+	for (int i = 0; i < 5; i++)
+	{
+		ownStock[i] = p.ownStock[i];
+	}
 	state = p.state;
 	stopRound = p.stopRound;
 }
@@ -36,7 +39,10 @@ void Player::operator=(Player p)
 	currentPosition = p.currentPosition;
 	cash = p.cash;
 	deposit = p.deposit;
-	ownStock = p.ownStock;
+	for (int i = 0; i < 5; i++)
+	{
+		ownStock[i] = p.ownStock[i];
+	}
 	state = p.state;
 	stopRound = p.stopRound;
 }
@@ -104,22 +110,21 @@ void Player::plusDeposit(int number)
 }
 
 
-
-vector<struct stockData> Player::getOwnStock()
+int* Player::getOwnStock()
 {
-	return vector<struct stockData>();
+	return ownStock;
 }
 
-void Player::buyStock(stockData buy)
+void Player::buyStock(int order, struct stockData buy)
 {
-	ownStock.push_back(buy);
+	ownStock[order]++;
 	deposit -= buy.value;
 }
 
-void Player::sellStock(int sell, int newValue)
+void Player::sellStock(int order, struct stockData sell)
 {
-	ownStock.erase(ownStock.begin() + sell);
-	deposit += newValue;
+	ownStock[order]--;
+	deposit += sell.value;
 }
 
 int Player::getColor()

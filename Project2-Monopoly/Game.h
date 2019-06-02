@@ -8,6 +8,7 @@
 #include "Chance.h"
 #include "Fortune.h"
 #include "Option.h"
+#include "Stock.h"
 #include <direct.h>
 #include <ctime>
 #include <string>
@@ -31,6 +32,8 @@ public:
 	void runGame();
 	size_t rollTheDice();
 	vector<Player> &getPlayers();
+	Stock stock;
+
 private:
 	int playerAmount = 0;//玩家數量
 	int remains = 0;//剩餘玩家數量
