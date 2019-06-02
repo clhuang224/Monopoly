@@ -7,6 +7,7 @@
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 const int MENU_LEN = 4;
+const int OPTION_TOP = 20, OPTION_LEFT = 13, OPTION_WIDTH = 84;
 const vector<string> menu = { "儲存遊戲", "載入存檔", "音樂設定", "離開遊戲" };
 Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMessages)
 {
@@ -36,13 +37,13 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 //int position = (game->players.at(game->run).getPosition() + 1);//固定走一步 用於測試
                 size_t diceNumber = game->rollTheDice();
-
                 int position = (game->players.at(game->run).getPosition() + diceNumber) % (game->map.getMapSize());
                 game->players.at(game->run).setPosition(position);
                 game->printUI();
 
-                Option(game, { "確定" }, { "你來到" + game->map.getMap().at(position)->getName() + "。" });
-                game->isFinishRound = true;
+                Option(game, { "確定" }, { "你擲出 " + to_string(diceNumber) + " 點。",
+                                           "你來到" + game->map.getMap().at(position)->getName() + "。" });
+                // game->isFinishRound = true;
             }
             if (options[choosen] == "去銀行")
             {
@@ -335,7 +336,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 House* house = (House*)game->map.getMap().at(game->players.at(game->run).getPosition());
                 house->setLevel((house->getLevel()) + 1);
-                Option(game, { "確定" }, { "你已將" + house->getName() + "升級到" + to_string(house->getLevel() + 1) + "等。" });
+                Option(game, { "確定" }, { "你已將" + house->getName() + "升級到 " + to_string(house->getLevel() + 1) + " 等。" });
             }
             if (options[choosen] == "購買")
             {
@@ -346,13 +347,15 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 game->printUI();
                 Option(game,
                        { "確定" },
-                       { "你已花費" + to_string(house->getCostOfOwn()) + "買下" + house->getName() + "！",
-                         "你還有" + to_string(game->players[game->run].getCash()) + "現金。" });
+                       { "你已花費 " + to_string(house->getCostOfOwn()) + " 元買下" + house->getName() + "！",
+                         "你還有 " + to_string(game->players[game->run].getCash()) + " 現金。" });
                 game->printUI();
             }
             optionsFlag = false;//停止選擇Option的內容
+            clearOption();
             break;
         case ESC:
+            clearOption();
             choosenInMenu = 0;
             bool menu_flag = true;
             PrintMenu(0);
@@ -360,12 +363,12 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 switch (char keyin_menu = _getch())
                 {
-                case LEFT:
-                    choosenInMenu = choosenInMenu > 0 ? choosenInMenu - 1 : choosenInMenu;
+                case UP:
+                    choosenInMenu = choosenInMenu > 0 ? choosenInMenu - 1 : menu.size()-1;
                     PrintMenu(choosenInMenu);
                     break;
-                case RIGHT:
-                    choosenInMenu = choosenInMenu < MENU_LEN - 1 ? choosenInMenu + 1 : choosenInMenu;
+                case DOWN:
+                    choosenInMenu = choosenInMenu < MENU_LEN - 1 ? choosenInMenu + 1 : 0;
                     PrintMenu(choosenInMenu);
                     break;
                 case ENTER:
@@ -395,45 +398,55 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                     break;
                 }
             }
+            clearOption();
             PrintOption(choosen);
             break;
         }
     }
 }
 
+void Option::clearOption()
+{
+    SetColor(0x07);
+    for (int j = OPTION_TOP; j < 27; j++)
+    {
+        SetPosition({ OPTION_LEFT, j });
+        for (int i = 4; i < OPTION_WIDTH - 4; i++)
+        {
+            cout << " ";
+        }
+    }
+}
+
 void Option::PrintOption(int choosen)
 {
-    const int TOP = 20, LEFT = 13, WIDTH = 84;
+
     for (int i = 0; i < messages.size(); i++)
     {
         SetColor(0x07);
-        SetPosition({ LEFT + (WIDTH - static_cast<int>(messages[i].length())) / 2,
-                      TOP + i });
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(messages[i].length())) / 2,
+                      OPTION_TOP + i });
         cout << messages[i];
     }
-    for (int i = 0; i <  options.size(); i++)
+    for (int i = 0; i < options.size(); i++)
     {
         if (i == choosen) SetColor(0x70);
         else SetColor(0x07);
-        SetPosition({ LEFT + (WIDTH - static_cast<int>(options[i].length())) / 2,
-                      TOP + static_cast<int>(messages.size()) + 1 + 2 * i });
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(options[i].length())) / 2,
+                      OPTION_TOP + static_cast<int>(messages.size()) + 1 + 2 * i });
         cout << options[i];
     }
 }
 
 void Option::PrintMenu(int choosen)
 {
-    position p = getCursorPosition();
-    /*待改x才能放置在正確位置，待補選項列上清除目前已印出的字*/
-    p.x = 0;
-    SetPosition(p);
-    SetPosition(p);
+    SetColor(0x07);
     for (int i = 0; i < menu.size(); i++)
     {
         if (i == choosen) SetColor(0x70);
-        else SetColor();
-
+        else SetColor(0x07);
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(menu[i].length())) / 2,
+                      OPTION_TOP + i * 2 });
         cout << menu[i];
-        SetColor();
     }
 }

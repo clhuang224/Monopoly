@@ -246,7 +246,7 @@ void Game::runGame()
                     Option(this, { "擲骰子","去銀行" });
 
                     //丟骰子後，執行新位置上的效果
-                    if (isFinishRound)
+                    while (isFinishRound == false)
                     {
                         //讀取此玩家位置上的block指標
                         Block* block = map.getMap().at(players[run].getPosition());
@@ -259,8 +259,6 @@ void Game::runGame()
                                 Option(this,
                                        { "購買","不購買" },
                                        { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
-
-
                             }
                             else if (house->getOwner() == &players[run])
                             {
@@ -291,13 +289,15 @@ void Game::runGame()
                                          "你還有" + to_string(players[run].getCash()) + "現金。" });
                                 printUI();
                             }
+                            isFinishRound = true;
                         }
-                        if (block->getType() == CHANCE)
+                        else if (block->getType() == CHANCE)
                         {
-                            printUI();
                             Option(this, { "確定" }, { Chance::getChance(&players[run]) });
+                            printUI();
+                            break;
                         }
-                        if (block->getType() == FORTUNE)
+                        else if (block->getType() == FORTUNE)
                         {
                             Option(this, { "確定" }, { Fortune::getFortune(&players[run]) });
                             printUI();

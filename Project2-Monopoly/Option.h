@@ -12,6 +12,7 @@ class Option
 {
 public:
     Option(Game *, vector<string> = { "½T©w" }, vector<string> = {});
+    void clearOption();
 private:
 	Game *game;
     vector<string> messages;

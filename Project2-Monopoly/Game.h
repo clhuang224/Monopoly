@@ -27,7 +27,6 @@ public:
 	void load(string);
 	void clear();
 	void printUI();
-	void clearNotationUI();
 	void runGame();
 	size_t rollTheDice();
 	vector<Player> &getPlayers();
