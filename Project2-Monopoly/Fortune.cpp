@@ -1,5 +1,6 @@
 #include "Fortune.h"
-#include "Player.h"
+#include "Option.h"
+#include "Game.h"
 
 // Intent: 初始化
 // Pre: 位置
@@ -35,25 +36,35 @@ Fortune& Fortune::operator=(Fortune another)
 // Intent: 抽命運
 // Pre: 玩家
 // Post: 回傳訊息
-string Fortune::getFortune(Player* agent)
+void Fortune::getFortune(Game* game)
 {
+    Player* agent = &(game->getPlayers().at(game->getRun()));
     string message;
-    switch (rand() % 3)
+    switch (rand() % 2)
     {
     case 0:
 		/*不確定需不需要補上退後三步的購買空地or收過路費???目前沒有*/
         agent->setPosition(agent->getPosition()-3);
-        message = "遇上土石流，後退三格";
+        game->printUI();
+        Option(game, { "確定" }, { "你遇上土石流，後退三格。",
+                                   "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
         break;
     case 1:
-        // 使用者用圖形介面選格子之類的
-        //agent->setPosition(newPosition);
-        message = "遇到大神帶路，移動至想要的地區";
+
+        agent->setPosition((rand()%game->getMap()->getMap().size()));
+        game->printUI();
+        Option(game, { "確定" }, { "撞上時空門，隨機傳送。",
+                                   "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
         break;
-    case 2:
-        //agent->setPosition(randomPosition);
-        message = "撞上時空門，隨機傳送";
-        break;
+
+    // 目前沒有時間處理
+    //case 2:
+    //    // 使用者用圖形介面選格子之類的
+    //    message = "遇到大神帶路，移動至想要的地區。";
+
+    //    Option(game, { "確定" }, { "你來到" + game->getMap()->getMap().at(agent->getPosition())->getName() + "。" });
+
+    //    break;
     }
-    return message;
+
 }

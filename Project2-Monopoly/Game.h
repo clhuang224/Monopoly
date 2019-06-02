@@ -30,6 +30,8 @@ public:
 	void runGame();
 	size_t rollTheDice();
 	vector<Player> &getPlayers();
+    int getRun();
+    Map* getMap();
 private:
 	int playerAmount = 0;//玩家數量
 	int remains = 0;//剩餘玩家數量

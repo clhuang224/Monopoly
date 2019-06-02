@@ -264,7 +264,7 @@ void Game::runGame()
                             {
                                 Option(this,
                                        { "確定" },
-                                       { "這片土地是你的，目前房屋等級為" + to_string(house->getLevel()) + "級。" });
+                                       { "這片土地是你的，目前房屋等級為" + to_string(house->getLevel() + 1) + "級。" });
 
                                 if (house->getLevel() < 3)
                                 {
@@ -281,12 +281,10 @@ void Game::runGame()
                             {
                                 players[run].minusCash(house->getPrice());//現金交過路費
                                 house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
-                                /*待補完整的輸出訊息*/
                                 Option(this,
                                        { "確定" },
-                                       { house->getName() + "屬於" + house->getOwner()->getName() + "。",
-                                         "你支付過路費" + to_string(house->getPrice()) + "元。",
-                                         "你還有" + to_string(players[run].getCash()) + "現金。" });
+                                       { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
+                                         "你支付過路費 " + to_string(house->getPrice()) + " 元給 " + house->getOwner()->getName() + " 。" });
                                 printUI();
                             }
                             isFinishRound = true;
@@ -299,8 +297,7 @@ void Game::runGame()
                         }
                         else if (block->getType() == FORTUNE)
                         {
-                            Option(this, { "確定" }, { Fortune::getFortune(&players[run]) });
-                            printUI();
+                            Fortune::getFortune(this);
                         }
                     }
                 }
@@ -376,4 +373,14 @@ void Game::printPlayer()
     }
     SetColor(7);
     SetPosition(temp);
+}
+
+int Game::getRun()
+{
+    return run;
+}
+
+Map* Game::getMap()
+{
+    return &map;
 }
