@@ -1,5 +1,10 @@
 #include "Block.h"
 
+const vector<string> ROAD_CONE_SIGH = { " ＼    ／ ",
+                                        "   ＼／   ",
+                                        "   ／＼   ",
+                                        " ／    ＼ " };
+
 // Intent: 初始化
 // Pre: 位置、名稱、類型、等級、標誌
 // Post: 初始化完成
@@ -140,16 +145,33 @@ void Block::setOutput(int playerID)
 		player4 = '4';
 		break;
 	}
+
 	name = center(name, 10);
-	output = "____________"
-		"|          |"
-		"|" + sign[0] + "|"
-		"|" + sign[1] + "|"
-		"|" + sign[2] + "|"
-		"|" + sign[3] + "|"
-		"|" + name + "|"
-		"| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
-		"|__________|";
+    if (roadCone == true)
+    {
+        output = "____________"
+            "|          |"
+            "|" + ROAD_CONE_SIGH[0] + "|"
+            "|" + ROAD_CONE_SIGH[1] + "|"
+            "|" + ROAD_CONE_SIGH[2] + "|"
+            "|" + ROAD_CONE_SIGH[3] + "|"
+            "|" + name + "|"
+            "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
+            "|__________|";
+    }
+    else
+    {
+        output = "____________"
+            "|          |"
+            "|" + sign[0] + "|"
+            "|" + sign[1] + "|"
+            "|" + sign[2] + "|"
+            "|" + sign[3] + "|"
+            "|" + name + "|"
+            "| " + player1 + "|" + player2 + "|" + player3 + "|" + player4 + "  |"
+            "|__________|";
+    }
+	
 }
 
 string Block::center(const string s, const int w)
