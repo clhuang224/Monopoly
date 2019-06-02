@@ -39,6 +39,21 @@ void setConsole(int width, int height, int fontSize)
     pfi->dwFontSize.Y = fontSize;
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), 0, pfi);
 
+}
+
+void setFullScreen()
+{
+    // 全螢幕
+    DWORD mode;
+    GetConsoleDisplayMode(&mode);
+    if ((mode&CONSOLE_FULLSCREEN) != CONSOLE_FULLSCREEN)
+    {
+        keybd_event(VK_MENU, 0x38, 0, 0);
+        keybd_event(VK_RETURN, 0x1c, 0, 0);
+        keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
+        keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
+    }
+
     // 改變標題
     SetConsoleTitle("Monopoly");
 }

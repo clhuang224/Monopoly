@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <time.h>
 
-extern class Player;
+extern class Game;
 
 class Fortune : public Block
 {
@@ -14,7 +14,7 @@ public:
     Fortune& operator=(Fortune);
 
     // 抽命運並發生 會回傳訊息
-	static string getFortune(Player* agent);
+	static void getFortune(Game* game);
 };
 
 #endif

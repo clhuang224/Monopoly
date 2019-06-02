@@ -16,6 +16,9 @@ struct position
 // 設定視窗及字體大小
 void setConsole(int, int, int);
 
+// 設定全螢幕
+void setFullScreen();
+
 // 取得游標位置
 position getCursorPosition();
 

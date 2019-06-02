@@ -4,16 +4,18 @@
 #include<string>
 #include<iostream>
 using namespace std;
+using std::cout;
 
 extern class Game;
 
 class Option
 {
 public:
-	Option(Game *, vector<string>);
-	~Option();
+    Option(Game *, vector<string> = { "½T©w" }, vector<string> = {});
+    void clearOption();
 private:
-	Game *ptr;
+	Game *game;
+    vector<string> messages;
 	vector<string> options;
 	void PrintOption(int choosen);
 	void PrintMenu(int choosen);
