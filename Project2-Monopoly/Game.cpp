@@ -203,7 +203,7 @@ void Game::printUI()
     map.updateMap(playerPositions);
 
     // 印角色資訊
-    printPlayer();
+	printPlayer();
 
     // 印剩餘回合數、輪到的玩家
     SetPosition({ 40,34 });
@@ -414,70 +414,70 @@ size_t Game::rollTheDice()
 
     position temp = getCursorPosition();
 
-    SetPosition({ 46,18 });
+    SetPosition({ 48,18 });
     cout << " ___________ ";
-    SetPosition({ 46,19 });
+    SetPosition({ 48,19 });
     cout << "|           |";
-    SetPosition({ 46,20 });
+    SetPosition({ 48,20 });
     cout << "|           |";
-    SetPosition({ 46,21 });
+    SetPosition({ 48,21 });
     cout << "|           |";
-    SetPosition({ 46,22 });
+    SetPosition({ 48,22 });
     cout << "|           |";
-    SetPosition({ 46,23 });
+    SetPosition({ 48,23 });
     cout << "|           |";
-    SetPosition({ 46,24 });
+    SetPosition({ 48,24 });
     cout << "|           |";
-    SetPosition({ 46,25 });
+    SetPosition({ 48,25 });
     cout << "|___________|";
 
     for (int i = 6; i > 0; i--)
     {
-        for (int j = 18; j < 27; j++)
+        for (int j = 19; j < 25; j++)
         {
-            SetPosition({ 47,j });
+            SetPosition({ 49,j });
             cout << "          ";
         }
         switch (rand() % 6)
         {
         case 0:
-            SetPosition({ 46,22 });
+            SetPosition({ 48,22 });
             cout << "|    █     |";
             break;
         case 1:
-            SetPosition({ 46,20 });
+            SetPosition({ 48,20 });
             cout << "|  █       |";
-            SetPosition({ 46,24 });
+            SetPosition({ 48,24 });
             cout << "|       █  |";
             break;
         case 2:
-            SetPosition({ 46,20 });
+            SetPosition({ 48,20 });
             cout << "|    █     |";
-            SetPosition({ 46,22 });
+            SetPosition({ 48,22 });
             cout << "|    █     |";
-            SetPosition({ 46,24 });
+            SetPosition({ 48,24 });
             cout << "|    █     |";
             break;
         case 3:
-            SetPosition({ 46,20 });
+            SetPosition({ 48,20 });
             cout << "|  █   █  |";
-            SetPosition({ 46,24 });
+            SetPosition({ 48,24 });
             cout << "|  █   █  |";
             break;
         case 4:
-            SetPosition({ 46,20 });
+            SetPosition({ 48,20 });
             cout << "|  █   █  |";
-            SetPosition({ 46,22 });
+            SetPosition({ 48,22 });
             cout << "|    █     |";
-            SetPosition({ 46,24 });
+            SetPosition({ 48,24 });
             cout << "|  █   █  |";
             break;
         case 5:
-            SetPosition({ 46,20 });
+            SetPosition({ 48,20 });
             cout << "|  █   █  |";
-            SetPosition({ 46,22 });
+            SetPosition({ 48,22 });
             cout << "|  █   █  |";
-            SetPosition({ 46,24 });
+            SetPosition({ 48,24 });
             cout << "|  █   █  |";
             break;
         }
@@ -487,43 +487,43 @@ size_t Game::rollTheDice()
     switch (output - 1)
     {
     case 0:
-        SetPosition({ 46,22 });
+        SetPosition({ 48,22 });
         cout << "|    █     |";
         break;
     case 1:
-        SetPosition({ 46,20 });
+        SetPosition({ 48,20 });
         cout << "|  █       |";
-        SetPosition({ 46,24 });
+        SetPosition({ 48,24 });
         cout << "|       █  |";
         break;
     case 2:
-        SetPosition({ 46,20 });
+        SetPosition({ 48,20 });
         cout << "|    █     |";
-        SetPosition({ 46,22 });
+        SetPosition({ 48,22 });
         cout << "|    █     |";
-        SetPosition({ 46,24 });
+        SetPosition({ 48,24 });
         cout << "|    █     |";
         break;
     case 3:
-        SetPosition({ 46,20 });
+        SetPosition({ 48,20 });
         cout << "|  █   █  |";
-        SetPosition({ 46,24 });
+        SetPosition({ 48,24 });
         cout << "|  █   █  |";
         break;
     case 4:
-        SetPosition({ 46,20 });
+        SetPosition({ 48,20 });
         cout << "|  █   █  |";
-        SetPosition({ 46,22 });
+        SetPosition({ 48,22 });
         cout << "|    █     |";
-        SetPosition({ 46,24 });
+        SetPosition({ 48,24 });
         cout << "|  █   █  |";
         break;
     case 5:
-        SetPosition({ 46,20 });
+        SetPosition({ 48,20 });
         cout << "|  █   █  |";
-        SetPosition({ 46,22 });
+        SetPosition({ 48,22 });
         cout << "|  █   █  |";
-        SetPosition({ 46,24 });
+        SetPosition({ 48,24 });
         cout << "|  █   █  |";
         break;
     }
@@ -540,34 +540,55 @@ vector<Player> &Game::getPlayers()
 void Game::printPlayer()
 {
     position temp = getCursorPosition();
-    position usePos;
 
     SetColor(7);
     for (int i = 0; i < 28; i++)
     {
-        usePos = { 95, 9 + i }; SetPosition(usePos);
+        SetPosition({ 95, 9 + i });
         cout << "|                  |";
     }
 
     for (int i = 0; i < players.size(); i++)
     {
-        usePos = { 96, 8 + i * 7 }; SetPosition(usePos);
+        SetPosition({ 96, 8 + i * 7 });
         cout << "__________________";
 
         SetColor(players[i].getColor());
-        usePos = { 100, 11 + i * 7 }; SetPosition(usePos);
+        SetPosition({ 100, 10 + i * 7 });
         cout << players[i].getName();
         SetColor(7);
 
-        usePos = { 101, 13 + i * 7 }; SetPosition(usePos);
+        SetPosition({ 101, 12 + i * 7 });
         cout << "$ " << players[i].getCash();
 
-        usePos = { 96, 15 + i * 7 }; SetPosition(usePos);
+		SetPosition({ 98, 14 + i * 7 });
+		cout << "骰子: " << players[i].getItem()[0] << " " << "路障: " << players[i].getItem()[1];
+
+        SetPosition({ 96, 15 + i * 7 });
         cout << "__________________";
     }
     SetColor(7);
     SetPosition(temp);
 }
+
+void Game::updatePlayerUI()
+{
+	position temp = getCursorPosition();
+	position usePos;
+
+	for (int i = 0; i < players.size(); i++)
+	{
+		SetPosition({ 103, 12 + i * 7 });
+		cout << "                ";
+		SetPosition({ 103, 12 + i * 7 });
+		cout << players[i].getCash();
+
+	}
+	SetColor(7);
+	SetPosition(temp);
+}
+
+
 
 int Game::getRun()
 {

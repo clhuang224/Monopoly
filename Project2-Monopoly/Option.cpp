@@ -255,7 +255,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                 SetColor(240);
                                 SetPosition({ 50,30 });
                                 cout << "½T»{";
-                                game->printPlayer();
+                                game->updatePlayerUI();
 
                                 getchar();
                             }
@@ -950,7 +950,7 @@ void Option::clearOption()
     for (int j = OPTION_TOP; j < 33; j++)
     {
         SetPosition({ OPTION_LEFT, j });
-        for (int i = 4; i < OPTION_WIDTH - 4; i++)
+        for (int i = 4; i < OPTION_WIDTH - 6; i++)
         {
             cout << " ";
         }

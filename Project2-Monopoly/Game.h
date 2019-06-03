@@ -48,6 +48,7 @@ private:
 	Player bank;//defult宣告直接等於銀行
 	vector<Player> players;//玩家(下層class均直接指向此Vec的元素)
 	void printPlayer();
+	void updatePlayerUI();
 };
 
 #endif

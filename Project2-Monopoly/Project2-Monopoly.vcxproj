@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Begin.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Chance.cpp" />
     <ClCompile Include="Console.cpp" />
@@ -127,9 +128,11 @@
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Start.cpp" />
+    <ClCompile Include="StartPage.cpp" />
     <ClCompile Include="Stock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Begin.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Chance.h" />
     <ClInclude Include="Console.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="Option.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Start.h" />
+    <ClInclude Include="StartPage.h" />
     <ClInclude Include="Stock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
