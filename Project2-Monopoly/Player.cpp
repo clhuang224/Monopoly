@@ -21,10 +21,11 @@ Player::Player(const Player &p)
 	{
 		ownStock[i] = p.ownStock[i];
 	}
-	state = p.state;
 	stopRound = p.stopRound;
     color = p.color;
     item = p.item;
+	borrow = p.borrow;
+	borrowDay = p.borrowDay;
 }
 
 Player::Player(string setName, unsigned int setPosition, int setCash, int setDeposit)
@@ -45,10 +46,11 @@ void Player::operator=(Player p)
 	{
 		ownStock[i] = p.ownStock[i];
 	}
-	state = p.state;
 	stopRound = p.stopRound;
     color = p.color;
     item = p.item;
+	borrow = p.borrow;
+	borrowDay = p.borrowDay;
 }
 
 string Player::getName()
@@ -192,6 +194,57 @@ void Player::sellHouse(House* sell)
 
 void Player::stop(int i)
 {
-	state = 1;
 	stopRound = i;
+}
+
+void Player::borrowMoney(int number)
+{
+	borrowDay = 3;
+	borrow = number;
+}
+
+void Player::returnMoney(int number)
+{
+	borrow -= number;
+	if (borrow == 0)
+	{
+		borrowDay = 0;
+	}
+}
+
+int Player::getBorrowOrNot()
+{
+	return borrowDay;
+}
+
+int Player::getBorrowAmount()
+{
+	return borrow;
+}
+
+void Player::update()
+{
+	if (stopRound != 0)
+	{
+		stopRound--;
+	}
+
+	if (borrowDay == 1)
+	{
+		if (deposit > borrow)
+		{
+			deposit -= borrow;
+			borrow = 0;
+		}
+		else
+		{
+			//賣他最貴的房子或破產;
+		}
+	}
+	else if (borrowDay > 0)
+	{
+		borrow *= 1.05;
+		borrow--;
+	}
+
 }

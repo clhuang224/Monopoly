@@ -255,6 +255,7 @@ void Game::runGame()
                 if (lose[run])continue;//跳過輸家回合
 
                 printUI();
+				players[run].update();
                 diceRolled = false;
                 roundEnd = false;
 

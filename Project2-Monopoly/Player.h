@@ -16,9 +16,10 @@ private:
 	int deposit;
 	int ownStock[5] = { 0,0,0,0,0 };
 	vector<House*> ownHouse;
-	int state = 0;
 	int stopRound = 0;
 	int color = 0xA;
+	int borrow = 0;
+	int borrowDay = 0;
     vector<unsigned> item = { 1,1 }; // »»±±»ë¤l/¸ô»Ù
 
 public:
@@ -63,6 +64,12 @@ public:
 	void freeHouse(House* free);
 	void buyHouse(House* buy);
 	void sellHouse(House* sell);
+
+	void borrowMoney(int number);
+	void returnMoney(int number);
+	int getBorrowOrNot();
+	int getBorrowAmount();
+	void update();
 
 };
 
