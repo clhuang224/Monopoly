@@ -155,7 +155,7 @@ void Game::load(string filename)
 
                 string house;
                 unsigned int houseRank;
-                //硂娩эmap场だずhouse 局Τ夹 の ┬单
+                //硂娩эmapいhouse 局Τ夹 の ┬单临Τ糤player局Τhouse睲虫ず甧
                 while (commandLine >> house >> houseRank)
                 {
                     ((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
@@ -178,6 +178,7 @@ void Game::clear()
 {
     playerAmount = 0;
     remainingRound = 20;
+	remains = 0;
     diceRolled = false;
     roundEnd = false;
     players.clear();
