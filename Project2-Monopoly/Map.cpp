@@ -52,19 +52,19 @@ void Map::updateMap(array<int, 4> playerPositions)
 	}
 
 	//´¡¤Jª±®a¦ì¸m
-	if (playerPositions[0] != -1)
+	if (playerPositions[0] >= 0 && playerPositions[0] <= mapSize - 1)
 	{
 		map[playerPositions[0]]->setOutput(1);
 	}
-	if (playerPositions[1] != -1)
+	if (playerPositions[1] >= 0 && playerPositions[1] <= mapSize - 1)
 	{
 		map[playerPositions[1]]->setOutput(2);
 	}
-	if (playerPositions[2] != -1)
+	if (playerPositions[2] >= 0 && playerPositions[2] <= mapSize - 1)
 	{
 		map[playerPositions[2]]->setOutput(3);
 	}
-	if (playerPositions[3] != -1)
+	if (playerPositions[3] >= 0 && playerPositions[3] <= mapSize - 1)
 	{
 		map[playerPositions[3]]->setOutput(4);
 	}
