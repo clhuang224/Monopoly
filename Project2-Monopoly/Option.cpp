@@ -42,10 +42,11 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 bool stoppedByRoadCone = false;
                 for (auto i = 1; i <= diceNumber; i++)
                 {
-                    if (game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->getRoadCone() == true)
+                    int position = game->players.at(game->run).getPosition();
+                    position = position + i >= game->map.getMap().size() ? position + i - game->map.getMap().size(): position + i;
+                    if (game->getMap()->getMap()[position]->getRoadCone() == true)
                     {
-                        game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->setRoadCone(false);
-                        int position = (game->players.at(game->run).getPosition() + i) % (game->map.getMapSize());
+                        game->getMap()->getMap()[position]->setRoadCone(false);
                         game->players.at(game->run).setPosition(position);
                         game->printUI();
                         Option(game, { "確定" }, { "你擲出 " + to_string(diceNumber) + " 點。",
@@ -843,13 +844,14 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 bool stoppedByRoadCone = false;
                 for (auto i = 1; i <= diceNumber; i++)
                 {
-                    if (game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->getRoadCone() == true)
+                    int position = game->players.at(game->run).getPosition();
+                    position = position + i >= game->map.getMap().size() ? position + i - game->map.getMap().size() : position + i;
+                    if (game->getMap()->getMap()[position]->getRoadCone() == true)
                     {
-                        game->getMap()->getMap()[game->players.at(game->run).getPosition() + i]->setRoadCone(false);
-                        int position = (game->players.at(game->run).getPosition() + i) % (game->map.getMapSize());
+                        game->getMap()->getMap()[position]->setRoadCone(false);
                         game->players.at(game->run).setPosition(position);
                         game->printUI();
-                        Option(game, { "確定" }, { "你選擇 " + to_string(diceNumber) + " 點。",
+                        Option(game, { "確定" }, { "你擲出 " + to_string(diceNumber) + " 點。",
                                                    "但你被路障卡住了。",
                                                    "你來到" + game->map.getMap().at(position)->getName() + "。" });
                         stoppedByRoadCone = true;
