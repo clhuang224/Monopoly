@@ -76,7 +76,7 @@ void Game::save(string filename, bool showFeedback)
         savefile.close();
         if (showFeedback == true)
         {
-            Option(this, { "確定" }, { "已儲存遊戲。","檔案名稱為 " + filename + " 。" });
+            Option(this, { "確定" }, { "已儲存遊戲。","檔案名稱為 " + filename.substr(7) + " 。" });
         }
     }
     else
