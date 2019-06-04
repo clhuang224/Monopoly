@@ -268,7 +268,7 @@ void Game::printUI()
     map.updateMap(playerPositions);
 
     // 印角色資訊
-	printPlayer();
+	updatePlayerUI();
 
     // 印剩餘回合數、輪到的玩家
     SetPosition({ 40,34 });
@@ -316,6 +316,7 @@ void Game::printUI()
 void Game::runGame()
 {
     printUI();
+	printPlayer();
 
     while (continueGame)
     {
@@ -640,32 +641,47 @@ void Game::printPlayer()
 {
     position temp = getCursorPosition();
 
-    SetColor(7);
-    for (int i = 0; i < 28; i++)
-    {
-        SetPosition({ 95, 9 + i });
-        cout << "|                  |";
-    }
+	
+	SetColor(7);
+	for (int i = 0; i < 28; i++)
+	{
+		SetPosition({ 95, 9 + i });
+		cout << "|                  |";
+	}
 
-    for (int i = 0; i < players.size(); i++)
-    {
-        SetPosition({ 96, 8 + i * 7 });
-        cout << "__________________";
+	for (int i = 0; i < players.size(); i++)
+	{
+		if (lose[i] == false)
+		{
+			SetColor(players[i].getColor());
+			SetPosition({ 100, 11 + i * 7 });
+			cout << players[i].getName();
+			SetColor(7);
 
-        SetColor(players[i].getColor());
-        SetPosition({ 100, 10 + i * 7 });
-        cout << players[i].getName();
-        SetColor(7);
+			SetPosition({ 101, 13 + i * 7 });
+			cout << "$ " << players[i].getCash();
 
-        SetPosition({ 101, 12 + i * 7 });
-        cout << "$ " << players[i].getCash();
 
-		SetPosition({ 98, 14 + i * 7 });
-		cout << "骰子: " << players[i].getItem()[0] << " " << "路障: " << players[i].getItem()[1];
-
-        SetPosition({ 96, 15 + i * 7 });
-        cout << "__________________";
-    }
+			SetPosition({ 96, 15 + i * 7 });
+			cout << "__________________";
+		}
+		else
+		{
+			SetColor(128);
+			for (int j = 0; j < 7; j++)
+			{
+				SetPosition({ 96, (7 * i + 9) + j });
+				cout << "                  ";
+				
+			}
+			SetPosition({ 100, 11 + i * 7 });
+			cout << players[i].getName();
+			SetPosition({ 101, 13 + i * 7 });
+			cout << "已破產:(";
+			SetColor(7);
+		}
+	}
+	
     SetColor(7);
     SetPosition(temp);
 }
@@ -673,17 +689,33 @@ void Game::printPlayer()
 void Game::updatePlayerUI()
 {
 	position temp = getCursorPosition();
-	position usePos;
-
+	SetColor(7);
 	for (int i = 0; i < players.size(); i++)
 	{
-		SetPosition({ 103, 12 + i * 7 });
-		cout << "                ";
-		SetPosition({ 103, 12 + i * 7 });
-		cout << players[i].getCash();
-
+		if (lose[i] == false)
+		{
+			SetPosition({ 103, 13 + i * 7 });
+			cout << "                ";
+			SetPosition({ 103, 13 + i * 7 });
+			cout << players[i].getCash();
+		}
+		else
+		{
+			SetColor(128);
+			for (int j = 0; j < 7; j++)
+			{
+				SetPosition({ 96, (7 * i + 9) + j });
+				cout << "                  ";
+			}
+			SetPosition({ 100, 11 + i * 7 });
+			cout << players[i].getName();
+			SetPosition({ 101, 13 + i * 7 });
+			cout << "已破產:(";
+			SetColor(7);
+		}
 	}
-	SetColor(7);
+
+
 	SetPosition(temp);
 }
 

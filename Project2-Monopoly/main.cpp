@@ -7,4 +7,5 @@ int main() {
     setCursorVisable(false);
 
 	Begin beginning;
-	beginning.start();}
+	beginning.start();
+}

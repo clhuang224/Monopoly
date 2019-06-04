@@ -193,13 +193,13 @@ void Begin::start()
 					cout << "          ";
 				}
 
-				SetPosition({ 60,20 });
+				SetPosition({ 62,20 });
 				cout << "½Ð¿é¤JÀÉ¦W";
 
 				SetColor(240);
-				SetPosition({ 55,22 });
+				SetPosition({ 57,22 });
 				cout << "                    ";
-				SetPosition({ 55,22 });
+				SetPosition({ 57,22 });
 				string filename;
 				cin >> filename;
 

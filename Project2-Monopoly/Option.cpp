@@ -343,7 +343,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                 SetColor(240);
                                 SetPosition({ 50,30 });
                                 cout << "確認";
-                                game->printPlayer();
+								game->updatePlayerUI();
 
                                 getchar();
                             }
@@ -418,7 +418,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                     SetColor(240);
                                     SetPosition({ 50,31 });
                                     cout << "確認";
-                                    game->printPlayer();
+									game->updatePlayerUI();
 
                                     getchar();
                                 }
@@ -433,13 +433,13 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                     cout << "確認";
                                     getchar();
                                 }
-                                SetColor(7);
-                                for (int i = 20; i < 32; i++)
-                                {
-                                    SetPosition({ 30, i });
-                                    cout << "                                                   ";
-                                }
                             }
+							SetColor(7);
+							for (int i = 20; i < 32; i++)
+							{
+								SetPosition({ 30, i });
+								cout << "                                                   ";
+							}
                             break;
                             // 還錢
                         case 3:
@@ -504,7 +504,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                     SetColor(240);
                                     SetPosition({ 50,30 });
                                     cout << "確認";
-                                    game->printPlayer();
+									game->updatePlayerUI();
 
                                     getchar();
                                 }
