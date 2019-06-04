@@ -142,8 +142,15 @@
     <ClInclude Include="Music.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Start.h" />
     <ClInclude Include="Stock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project2-Monopoly.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
