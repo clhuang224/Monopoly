@@ -49,6 +49,30 @@ void Game::save(string filename, bool showFeedback)
             savefile << "\n";
         }
 
+        // 股票
+        savefile << "stock" << endl;
+        for (int i = 0; i < playerAmount; i++)
+        {
+            savefile << i;
+            for (int j = 0; j < stock.getStockList().size(); j++)
+            {
+                savefile << " " << players.at(i).getOwnStock()[j];
+            }
+            savefile << endl;
+        }
+
+        // 道具
+        savefile << "item" << endl;
+        for (int i = 0; i < playerAmount; i++)
+        {
+            savefile << i;
+            for (int j = 0; j < players.at(i).getItem().size(); j++)
+            {
+                savefile << " " << players.at(i).getItem()[j];
+            }
+            savefile << endl;
+        }
+
         savefile.close();
         if (showFeedback == true)
         {
@@ -89,7 +113,6 @@ void Game::load(string filename, bool showFeedback)
             mapFile >> blockName >> blockType;
             if (blockType == START)
             {
-                // 起點隨機得到一個道具
                 Start *blockTmp = new Start((unsigned int)position);
                 mapContent.push_back(blockTmp);
             }
@@ -115,62 +138,91 @@ void Game::load(string filename, bool showFeedback)
         }
 
         mapFile >> run;
-
+        mapFile.get();
         string playerID, playerPosition, playerMoney;
         int cash, deposit;
-        while (getline(mapFile, commandTmp))
+        
+        // 玩家編號 位置 錢 房子
+        while (getline(mapFile, commandTmp) && commandTmp != "stock")
         {
-            if (!commandTmp.empty())
-            {
-                stringstream commandLine(commandTmp);
-                commandLine >> playerID >> playerPosition >> playerMoney;
+            stringstream commandLine(commandTmp);
+            commandLine >> playerID >> playerPosition >> playerMoney;
 
-                //存款部分
-                size_t devidePoint = playerMoney.find_first_of("|", 0);
-                if (devidePoint >= playerMoney.size())
-                {
-                    deposit = 0;
-                    cash = stoi(playerMoney);
-                }
-                else
-                {
-                    cash = stoi(playerMoney.substr(0, devidePoint));
-                    string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
-                    if (depositTmp.size() == 0)deposit = 0;
-                    else deposit = stoi(depositTmp);
-                }
-                playerPositions[stoi(playerID)] = stoi(playerPosition);
-                Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
-                
-                switch (stoi(playerID))
-                {
-                case 0:
-                    playerTmp.setColor(0x2);
-                    break;
-                case 1:
-                    playerTmp.setColor(0x3);
-                    break;
-                case 2:
-                    playerTmp.setColor(0x4);
-                    break;
-                case 3:
-                    playerTmp.setColor(0x5);
-                    break;
-                }
-                players.at(stoi(playerID)) = playerTmp;
-                remains = players.size();
-                string house;
-                unsigned int houseRank;
-                //這邊改了map中house的 擁有者指標 以及 房屋等級，還有增加player擁有的house清單內容
-                while (commandLine >> house >> houseRank)
-                {
-                    ((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
-                    ((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
-                    players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
-                }
+            //存款部分
+            size_t devidePoint = playerMoney.find_first_of("|", 0);
+            if (devidePoint >= playerMoney.size())
+            {
+                deposit = 0;
+                cash = stoi(playerMoney);
+            }
+            else
+            {
+                cash = stoi(playerMoney.substr(0, devidePoint));
+                string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
+                if (depositTmp.size() == 0)deposit = 0;
+                else deposit = stoi(depositTmp);
+            }
+            playerPositions[stoi(playerID)] = stoi(playerPosition);
+            Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
+
+            switch (stoi(playerID))
+            {
+            case 0:
+                playerTmp.setColor(0x2);
+                break;
+            case 1:
+                playerTmp.setColor(0x3);
+                break;
+            case 2:
+                playerTmp.setColor(0x4);
+                break;
+            case 3:
+                playerTmp.setColor(0x5);
+                break;
+            }
+            players.at(stoi(playerID)) = playerTmp;
+            remains = players.size();
+            string house;
+            unsigned int houseRank;
+            //這邊改了map中house的 擁有者指標 以及 房屋等級，還有增加player擁有的house清單內容
+            while (commandLine >> house >> houseRank)
+            {
+                ((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
+                ((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
+                players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
             }
         }
+        
+            // 股票
+            int tempStock[5] = { 0 };
+            while (getline(mapFile, commandTmp) && commandTmp != "item")
+            {
+                stringstream commandLine(commandTmp);
+                int playerNumber;
+                commandLine >> playerNumber;
+                for (int i = 0; i < stock.getStockList().size(); i++)
+                {
+                    commandLine >> tempStock[i];
+                }
+                players.at(playerNumber).setOwnStock(tempStock, stock.getStockList().size());
+            }
 
+            // 道具
+            while (getline(mapFile, commandTmp))
+            {
+                vector<unsigned> tempItem = { 0,0 };
+                stringstream commandLine(commandTmp);
+                int playerNumber;
+                commandLine >> playerNumber;
+                for (int i = 0; i < players.at(0).getItem().size(); i++)
+                {
+                    unsigned temp;
+                    commandLine >> temp;
+                    tempItem[i] = temp;
+                }
+                players.at(playerNumber).setItem(tempItem);
+            }
+        
         map = Map(mapContent, mapName);
         mapFile.close();
         if (showFeedback == true)
@@ -180,9 +232,9 @@ void Game::load(string filename, bool showFeedback)
     }
     else
     {
-    if (showFeedback == true)
-    {
-        Option(this, { "確定" }, { "讀取遊戲失敗。" });
+        if (showFeedback == true)
+        {
+            Option(this, { "確定" }, { "讀取遊戲失敗。" });
         }
     }
 }
@@ -191,7 +243,7 @@ void Game::clear()
 {
     playerAmount = 0;
     remainingRound = 20;
-	remains = 0;
+    remains = 0;
     diceRolled = false;
     roundEnd = false;
     players.clear();
@@ -216,7 +268,7 @@ void Game::printUI()
     map.updateMap(playerPositions);
 
     // 印角色資訊
-	printPlayer();
+    printPlayer();
 
     // 印剩餘回合數、輪到的玩家
     SetPosition({ 40,34 });
@@ -250,7 +302,7 @@ void Game::printUI()
     cout << " 。";
 
     // 印輪到誰的箭頭
-    for (int i = 12; i <= 33; i+=7)
+    for (int i = 12; i <= 33; i += 7)
     {
         SetPosition({ 88,i });
         cout << "      ";
@@ -274,7 +326,7 @@ void Game::runGame()
                 if (lose[run])continue;//跳過輸家回合
 
                 printUI();
-				players[run].update();
+                players[run].update();
                 diceRolled = false;
                 roundEnd = false;
 
@@ -361,7 +413,7 @@ void Game::runGame()
                                 roundEnd = true;
                             }
                         }
-                        
+
                     }
                 }
                 //破產宣告
@@ -588,8 +640,8 @@ void Game::printPlayer()
         SetPosition({ 101, 12 + i * 7 });
         cout << "$ " << players[i].getCash();
 
-		SetPosition({ 98, 14 + i * 7 });
-		cout << "骰子: " << players[i].getItem()[0] << " " << "路障: " << players[i].getItem()[1];
+        SetPosition({ 98, 14 + i * 7 });
+        cout << "骰子: " << players[i].getItem()[0] << " " << "路障: " << players[i].getItem()[1];
 
         SetPosition({ 96, 15 + i * 7 });
         cout << "__________________";
@@ -600,19 +652,19 @@ void Game::printPlayer()
 
 void Game::updatePlayerUI()
 {
-	position temp = getCursorPosition();
-	position usePos;
+    position temp = getCursorPosition();
+    position usePos;
 
-	for (int i = 0; i < players.size(); i++)
-	{
-		SetPosition({ 103, 12 + i * 7 });
-		cout << "                ";
-		SetPosition({ 103, 12 + i * 7 });
-		cout << players[i].getCash();
+    for (int i = 0; i < players.size(); i++)
+    {
+        SetPosition({ 103, 12 + i * 7 });
+        cout << "                ";
+        SetPosition({ 103, 12 + i * 7 });
+        cout << players[i].getCash();
 
-	}
-	SetColor(7);
-	SetPosition(temp);
+    }
+    SetColor(7);
+    SetPosition(temp);
 }
 
 

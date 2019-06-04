@@ -13,6 +13,6 @@ int main() {
 		Game game("basemap.txt");
 	}*/
 
-	Game game("basemap.txt");
+	Game game("initial.txt");
     game.runGame();
 }
