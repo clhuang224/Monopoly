@@ -39,6 +39,8 @@ void setConsole(int width, int height, int fontSize)
     pfi->dwFontSize.Y = fontSize;
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), 0, pfi);
 
+    // 改變標題
+    SetConsoleTitle("Monopoly");
 }
 
 void setFullScreen()
@@ -53,9 +55,6 @@ void setFullScreen()
         keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
         keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
     }
-
-    // 改變標題
-    SetConsoleTitle("Monopoly");
 }
 
 // Intent: 取得當前游標位置

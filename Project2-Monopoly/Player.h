@@ -50,8 +50,10 @@ public:
 
 
 	int* getOwnStock();
+    void setOwnStock(int*,int);
 	void buyStock(int order, struct stockData buy);
 	void sellStock(int order, struct stockData sell);
+    
 
 	int getColor();
 	void setColor(int co);

@@ -121,6 +121,14 @@ int* Player::getOwnStock()
 	return ownStock;
 }
 
+void Player::setOwnStock(int* stock, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        ownStock[i] = stock[i];
+    }
+}
+
 void Player::buyStock(int order, struct stockData buy)
 {
 	ownStock[order]++;

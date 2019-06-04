@@ -49,10 +49,34 @@ void Game::save(string filename, bool showFeedback)
             savefile << "\n";
         }
 
+        // 股票
+        savefile << "stock" << endl;
+        for (int i = 0; i < playerAmount; i++)
+        {
+            savefile << i;
+            for (int j = 0; j < stock.getStockList().size(); j++)
+            {
+                savefile << " " << players.at(i).getOwnStock()[j];
+            }
+            savefile << endl;
+        }
+
+        // 道具
+        savefile << "item" << endl;
+        for (int i = 0; i < playerAmount; i++)
+        {
+            savefile << i;
+            for (int j = 0; j < players.at(i).getItem().size(); j++)
+            {
+                savefile << " " << players.at(i).getItem()[j];
+            }
+            savefile << endl;
+        }
+
         savefile.close();
         if (showFeedback == true)
         {
-            Option(this, { "確定" }, { "已儲存遊戲。","檔案名稱為 " + filename + " 。" });
+            Option(this, { "確定" }, { "已儲存遊戲。","檔案名稱為 " + filename.substr(7) + " 。" });
         }
     }
     else
@@ -89,7 +113,6 @@ void Game::load(string filename, bool showFeedback)
             mapFile >> blockName >> blockType;
             if (blockType == START)
             {
-                // 起點隨機得到一個道具
                 Start *blockTmp = new Start((unsigned int)position);
                 mapContent.push_back(blockTmp);
             }
@@ -115,13 +138,13 @@ void Game::load(string filename, bool showFeedback)
         }
 
         mapFile >> run;
-
+        mapFile.get();
         string playerID, playerPosition, playerMoney;
         int cash, deposit;
-        while (getline(mapFile, commandTmp))
+        
+        // 玩家編號 位置 錢 房子
+        while (getline(mapFile, commandTmp) && commandTmp != "stock")
         {
-            if (!commandTmp.empty())
-            {
                 stringstream commandLine(commandTmp);
                 commandLine >> playerID >> playerPosition >> playerMoney;
 
@@ -169,8 +192,37 @@ void Game::load(string filename, bool showFeedback)
                     players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
                 }
             }
+        
+            // 股票
+            int tempStock[5] = { 0 };
+            while (getline(mapFile, commandTmp) && commandTmp != "item")
+            {
+                stringstream commandLine(commandTmp);
+                int playerNumber;
+                commandLine >> playerNumber;
+                for (int i = 0; i < stock.getStockList().size(); i++)
+                {
+                    commandLine >> tempStock[i];
         }
+                players.at(playerNumber).setOwnStock(tempStock, stock.getStockList().size());
+            }
 
+            // 道具
+            while (getline(mapFile, commandTmp))
+            {
+                vector<unsigned> tempItem = { 0,0 };
+                stringstream commandLine(commandTmp);
+                int playerNumber;
+                commandLine >> playerNumber;
+                for (int i = 0; i < players.at(0).getItem().size(); i++)
+                {
+                    unsigned temp;
+                    commandLine >> temp;
+                    tempItem[i] = temp;
+                }
+                players.at(playerNumber).setItem(tempItem);
+            }
+        
         map = Map(mapContent, mapName);
         mapFile.close();
         if (showFeedback == true)
@@ -267,9 +319,13 @@ void Game::runGame()
 
     while (true)
     {
-        if (remainingRound > 0 && remains > 1)
+        if (remainingRound > 0 && 
+            ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
+            (playerAmount == 1 && remains == 0)))  // 單人模式
         {
-            for (; run < players.size() && !restartFlag && remains > 1; run++)//每回合執行(玩家數量)次
+            for (; run < players.size() && //每回合執行(玩家數量)次
+                   !restartFlag &&
+                   ((playerAmount > 1 && remains > 1) || (playerAmount == 1 && remains > 0)); run++)
             {
                 if (lose[run])continue;//跳過輸家回合
 
@@ -388,8 +444,8 @@ void Game::runGame()
         }
         else
         {
-            // 剩下玩家獲勝
-            if (remains == 1)
+            // 多人模式：剩下玩家獲勝
+            if (playerAmount > 1 && remains == 1)
             {
                 for (int i = 0; i < lose.size(); i++)
                 {
@@ -406,7 +462,7 @@ void Game::runGame()
             }
             // 剩餘金錢（現金＋存款）最多者獲勝
             // 未考慮平手情形
-            else
+            else if (playerAmount > 1 && remains > 1)
             {
                 Player winner = players.at(0);
                 for (int i = 1; i < players.size(); i++)
@@ -419,6 +475,13 @@ void Game::runGame()
                 Option(this,
                        { "重新開始","結束遊戲" },
                        { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                       });
+            }
+            else if (playerAmount == 1)
+            {
+                Option(this,
+                       { "重新開始","結束遊戲" },
+                       { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
                        });
             }
             // 重新開始
