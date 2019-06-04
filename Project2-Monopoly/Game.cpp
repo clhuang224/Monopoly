@@ -180,9 +180,9 @@ void Game::load(string filename, bool showFeedback)
     }
     else
     {
-    if (showFeedback == true)
-    {
-        Option(this, { "確定" }, { "讀取遊戲失敗。" });
+		if (showFeedback == true)
+		{
+			Option(this, { "確定" }, { "讀取遊戲失敗。" });
         }
     }
 }

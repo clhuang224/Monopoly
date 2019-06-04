@@ -1,11 +1,15 @@
-#include "Begin.h"
 #include <iostream>
-#include "Console.h"
 #include <time.h>
 #include <cstdlib>
-#include <thread>
+#include <conio.h>
+#include <string>
+#include "Begin.h"
+#include "Game.h"
+#include "Console.h"
+#include "Game.h"
 
 using namespace std;
+
 
 Begin::Begin()
 {
@@ -19,17 +23,29 @@ Begin::~Begin()
 void Begin::dancing()
 {
 	srand((unsigned)time(NULL));
-	
-	while (1)
+	int a = 9;
+	int b = 10;
+	int c = 11;
+	int d = 12;
+	int e = 13;
+	int f = 14;
+	int g = 15;
+	int h = 9;
+
+	SetPosition({ 58,44 });
+	SetColor(7);
+	cout << "按任意鍵進入選單";
+
+	while (!_kbhit())
 	{
-		int a = rand() % 15 + 1;
-		int b = rand() % 15 + 1;
-		int c = rand() % 15 + 1;
-		int d = rand() % 15 + 1;
-		int e = rand() % 15 + 1;
-		int f = rand() % 15 + 1;
-		int g = rand() % 15 + 1;
-		int h = rand() % 15 + 1;
+		h = g;
+		g = f;
+		f = e;
+		e = d;
+		d = c;
+		c = b;
+		b = a;
+		a = (a + 2) % 15 + 1;
 
 		SetPosition({ 0,0 });
 		SetColor(a);
@@ -55,10 +71,7 @@ void Begin::dancing()
 		cout << "        \\::/    /          "; SetColor(b); cout << "       ~~             "; SetColor(c); cout << "         \\::/    /      "; SetColor(d); cout << "           ~~              " << endl; SetColor(a);
 		cout << "         \\/____/           "; SetColor(b); cout << "                      "; SetColor(c); cout << "          \\/____/        "; SetColor(d); cout << "                          " << endl; 
 
-
-
-
-
+		cout << endl << endl ;
 		SetColor(e);
 		cout << "                                                   _____          "; SetColor(f); cout << "         _______            "; SetColor(g); cout << "       _____        "; SetColor(h); cout << "_____          " << endl; SetColor(e);
 		cout << "                                                  /\\    \\       "; SetColor(f); cout << "          /::\\    \\       "; SetColor(g); cout << "          /\\    \\  "; SetColor(h); cout << "    |\\    \\         " << endl; SetColor(e);
@@ -82,15 +95,132 @@ void Begin::dancing()
 		cout << "                                                                       "; SetColor(f); cout << "    ~~                 "; SetColor(g); cout << "     \\::/    /   "; SetColor(h); cout << "                   " << endl; SetColor(e);
 		cout << "                                                                        "; SetColor(f); cout << "                      "; SetColor(g); cout << "      \\/____/    "; SetColor(h); cout << "                  " << endl; SetColor(e);
 		
-		Sleep(1000);
+		Sleep(500);
+	}
+}
+
+void Begin::clearBoard()
+{
+	SetColor(7);
+	SetPosition({ 0,0 });
+	for (int i = 0; i < 45; i++)
+	{
+		for (int j = 0; j < 130; j++)
+		{
+			cout << " ";
+		}
+		cout << endl;
 	}
 }
 
 void Begin::start()
 {
-	//thread mThread(&dancing());
-	//mThread.join();
-	//getchar();
-	//mThread.detach();
+	dancing();
+	getchar();
+
+	// 印製選單
+	SetPosition({ 58,47 });
+	cout << "                ";
+	SetPosition({ 45,13 }); SetColor(7);
+	cout << "___________________________________________";
+	for (int i = 0; i < 14; i++)
+	{
+		SetPosition({ 45,14 + i }); SetColor(7);
+		cout << "|                                         |";
+	}
+	SetPosition({ 45,28 });
+	cout << "|_________________________________________|";
+	
+	// 選單操作
+	const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
+	bool inMenu = true;
+	int nowPoint = 0;
+	while (inMenu)
+	{
+		SetPosition({ 62,19 });
+		cout << "開新遊戲";
+		SetPosition({ 62,21 });
+		cout << "讀取遊戲";
+		SetPosition({ 62,23 });
+		cout << "離開遊戲";
+
+		if (nowPoint == 0)
+		{
+			SetColor(240);
+			SetPosition({ 62,19 });
+			cout << "開新遊戲";
+			SetColor(7);
+		}
+		else if (nowPoint == 1)
+		{
+			SetColor(240);
+			SetPosition({ 62,21 });
+			cout << "讀取遊戲";
+			SetColor(7);
+		}
+		else if (nowPoint == 2)
+		{
+			SetColor(240);
+			SetPosition({ 62,23 });
+			cout << "離開遊戲";
+			SetColor(7);
+		}
+
+		switch (char keyin = _getch())
+		{
+		case DOWN:
+			if (nowPoint < 2)
+			{
+				nowPoint++;
+			}
+			break;
+		case UP:
+			if (nowPoint > 0)
+			{
+				nowPoint--;
+			}
+			break;
+		case ENTER:
+			if (nowPoint == 0)
+			{
+				
+			}
+			else if (nowPoint == 1)
+			{
+				for (int i = 0; i < 7; i++)
+				{
+					SetPosition({ 62,19 + i }); SetColor(7);
+					cout << "          ";
+				}
+
+				SetPosition({ 60,20 });
+				cout << "請輸入檔名";
+
+				SetColor(240);
+				SetPosition({ 55,22 });
+				cout << "                    ";
+				SetPosition({ 55,22 });
+				string filename;
+				cin >> filename;
+
+				clearBoard();
+				Game game(filename);
+				game.runGame();
+			}
+			else if (nowPoint == 2)
+			{
+				exit(0);
+			}
+
+			break;
+		}
+	}
+
+
+	getchar();
+	clearBoard();
+
+	
+
 
 }

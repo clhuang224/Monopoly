@@ -7,6 +7,7 @@ public:
 	int playerNumber;
 	void start();
 	void dancing();
+	void clearBoard();
 	int getPlayerNumber();
 };
 

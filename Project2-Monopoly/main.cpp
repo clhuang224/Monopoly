@@ -8,11 +8,5 @@ int main() {
 
 	Begin beginning;
 	beginning.start();
-	/*if (beginning.getPlayerNumber() == 20)
-	{
-		Game game("basemap.txt");
-	}*/
 
-	Game game("basemap.txt");
-    game.runGame();
 }
