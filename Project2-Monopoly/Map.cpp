@@ -96,29 +96,36 @@ void Map::updateMap(array<int, 4> playerPositions)
 	{
 		for (int j = 0; j <= length - 1; j++)
 		{
-			for (int k = 0; k <= 8; k++) //一個 Block
+			if (!(i >= 1 && i <= width - 2 && j >= 1 && j <= length - 2)) //若為周圍的 Block
 			{
-				if (k == 6 && output[i][j]->getType() == 1 && ((House*)output[i][j])->getOwner()->getName() != "Bank") //存名稱的那列
+				for (int k = 0; k <= 8; k++) //一個 Block
 				{
-					cout << "|";
-					stringstream stream;
-					stream << hex << ((House*)output[i][j])->getOwner()->getColor();
-					string result(stream.str());
-					SetColor(stoi("0x" + result + '7', nullptr, 16));
-					cout << output[i][j]->getName();
-					SetColor(0x07);
-					cout << "|";
-				}
-				else
-				{
-					for (int l = 0; l <= 11; l++) //Block 裡的一列
+					if (k == 6 && output[i][j]->getType() == 1 && ((House*)output[i][j])->getOwner()->getName() != "Bank") //存名稱的那列
 					{
-						cout << output[i][j]->getOutput()[12 * k + l];
+						cout << "|";
+						stringstream stream;
+						stream << hex << ((House*)output[i][j])->getOwner()->getColor();
+						string result(stream.str());
+						SetColor(stoi("0x" + result + '7', nullptr, 16));
+						cout << output[i][j]->getName();
+						SetColor(0x07);
+						cout << "|";
 					}
+					else
+					{
+						for (int l = 0; l <= 11; l++) //Block 裡的一列
+						{
+							cout << output[i][j]->getOutput()[12 * k + l];
+						}
+					}
+					setConsoleCursorPosition(getConsoleCursorPosition().X - 12, getConsoleCursorPosition().Y + 1);
 				}
-				setConsoleCursorPosition(getConsoleCursorPosition().X - 12, getConsoleCursorPosition().Y + 1);
+				setConsoleCursorPosition(getConsoleCursorPosition().X + 12, getConsoleCursorPosition().Y - 9);
 			}
-			setConsoleCursorPosition(getConsoleCursorPosition().X + 12, getConsoleCursorPosition().Y - 9);
+			else
+			{
+				setConsoleCursorPosition(getConsoleCursorPosition().X + 12, getConsoleCursorPosition().Y);
+			}
 		}
 		setConsoleCursorPosition(0, getConsoleCursorPosition().Y + 9);
 	}
