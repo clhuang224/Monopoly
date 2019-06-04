@@ -319,24 +319,28 @@ void Game::runGame()
 
     while (true)
     {
-        if (remainingRound > 0 && remains > 1)
+        if (remainingRound > 0 && 
+            ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
+            (playerAmount == 1 && remains == 0)))  // 單人模式
         {
-            for (; run < players.size() && !restartFlag && remains > 1; run++)//每回合執行(玩家數量)次
+            for (; run < players.size() && //每回合執行(玩家數量)次
+                   !restartFlag &&
+                   ((playerAmount > 1 && remains > 1) || (playerAmount == 1 && remains > 0)); run++)
             {
-                if (lose[run])continue;//跳過輸家回合
+                if (lose[run])continue;// 跳過輸家回合
 
                 printUI();
                 players[run].update();
                 diceRolled = false;
                 roundEnd = false;
 
-                while (!diceRolled && !restartFlag)//該玩家在這回合的所有操作
+                while (!diceRolled && !restartFlag)// 該玩家在這回合的所有操作
                 {
-                    //操作銀行、買股票、骰骰子、Option內置選單鍵
-                    //骰完骰子就不可以再操作銀行、買股票
+                    // 操作銀行、買股票、骰骰子、Option內置選單鍵
+                    // 骰完骰子就不可以再操作銀行、買股票
                     Option(this, { "擲骰子","使用道具","進入銀行","投降" });
 
-                    //丟骰子後，執行新位置上的效果
+                    // 丟骰子後，執行新位置上的效果
                     if (diceRolled)
                     {
                         while (roundEnd == false)
@@ -440,8 +444,8 @@ void Game::runGame()
         }
         else
         {
-            // 剩下玩家獲勝
-            if (remains == 1)
+            // 多人模式：剩下玩家獲勝
+            if (playerAmount > 1 && remains == 1)
             {
                 for (int i = 0; i < lose.size(); i++)
                 {
@@ -458,7 +462,7 @@ void Game::runGame()
             }
             // 剩餘金錢（現金＋存款）最多者獲勝
             // 未考慮平手情形
-            else
+            else if (playerAmount > 1 && remains > 1)
             {
                 Player winner = players.at(0);
                 for (int i = 1; i < players.size(); i++)
@@ -471,6 +475,13 @@ void Game::runGame()
                 Option(this,
                        { "重新開始","結束遊戲" },
                        { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                       });
+            }
+            else if (playerAmount == 1)
+            {
+                Option(this,
+                       { "重新開始","結束遊戲" },
+                       { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
                        });
             }
             // 重新開始

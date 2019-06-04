@@ -36,7 +36,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             // 主選單
             if (options[choosen] == "擲骰子")
             {
-                //int position = (game->players.at(game->run).getPosition() + 1);//固定走一步 用於測試
+                clearOption();
                 size_t diceNumber = game->rollTheDice();
                 // 檢查路上有沒有路障
                 bool stoppedByRoadCone = false;
@@ -813,8 +813,8 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             // 獲勝選項
             if (options[choosen] == "重新開始")
             {
-                // 目前這裡有問題
-                game->newGameName = "newGame.txt";
+                // 這裡可能要改為跳到主選單選擇地圖
+                game->newGameName = "initial_ntust.txt";
                 game->restartFlag = true;
                 game->diceRolled = false;
                 optionsFlag = false;
@@ -1247,7 +1247,7 @@ int Option::chooseDice(Game* game, vector<string> messages)
             chosen = chosen == 6 ? 1 : chosen + 1;
             break;
         case DOWN:
-            chosen = chosen == 0 ? 6 : chosen - 1;
+            chosen = chosen == 1 ? 6 : chosen - 1;
             break;
         case ENTER:
             return chosen;
