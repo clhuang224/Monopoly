@@ -200,12 +200,28 @@ void Begin::start()
 				SetPosition({ 57,22 });
 				cout << "                    ";
 				SetPosition({ 57,22 });
-				string filename;
-				cin >> filename;
 
-				clearBoard();
-				Game game(filename);
-				game.runGame();
+				string filename;
+				getline(cin, filename);
+
+				Game game;
+				if (game.load(filename))
+				{
+					clearBoard();
+					game.runGame();
+				}
+				else
+				{
+					SetPosition({ 45,13 }); SetColor(7);
+					cout << "___________________________________________";
+					for (int i = 0; i < 14; i++)
+					{
+						SetPosition({ 45,14 + i }); SetColor(7);
+						cout << "|                                         |";
+					}
+					SetPosition({ 45,28 });
+					cout << "|_________________________________________|";
+				}
 			}
 			else if (nowPoint == 2)
 			{

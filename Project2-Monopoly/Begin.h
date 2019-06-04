@@ -8,6 +8,5 @@ public:
 	void start();
 	void dancing();
 	void clearBoard();
-	int getPlayerNumber();
 };
 

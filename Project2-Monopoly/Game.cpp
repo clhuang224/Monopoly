@@ -2,6 +2,10 @@
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
 
+Game::Game()
+{
+}
+
 Game::Game(string input)
 {
     load(input, false);
@@ -88,7 +92,7 @@ void Game::save(string filename, bool showFeedback)
     }
 }
 
-void Game::load(string filename, bool showFeedback)
+bool Game::load(string filename, bool showFeedback)
 {
     clear();
 
@@ -227,15 +231,55 @@ void Game::load(string filename, bool showFeedback)
         mapFile.close();
         if (showFeedback == true)
         {
-            Option(this, { "確定" }, { "已讀取遊戲。","檔案名稱為 " + filename + " 。" });
+			SetPosition({ 45,13 }); SetColor(7);
+			cout << "___________________________________________";
+			for (int i = 0; i < 14; i++)
+			{
+				SetPosition({ 45,14 + i }); SetColor(7);
+				cout << "|                                         |";
+			}
+			SetPosition({ 45,28 });
+			cout << "|_________________________________________|";
+
+			SetPosition({ 60,20 });
+			cout << "已讀取遊戲。";
+			SetPosition({ 55,21 });
+			cout << "檔案名稱為 " + filename + " 。";
+
+			SetColor(240);
+			SetPosition({ 64,24 });
+			cout << "確認";
+			SetColor(7);
+
+			getchar();
         }
+		return true;
     }
     else
     {
 		if (showFeedback == true)
 		{
-			Option(this, { "確定" }, { "讀取遊戲失敗。" });
+			SetPosition({ 45,13 }); SetColor(7);
+			cout << "___________________________________________";
+			for (int i = 0; i < 14; i++)
+			{
+				SetPosition({ 45,14 + i }); SetColor(7);
+				cout << "|                                         |";
+			}
+			SetPosition({ 45,28 });
+			cout << "|_________________________________________|";
+
+			SetPosition({ 60,20 });
+			cout << "讀取遊戲失敗。";
+
+			SetColor(240);
+			SetPosition({ 64,24 });
+			cout << "確認";
+			SetColor(7);
+
+			getchar();
         }
+		return false;
     }
 }
 

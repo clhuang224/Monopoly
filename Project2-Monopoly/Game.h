@@ -22,10 +22,11 @@ class Game
 {
 public:
 	Game(string);
+	Game();
 	friend class Option;
 
 	void save(string, bool showFeedback = true);
-	void load(string, bool showFeedback = true);
+	bool load(string, bool showFeedback = true);
 	void clear();
 	void printUI();
 	void runGame();
