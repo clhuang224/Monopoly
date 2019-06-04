@@ -8,7 +8,7 @@ Game::Game()
 
 Game::Game(string input)
 {
-    load(input, false);
+    load(input, true);
 }
 
 void Game::save(string filename, bool showFeedback)
@@ -97,7 +97,7 @@ bool Game::load(string filename, bool showFeedback)
     clear();
 
     fstream mapFile("./save/" + filename);
-    if (mapFile.is_open())
+    if (!mapFile.fail())
     {
         string mapName;
         vector<Block*> mapContent;
@@ -257,6 +257,7 @@ bool Game::load(string filename, bool showFeedback)
     }
     else
     {
+        continueGame = false;
 		if (showFeedback == true)
 		{
 			SetPosition({ 45,13 }); SetColor(7);
@@ -304,7 +305,7 @@ void Game::printUI()
 
     //印地圖
     /*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
-    array<int, 4> playerPositions;
+    array<int, 4> playerPositions = {0};
     for (int i = 0; i < players.size(); i++)
     {
         playerPositions[i] = players[i].getPosition();
@@ -359,11 +360,11 @@ void Game::printUI()
 
 void Game::runGame()
 {
-    printUI();
-	printPlayer();
 
     while (continueGame)
     {
+        printUI();
+        printPlayer();
         if (remainingRound > 0 && 
             ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
             (playerAmount == 1 && remains == 0)))  // 單人模式
