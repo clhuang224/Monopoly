@@ -6,6 +6,7 @@ public:
 	~Begin();
 	int playerNumber;
 	void start();
+	void dancing();
 	int getPlayerNumber();
 };
 
