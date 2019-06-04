@@ -43,7 +43,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 for (auto i = 1; i <= diceNumber; i++)
                 {
                     int position = game->players.at(game->run).getPosition();
-                    position = position + i >= game->map.getMap().size() ? position + i - game->map.getMap().size(): position + i;
+                    position = position + i >= game->map.getMap().size() ? position + i - game->map.getMap().size() : position + i;
                     if (game->getMap()->getMap()[position]->getRoadCone() == true)
                     {
                         game->getMap()->getMap()[position]->setRoadCone(false);
@@ -350,164 +350,164 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                             break;
                             // 借款
                         case 2:
-							SetColor(7);
-							for (int i = 20; i < 34; i++)
-							{
-								SetPosition({ 38, i });
-								cout << "                                               ";
-							}
-							if (thisGame->players[thisGame->run].getBorrowOrNot() != 0)
-							{
-								SetColor(12);
-								SetPosition({ 37,28 });
-								cout << "您目前仍有欠款，無法借錢";
+                            SetColor(7);
+                            for (int i = 20; i < 34; i++)
+                            {
+                                SetPosition({ 38, i });
+                                cout << "                                               ";
+                            }
+                            if (thisGame->players[thisGame->run].getBorrowOrNot() != 0)
+                            {
+                                SetColor(12);
+                                SetPosition({ 37,28 });
+                                cout << "您目前仍有欠款，無法借錢";
 
-								SetColor(240);
-								SetPosition({ 50,30 });
-								cout << "確認";
-								getchar();
-							}
-							else
-							{
-								SetPosition({ 43,22 });
-								cout << "您的戶頭現在有 $ " << thisGame->players[thisGame->run].getDeposit();
-								SetPosition({ 43,24 });
-								cout << "您當前有現金 $ " << thisGame->players[thisGame->run].getCash();
+                                SetColor(240);
+                                SetPosition({ 50,30 });
+                                cout << "確認";
+                                getchar();
+                            }
+                            else
+                            {
+                                SetPosition({ 43,22 });
+                                cout << "您的戶頭現在有 $ " << thisGame->players[thisGame->run].getDeposit();
+                                SetPosition({ 43,24 });
+                                cout << "您當前有現金 $ " << thisGame->players[thisGame->run].getCash();
 
-								SetPosition({ 43,26 });
-								cout << "您想要借多少錢呢 ?";
+                                SetPosition({ 43,26 });
+                                cout << "您想要借多少錢呢 ?";
 
-								SetPosition({ 32,27 });
-								cout << "(利息為5%，若三回合內未歸還將自動從戶頭扣取)";
+                                SetPosition({ 32,27 });
+                                cout << "(利息為5%，若三回合內未歸還將自動從戶頭扣取)";
 
-								SetPosition({ 43,29 });
-								SetColor(240);
-								cout << "                 ";
-								SetPosition({ 43,29 });
-								getline(cin, temp);
-								if (temp != "")
-								{
-									amount = stoi(temp);
-									
-									thisGame->players[thisGame->run].plusCash(amount);
-									thisGame->players[thisGame->run].borrowMoney(amount);
-									SetColor(12);
-									SetPosition({ 43,29 });
-									cout << "                              ";
-									SetPosition({ 46,29 });
-									cout << "借錢成功 !";
-									
-									SetColor(240);
-									SetPosition({ 50,31 });
-									cout << "確認";
-									game->printPlayer();
+                                SetPosition({ 43,29 });
+                                SetColor(240);
+                                cout << "                 ";
+                                SetPosition({ 43,29 });
+                                getline(cin, temp);
+                                if (temp != "")
+                                {
+                                    amount = stoi(temp);
 
-									getchar();
-								}
-								else
-								{
-									SetColor(12);
-									SetPosition({ 37,29 });
-									cout << "您沒有輸入任何金額，已取消借款";
+                                    thisGame->players[thisGame->run].plusCash(amount);
+                                    thisGame->players[thisGame->run].borrowMoney(amount);
+                                    SetColor(12);
+                                    SetPosition({ 43,29 });
+                                    cout << "                              ";
+                                    SetPosition({ 46,29 });
+                                    cout << "借錢成功 !";
 
-									SetColor(240);
-									SetPosition({ 50,31 });
-									cout << "確認";
-									getchar();
-								}
-								SetColor(7);
-								for (int i = 20; i < 32; i++)
-								{
-									SetPosition({ 30, i });
-									cout << "                                                   ";
-								}
-							}
+                                    SetColor(240);
+                                    SetPosition({ 50,31 });
+                                    cout << "確認";
+                                    game->printPlayer();
+
+                                    getchar();
+                                }
+                                else
+                                {
+                                    SetColor(12);
+                                    SetPosition({ 37,29 });
+                                    cout << "您沒有輸入任何金額，已取消借款";
+
+                                    SetColor(240);
+                                    SetPosition({ 50,31 });
+                                    cout << "確認";
+                                    getchar();
+                                }
+                                SetColor(7);
+                                for (int i = 20; i < 32; i++)
+                                {
+                                    SetPosition({ 30, i });
+                                    cout << "                                                   ";
+                                }
+                            }
                             break;
                             // 還錢
                         case 3:
-							SetColor(7);
-							for (int i = 20; i < 34; i++)
-							{
-								SetPosition({ 32, i });
-								cout << "                                                  ";
-							}
-							if (thisGame->players[thisGame->run].getBorrowOrNot() == 0)
-							{
-								SetColor(12);
-								SetPosition({ 46,22 });
-								cout << "您目前沒有欠款";
+                            SetColor(7);
+                            for (int i = 20; i < 34; i++)
+                            {
+                                SetPosition({ 32, i });
+                                cout << "                                                  ";
+                            }
+                            if (thisGame->players[thisGame->run].getBorrowOrNot() == 0)
+                            {
+                                SetColor(12);
+                                SetPosition({ 46,22 });
+                                cout << "您目前沒有欠款";
 
-								SetColor(240);
-								SetPosition({ 50,24 });
-								cout << "確認";
-								getchar();
-							}
-							else
-							{
-								SetPosition({ 43,22 });
-								cout << "您當前欠款 $ " << thisGame->players[thisGame->run].getBorrowAmount();
-								SetPosition({ 43,24 });
-								cout << "您當前有現金 $ " << thisGame->players[thisGame->run].getCash();
+                                SetColor(240);
+                                SetPosition({ 50,24 });
+                                cout << "確認";
+                                getchar();
+                            }
+                            else
+                            {
+                                SetPosition({ 43,22 });
+                                cout << "您當前欠款 $ " << thisGame->players[thisGame->run].getBorrowAmount();
+                                SetPosition({ 43,24 });
+                                cout << "您當前有現金 $ " << thisGame->players[thisGame->run].getCash();
 
-								SetPosition({ 43,26 });
-								cout << "您想要還多少錢呢 ?";
+                                SetPosition({ 43,26 });
+                                cout << "您想要還多少錢呢 ?";
 
-								SetPosition({ 43,28 });
-								SetColor(240);
-								cout << "                 ";
-								SetPosition({ 43,28 });
-								getline(cin, temp);
-								if (temp != "")
-								{
-									amount = stoi(temp);
+                                SetPosition({ 43,28 });
+                                SetColor(240);
+                                cout << "                 ";
+                                SetPosition({ 43,28 });
+                                getline(cin, temp);
+                                if (temp != "")
+                                {
+                                    amount = stoi(temp);
 
-									if (amount <= cash && amount <= thisGame->players[thisGame->run].getBorrowAmount())
-									{
-										thisGame->players[thisGame->run].minusCash(amount);
-										thisGame->players[thisGame->run].returnMoney(amount);
-										SetColor(12);
-										SetPosition({ 43,28 });
-										cout << "                              ";
-										SetPosition({ 46,28 });
-										cout << "還錢成功 !";
-									}
-									else if(amount >= thisGame->players[thisGame->run].getBorrowAmount())
-									{
-										SetColor(12);
-										SetPosition({ 42,28 });
-										cout << "還錢金額超過所欠金額";
-									}
-									else
-									{
-										SetColor(12);
-										SetPosition({ 42,28 });
-										cout << "現金不足，無法還錢";
-									}
-									SetColor(240);
-									SetPosition({ 50,30 });
-									cout << "確認";
-									game->printPlayer();
+                                    if (amount <= cash && amount <= thisGame->players[thisGame->run].getBorrowAmount())
+                                    {
+                                        thisGame->players[thisGame->run].minusCash(amount);
+                                        thisGame->players[thisGame->run].returnMoney(amount);
+                                        SetColor(12);
+                                        SetPosition({ 43,28 });
+                                        cout << "                              ";
+                                        SetPosition({ 46,28 });
+                                        cout << "還錢成功 !";
+                                    }
+                                    else if (amount >= thisGame->players[thisGame->run].getBorrowAmount())
+                                    {
+                                        SetColor(12);
+                                        SetPosition({ 42,28 });
+                                        cout << "還錢金額超過所欠金額";
+                                    }
+                                    else
+                                    {
+                                        SetColor(12);
+                                        SetPosition({ 42,28 });
+                                        cout << "現金不足，無法還錢";
+                                    }
+                                    SetColor(240);
+                                    SetPosition({ 50,30 });
+                                    cout << "確認";
+                                    game->printPlayer();
 
-									getchar();
-								}
-								else
-								{
-									SetColor(12);
-									SetPosition({ 37,29 });
-									cout << "您沒有輸入任何金額，已取消借款";
+                                    getchar();
+                                }
+                                else
+                                {
+                                    SetColor(12);
+                                    SetPosition({ 37,29 });
+                                    cout << "您沒有輸入任何金額，已取消借款";
 
-									SetColor(240);
-									SetPosition({ 50,31 });
-									cout << "確認";
-									getchar();
-								}
-							}
-							SetColor(7);
-							for (int i = 20; i < 32; i++)
-							{
-								SetPosition({ 35, i });
-								cout << "                                                ";
-							}
+                                    SetColor(240);
+                                    SetPosition({ 50,31 });
+                                    cout << "確認";
+                                    getchar();
+                                }
+                            }
+                            SetColor(7);
+                            for (int i = 20; i < 32; i++)
+                            {
+                                SetPosition({ 35, i });
+                                cout << "                                                ";
+                            }
                             break;
                             // 查看股票
                         case 4:
@@ -780,7 +780,13 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                 }
                 SetPosition(temp);
             }
-
+            else if (options[choosen] == "投降")
+            {
+                game->lose[game->run] = true;
+                game->remains--;
+                game->roundEnd = true;
+                game->diceRolled = true;
+            }
             // 升級
             if (options[choosen] == "升級")
             {
@@ -807,7 +813,8 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             // 獲勝選項
             if (options[choosen] == "重新開始")
             {
-                game->load("newGame.txt");
+                // 目前這裡有問題
+                game->newGameName = "newGame.txt";
                 game->restartFlag = true;
                 game->diceRolled = false;
                 optionsFlag = false;
@@ -918,6 +925,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                         filename = userInput(game, { "請輸入要儲存的檔名：" ,"（例如：「myGame.txt」）" });
                         game->save(filename);
                         clearOption();
+                        menu_flag = false;
                         break;
                     case 1: // 載入存檔
                         // 需要提示使用者輸入檔名
@@ -951,7 +959,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 void Option::clearOption()
 {
     SetColor(0x07);
-    for (int j = OPTION_TOP-2; j < 33; j++)
+    for (int j = OPTION_TOP - 2; j < 33; j++)
     {
         SetPosition({ OPTION_LEFT, j });
         for (int i = 4; i < OPTION_WIDTH - 6; i++)

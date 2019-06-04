@@ -4,10 +4,10 @@ const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER 
 
 Game::Game(string input)
 {
-    load(input);
+    load(input, false);
 }
 
-void Game::save(string filename)
+void Game::save(string filename, bool showFeedback)
 {
     _mkdir("save");
     filename = "./save/" + filename;
@@ -50,15 +50,21 @@ void Game::save(string filename)
         }
 
         savefile.close();
+        if (showFeedback == true)
+        {
+            Option(this, { "確定" }, { "已儲存遊戲。","檔案名稱為 " + filename + " 。" });
+        }
     }
     else
     {
-        /*文件創建or讀取失敗的敘述??*/
-        cout << "error";
+        if (showFeedback == true)
+        {
+            Option(this, { "確定" }, { "儲存遊戲失敗。" });
+        }
     }
 }
 
-void Game::load(string filename)
+void Game::load(string filename, bool showFeedback)
 {
     clear();
 
@@ -152,7 +158,7 @@ void Game::load(string filename)
                     break;
                 }
                 players.at(stoi(playerID)) = playerTmp;
-
+                remains = players.size();
                 string house;
                 unsigned int houseRank;
                 //這邊改了map中house的 擁有者指標 以及 房屋等級，還有增加player擁有的house清單內容
@@ -167,10 +173,17 @@ void Game::load(string filename)
 
         map = Map(mapContent, mapName);
         mapFile.close();
+        if (showFeedback == true)
+        {
+            Option(this, { "確定" }, { "已讀取遊戲。","檔案名稱為 " + filename + " 。" });
+        }
     }
     else
     {
+    if (showFeedback == true)
+    {
         Option(this, { "確定" }, { "讀取遊戲失敗。" });
+        }
     }
 }
 
@@ -254,9 +267,9 @@ void Game::runGame()
 
     while (true)
     {
-        if (remainingRound > 0)
+        if (remainingRound > 0 && remains > 1)
         {
-            for (; run < players.size() && !restartFlag; run++)//每回合執行(玩家數量)次
+            for (; run < players.size() && !restartFlag && remains > 1; run++)//每回合執行(玩家數量)次
             {
                 if (lose[run])continue;//跳過輸家回合
 
@@ -269,7 +282,7 @@ void Game::runGame()
                 {
                     //操作銀行、買股票、骰骰子、Option內置選單鍵
                     //骰完骰子就不可以再操作銀行、買股票
-                    Option(this, { "擲骰子","使用道具","進入銀行" });
+                    Option(this, { "擲骰子","使用道具","進入銀行","投降" });
 
                     //丟骰子後，執行新位置上的效果
                     if (diceRolled)
@@ -356,6 +369,7 @@ void Game::runGame()
                 {
                     players[run].setCash(-1);
                     lose[run] = true;
+                    remains--;
                     Option(this, { "確定" }, { players[run].getName() + "已破產！！" });
                     printUI();
                 }
@@ -383,7 +397,7 @@ void Game::runGame()
                     {
                         /*可以生成一張證書給優勝者???*/
                         Option(this,
-                               { "重新開始","結束遊戲" },
+                               { "重新開始","離開遊戲" },
                                { players[i].getName() + "獲勝！", "要重新開始一場遊戲嗎？"
                                });
                         break;
@@ -407,6 +421,14 @@ void Game::runGame()
                        { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
                        });
             }
+            // 重新開始
+            restartFlag = false;
+            load(newGameName, false);
+            newGameName.clear();
+            Option(this,
+                   { "確定" },
+                   { "已開始新遊戲。"
+                   });
         }
     }
 }
