@@ -244,9 +244,12 @@ void Player::update()
 			deposit -= borrow;
 			borrow = 0;
 		}
-		else
+		else if(cash > borrow)
 		{
-			//賣他最貴的房子或破產;
+			borrow -= deposit;
+			deposit = 0;
+			cash -= borrow;
+			borrow = 0;
 		}
 	}
 	else if (borrowDay > 0)

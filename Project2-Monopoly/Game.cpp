@@ -6,6 +6,18 @@ Game::Game()
 {
 }
 
+Game::Game(string input, int player)
+{
+	load(input, false);
+	playerAmount = player;
+	
+	while (players.size() > player)
+	{
+		remains--;
+		players.pop_back();
+	}
+}
+
 Game::Game(string input)
 {
     load(input, true);
@@ -694,6 +706,8 @@ void Game::printPlayer()
 		cout << "|                  |";
 	}
 
+	SetPosition({ 95, 36 });
+	cout << "|__________________|";
 	for (int i = 0; i < players.size(); i++)
 	{
 		if (lose[i] == false)
@@ -735,12 +749,15 @@ void Game::updatePlayerUI()
 {
 	position temp = getCursorPosition();
 	SetColor(7);
+	SetPosition({ 95, 36 });
+	cout << "|__________________|";
 	for (int i = 0; i < players.size(); i++)
 	{
 		if (lose[i] == false)
 		{
+			
 			SetPosition({ 103, 13 + i * 7 });
-			cout << "                ";
+			cout << "         ";
 			SetPosition({ 103, 13 + i * 7 });
 			cout << players[i].getCash();
 		}

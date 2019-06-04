@@ -23,6 +23,7 @@ class Game
 public:
 	Game(string);
 	Game();
+	Game(string, int player);
 	friend class Option;
 
 	void save(string, bool showFeedback = true);

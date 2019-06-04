@@ -183,7 +183,181 @@ void Begin::start()
 		case ENTER:
 			if (nowPoint == 0)
 			{
-				
+				int nowPos = 0;
+				bool inChoose = true;
+				while (inChoose)
+				{
+					for (int i = 0; i < 11; i++)
+					{
+						SetPosition({ 62,16 + i }); SetColor(7);
+						cout << "          ";
+					}
+
+					SetPosition({ 62,17 });
+					cout << "請選擇地圖";
+					SetPosition({ 63,19 });
+					cout << "環遊世界";
+					SetPosition({ 64,21 });
+					cout << "台科大";
+					SetPosition({ 64,23 });
+					cout << "基本款";
+					SetPosition({ 65,25 });
+					cout << "取消";
+
+					if (nowPos == 0)
+					{
+						SetColor(240);
+						SetPosition({ 63,19 });
+						cout << "環遊世界";
+						SetColor(7);
+					}
+					else if (nowPos == 1)
+					{
+						SetColor(240);
+						SetPosition({ 64,21 });
+						cout << "台科大";
+						SetColor(7);
+					}
+					else if (nowPos == 2)
+					{
+						SetColor(240);
+						SetPosition({ 64,23 });
+						cout << "基本款";
+						SetColor(7);
+					}
+					else if (nowPos == 3)
+					{
+						SetColor(240);
+						SetPosition({ 65,25 });
+						cout << "取消";
+						SetColor(7);
+					}
+
+					switch (char keyin = _getch())
+					{
+					case DOWN:
+						if (nowPos < 3)
+						{
+							nowPos++;
+						}
+						break;
+					case UP:
+						if (nowPos > 0)
+						{
+							nowPos--;
+						}
+						break;
+					case ENTER:
+						if (nowPos == 3)
+						{
+							inChoose = false;
+							for (int i = 0; i < 11; i++)
+							{
+								SetPosition({ 62,16 + i }); SetColor(7);
+								cout << "          ";
+							}
+						}
+						else
+						{
+							for (int i = 0; i < 11; i++)
+							{
+								SetPosition({ 62, 16 + i }); SetColor(7);
+								cout << "            ";
+							}
+							int people = 0;
+							bool enterOrNot = true;
+							while (enterOrNot)
+							{
+								SetPosition({ 60,17 });
+								cout << "請選擇玩家人數";
+								SetPosition({ 63,19 });
+								cout << "一人遊玩";
+								SetPosition({ 63,21 });
+								cout << "兩人同行";
+								SetPosition({ 63,23 });
+								cout << "三人同樂";
+								SetPosition({ 63,25 });
+								cout << "四人結伴";
+
+								if (people == 0)
+								{
+									SetColor(240);
+									SetPosition({ 63,19 });
+									cout << "一人遊玩";
+									SetColor(7);
+								}
+								else if (people == 1)
+								{
+									SetColor(240);
+									SetPosition({ 63,21 });
+									cout << "兩人同行";
+									SetColor(7);
+								}
+								else if (people == 2)
+								{
+									SetColor(240);
+									SetPosition({ 63,23 });
+									cout << "三人同樂";
+									SetColor(7);
+								}
+								else if (people == 3)
+								{
+									SetColor(240);
+									SetPosition({ 63,25 });
+									cout << "四人結伴";
+									SetColor(7);
+								}
+
+								switch (char keyin = _getch())
+								{
+								case DOWN:
+									if (people < 3)
+									{
+										people++;
+									}
+									break;
+								case UP:
+									if (people > 0)
+									{
+										people--;
+									}
+									break;
+								case ENTER:
+									if (nowPos == 0)
+									{
+										Game game("initial_test.txt", people + 1);
+										clearBoard();
+										inChoose = false;
+										game.runGame();
+									}
+									else if (nowPos == 1)
+									{
+										Game game("initial_ntust.txt", people + 1);
+										clearBoard();
+										inChoose = false;
+										game.runGame();
+									}
+									else if (nowPos == 2)
+									{
+										Game game("initial_basemap.txt", people + 1);
+										clearBoard();
+										inChoose = false;
+										game.runGame();
+									}
+									enterOrNot = false;
+									break;
+								}
+							}
+						}
+						break;
+					}
+				}
+				SetColor(7);
+				for (int i = 0; i < 7; i++)
+				{
+					SetPosition({ 62,19 + i }); SetColor(7);
+					cout << "          ";
+				}
 			}
 			else if (nowPoint == 1)
 			{
@@ -232,11 +406,7 @@ void Begin::start()
 		}
 	}
 
-
 	getchar();
 	clearBoard();
-
-	
-
 
 }
