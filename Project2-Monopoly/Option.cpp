@@ -831,12 +831,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             // 獲勝選項
             if (options[choosen] == "重新開始")
             {
-                // 這裡可能要改為跳到主選單選擇地圖
-                game->newGameName = "initial_ntust.txt";
-                game->restartFlag = true;
-                game->diceRolled = false;
-                optionsFlag = false;
-                game->printUI();
+                game->endGame();
             }
             else if (options[choosen] == "離開遊戲")
             {
@@ -947,7 +942,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                         break;
                     case 1: // 載入存檔
                         // 需要提示使用者輸入檔名
-                        game->newGameName = userInput(game, { "請輸入要讀取的檔名：" ,"（例如：「newGame.txt」）" });
+                        game->newGameName = userInput(game, { "請輸入要讀取的檔名：" ,"（例如：「basemap.txt」）" });
                         game->restartFlag = true;
                         game->diceRolled = false;
                         menu_flag = false;

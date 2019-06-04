@@ -20,7 +20,7 @@ private:
 	int color = 0xA;
 	int borrow = 0;
 	int borrowDay = 0;
-    vector<unsigned> item = { 1,1 }; // »»±±»ë¤l/¸ô»Ù
+    vector<unsigned> item = { 0,0 }; // »»±±»ë¤l/¸ô»Ù
 
 public:
 	~Player();

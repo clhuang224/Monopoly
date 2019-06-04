@@ -34,7 +34,12 @@ public:
 	Stock stock;
     int getRun();
     Map* getMap();
+
+    void endGame();
 private:
+
+    bool continueGame = true;
+
 	int playerAmount = 0;//玩家數量
 	
     int remains = 0;//剩餘玩家數量

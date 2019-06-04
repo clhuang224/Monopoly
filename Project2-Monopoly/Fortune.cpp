@@ -34,7 +34,7 @@ Fortune& Fortune::operator=(Fortune another)
 }
 
 // Intent: 抽命運
-// Pre: 玩家
+// Pre: Game*
 // Post: 回傳訊息
 void Fortune::getFortune(Game* game)
 {
@@ -43,7 +43,6 @@ void Fortune::getFortune(Game* game)
     switch (rand() % 2)
     {
     case 0:
-		/*不確定需不需要補上退後三步的購買空地or收過路費???目前沒有*/
         agent->setPosition(agent->getPosition()-3);
         game->printUI();
         Option(game, { "確定" }, { "你遇上土石流，後退三格。",

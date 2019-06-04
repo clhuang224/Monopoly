@@ -317,7 +317,7 @@ void Game::runGame()
 {
     printUI();
 
-    while (true)
+    while (continueGame)
     {
         if (remainingRound > 0 && 
             ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
@@ -444,54 +444,63 @@ void Game::runGame()
         }
         else
         {
-            // 多人模式：剩下玩家獲勝
-            if (playerAmount > 1 && remains == 1)
+            // 多人
+            if (playerAmount > 1)
             {
-                for (int i = 0; i < lose.size(); i++)
+                // 剩下玩家獲勝
+                if (remains == 1)
                 {
-                    if (lose[i] == false)
+                    for (int i = 0; i < lose.size(); i++)
                     {
-                        /*可以生成一張證書給優勝者???*/
-                        Option(this,
-                               { "重新開始","離開遊戲" },
-                               { players[i].getName() + "獲勝！", "要重新開始一場遊戲嗎？"
-                               });
-                        break;
+                        if (lose[i] == false)
+                        {
+                            /*可以生成一張證書給優勝者???*/
+                            Option(this,
+                                   { "重新開始","離開遊戲" },
+                                   { players[i].getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                                   });
+                            break;
+                        }
                     }
                 }
-            }
-            // 剩餘金錢（現金＋存款）最多者獲勝
-            // 未考慮平手情形
-            else if (playerAmount > 1 && remains > 1)
-            {
-                Player winner = players.at(0);
-                for (int i = 1; i < players.size(); i++)
+                // 剩餘金錢（現金＋存款）最多者獲勝
+                // 未考慮平手情形
+                else
                 {
-                    if (players.at(i).getCash() + players.at(i).getDeposit() > winner.getCash() + winner.getDeposit())
+                    Player winner = players.at(0);
+                    for (int i = 1; i < players.size(); i++)
                     {
-                        winner = players.at(i);
+                        if (players.at(i).getCash() + players.at(i).getDeposit() > winner.getCash() + winner.getDeposit())
+                        {
+                            winner = players.at(i);
+                        }
                     }
+                    Option(this,
+                           { "重新開始","結束遊戲" },
+                           { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
+                           });
                 }
-                Option(this,
-                       { "重新開始","結束遊戲" },
-                       { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
-                       });
+                
             }
+            // 單人
             else if (playerAmount == 1)
             {
-                Option(this,
-                       { "重新開始","結束遊戲" },
-                       { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
-                       });
+                if (remainingRound == 0)
+                {
+                    Option(this,
+                           { "重新開始","結束遊戲" },
+                           { "你平安的過完一生。", "要重新開始一場遊戲嗎？"
+                           });
+                }
+                else if (remains == 0)
+                {
+                    Option(this,
+                           { "重新開始","結束遊戲" },
+                           { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
+                           });
+                }
+                
             }
-            // 重新開始
-            restartFlag = false;
-            load(newGameName, false);
-            newGameName.clear();
-            Option(this,
-                   { "確定" },
-                   { "已開始新遊戲。"
-                   });
         }
     }
 }
@@ -690,3 +699,7 @@ Map* Game::getMap()
     return &map;
 }
 
+void Game::endGame()
+{
+    continueGame = false;
+}
