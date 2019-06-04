@@ -422,12 +422,42 @@ void Game::runGame()
                                 }
                                 else if (house->getOwner() != &players[run])
                                 {
-                                    players[run].minusCash(house->getPrice());//現金交過路費
-                                    house->getOwner()->setDeposit(house->getOwner()->getDeposit() + house->getPrice());//過路費存進銀行
-                                    Option(this,
-                                           { "確定" },
-                                           { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
-                                             "你支付過路費 " + to_string(house->getPrice()) + " 元給 " + house->getOwner()->getName() + " 。" });
+                                    int price = house->getPrice();
+                                    // 現金足夠
+                                    if (players[run].getCash() > price)
+                                    {
+                                        // 用現金付給對方的存款
+                                        players[run].minusCash(price);
+                                        house->getOwner()->setDeposit(house->getOwner()->getDeposit() + price);
+                                    }
+                                    // 現金不夠
+                                    else
+                                    {
+                                        // 現金+存款夠
+                                        if (players[run].getCash() + players[run].getDeposit() > price)
+                                        {
+                                            int withdraw = house->getPrice() - players[run].getCash();
+                                            players[run].minusDeposit(withdraw);
+                                            players[run].minusCash(players[run].getCash());
+                                            house->getOwner()->setDeposit(house->getOwner()->getDeposit() + price);
+                                        }
+                                        // 錢不夠
+                                        else
+                                        {
+                                            // 賣房子直到錢夠或沒房子
+                                            while (players[run].getCash() + players[run].getDeposit() < price&&players[run].getOwnHouse().size() > 0)
+                                            {
+                                                int choice = Option::chooseBlock(this, 
+                                                                                 { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
+                                                                                    "你付不出過路費，請變賣房子換錢。" });
+
+                                                Option(this, { "確定" }, { "賣房子功能未完成" });
+                                                break;
+                                                // 還沒寫好
+                                            }
+                                            
+                                        }
+                                    }
                                     printUI();
                                 }
                                 diceRolled = true;
