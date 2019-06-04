@@ -52,7 +52,7 @@ private:
 	
     int run = 0;//現在是誰的回合
 	
-    string newGameName;//加載遊戲用的檔名暫存
+    string newGameName = "";//加載遊戲用的檔名暫存
 	
     Map map;//遊戲地圖
 	Player bank;//defult宣告直接等於銀行
