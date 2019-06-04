@@ -3,12 +3,11 @@
 #include "Begin.h"
 
 int main() {
-    setConsole(135, 46, 13.5);
     setCursorVisable(false);
 
-	/*Begin beginning;
+	Begin beginning;
 	beginning.start();
-	if (beginning.getPlayerNumber() == 20)
+	/*if (beginning.getPlayerNumber() == 20)
 	{
 		Game game("basemap.txt");
 	}*/
