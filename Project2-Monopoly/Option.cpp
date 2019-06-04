@@ -53,6 +53,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                                    "但你被路障卡住了。",
                                                    "你來到" + game->map.getMap().at(position)->getName() + "。" });
                         stoppedByRoadCone = true;
+                        break;
                     }
                 }
                 if (stoppedByRoadCone == false)
@@ -855,6 +856,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                                                    "但你被路障卡住了。",
                                                    "你來到" + game->map.getMap().at(position)->getName() + "。" });
                         stoppedByRoadCone = true;
+                        break;
                     }
                 }
                 if (stoppedByRoadCone == false)
