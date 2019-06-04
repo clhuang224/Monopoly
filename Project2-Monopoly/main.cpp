@@ -3,9 +3,7 @@
 #include "Begin.h"
 
 int main() {
-    ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); //視窗最大化
-    setConsole(135, 46, 15);
-    setFullScreen();
+    setConsole(135, 46, 13.5);
     setCursorVisable(false);
 
 	/*Begin beginning;
