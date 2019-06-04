@@ -69,18 +69,36 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             }
             else if (options[choosen] == "使用道具")
             {
+                
                 vector<unsigned> tempItem = game->players.at(game->run).getItem();
-                if (tempItem[0] > 0 && tempItem[1] > 0)
+                // 產生選項
+                vector<string> tempOption;
+                string tempMessage = "你有 ";
+                
+                for (int i = 0; i < tempItem.size(); i++)
                 {
-                    Option(game, { "遙控骰子","路障","取消" }, { "請選擇想使用的道具：" });
+                    if (tempItem[i] > 0)
+                    {
+                        switch (i)
+                        {
+                        case 0:
+                            tempOption.push_back("遙控骰子");
+                            tempMessage += ("遙控骰子x" + to_string(tempItem[i]) + " ");
+                            break;
+                        case 1:
+                            tempOption.push_back("路障");
+                            tempMessage += ("路障x" + to_string(tempItem[i]) + " ");
+                            break;
+                        }
+                    }
                 }
-                else if (tempItem[0] > 0)
+                tempMessage += "。";
+                
+
+                if (tempOption.size() > 0)
                 {
-                    Option(game, { "遙控骰子", "取消" }, { "請選擇想使用的道具：" });
-                }
-                else if (tempItem[1] > 0)
-                {
-                    Option(game, { "路障", "取消" }, { "請選擇想使用的道具：" });
+                    tempOption.push_back("取消");
+                    Option(game, tempOption, { "請選擇想使用的道具：","", tempMessage,"" });
                 }
                 else
                 {
@@ -1221,21 +1239,21 @@ int Option::chooseDice(Game* game, vector<string> messages)
         cout << messages[i];
     }
 
-    SetPosition({ 46, OPTION_TOP + messagesSize + 2 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 1 });
     cout << " ___________ ";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 3 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 2 });
     cout << "|           |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 4 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 3 });
     cout << "|           |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 5 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 4 });
     cout << "|           |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 5 });
     cout << "|    █     |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 7 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 6 });
     cout << "|           |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 8 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 7 });
     cout << "|           |";
-    SetPosition({ 46, OPTION_TOP + messagesSize + 9 });
+    SetPosition({ 48, OPTION_TOP + messagesSize + 8 });
     cout << "|___________|";
 
 
@@ -1255,51 +1273,51 @@ int Option::chooseDice(Game* game, vector<string> messages)
         switch (chosen)
         {
         case 1:
-            SetPosition({ 46, OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48, OPTION_TOP + messagesSize + 3 });
             cout << "|           |";
-            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48, OPTION_TOP + messagesSize + 5 });
             cout << "|    █     |";
-            SetPosition({ 46, OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48, OPTION_TOP + messagesSize + 7 });
             cout << "|           |";
             break;
         case 2:
-            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 3 });
             cout << "|  █       |";
-            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48, OPTION_TOP + messagesSize + 5 });
             cout << "|           |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 7 });
             cout << "|       █  |";
             break;
         case 3:
-            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 3 });
             cout << "|    █     |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 5 });
             cout << "|    █     |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 7 });
             cout << "|    █     |";
             break;
         case 4:
-            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 3 });
             cout << "|  █   █  |";
-            SetPosition({ 46, OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48, OPTION_TOP + messagesSize + 5 });
             cout << "|           |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 7 });
             cout << "|  █   █  |";
             break;
         case 5:
-            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 3 });
             cout << "|  █   █  |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 5 });
             cout << "|    █     |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 7 });
             cout << "|  █   █  |";
             break;
         case 6:
-            SetPosition({ 46,OPTION_TOP + messagesSize + 4 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 3 });
             cout << "|  █   █  |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 6 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 5 });
             cout << "|  █   █  |";
-            SetPosition({ 46,OPTION_TOP + messagesSize + 8 });
+            SetPosition({ 48,OPTION_TOP + messagesSize + 7 });
             cout << "|  █   █  |";
             break;
         }
