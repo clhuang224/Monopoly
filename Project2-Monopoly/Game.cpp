@@ -237,6 +237,11 @@ void Game::printUI()
     cout << " 。";
 
     // 印輪到誰的箭頭
+    for (int i = 12; i <= 33; i+=7)
+    {
+        SetPosition({ 88,i });
+        cout << "      ";
+    }
     SetPosition({ 88, 12 + run * 7 });
     SetColor(0x0B);
     cout << "輪到→";

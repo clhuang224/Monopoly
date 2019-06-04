@@ -947,7 +947,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 void Option::clearOption()
 {
     SetColor(0x07);
-    for (int j = OPTION_TOP; j < 33; j++)
+    for (int j = OPTION_TOP-2; j < 33; j++)
     {
         SetPosition({ OPTION_LEFT, j });
         for (int i = 4; i < OPTION_WIDTH - 6; i++)
