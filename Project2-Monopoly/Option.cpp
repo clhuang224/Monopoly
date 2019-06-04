@@ -910,21 +910,23 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                     PrintMenu(choosenInMenu);
                     break;
                 case ENTER:
-                    /*待補音樂調整的fun()*/
+                    clearOption();
                     switch (choosenInMenu)
                     {
                     case 0: // 儲存遊戲
                         // 需要提示使用者輸入檔名
-                        cin >> filename;
+                        filename = userInput(game, { "請輸入要儲存的檔名：" ,"（例如：「myGame.txt」）" });
                         game->save(filename);
+                        clearOption();
                         break;
                     case 1: // 載入存檔
                         // 需要提示使用者輸入檔名
-                        cin >> game->newGameName;
+                        game->newGameName = userInput(game, { "請輸入要讀取的檔名：" ,"（例如：「newGame.txt」）" });
                         game->restartFlag = true;
                         game->diceRolled = false;
                         menu_flag = false;
                         optionsFlag = false;
+                        clearOption();
                         break;
                     case 2: // 設定音樂
                         Option(game, { "關閉音樂","小蜜蜂","全家就是你家","綾里真宵" });
@@ -1294,4 +1296,31 @@ int Option::chooseDice(Game* game, vector<string> messages)
             break;
         }
     }
+}
+
+string Option::userInput(Game* game, vector<string> messages)
+{
+    int messagesSize = static_cast<int>(messages.size());
+
+    for (int i = 0; i < messagesSize; i++)
+    {
+        SetColor(0x07);
+        SetPosition({ OPTION_LEFT + (OPTION_WIDTH - static_cast<int>(messages[i].length())) / 2,
+                      OPTION_TOP + i });
+        cout << messages[i];
+    }
+    SetPosition({ OPTION_LEFT + OPTION_WIDTH / 2 - 8,
+                      OPTION_TOP + messagesSize + 2 });
+    SetColor(0x70);
+    cout << "                ";
+    SetPosition({ OPTION_LEFT + OPTION_WIDTH / 2 - 7,
+                      OPTION_TOP + messagesSize + 2 });
+    string input;
+    cin >> input;
+    if (input.length() > 15)
+    {
+        game->printUI();
+    }
+    SetColor(0x07);
+    return input;
 }

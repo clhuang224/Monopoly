@@ -16,6 +16,7 @@ public:
     void clearOption();
     static unsigned chooseBlock(Game*, vector<string>);
     static int chooseDice(Game*, vector<string>);
+    static string userInput(Game*, vector<string>);
     static void printBlock(int left, int top, int color);
 private:
 	Game *game;
