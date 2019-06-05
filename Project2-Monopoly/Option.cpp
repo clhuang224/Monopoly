@@ -83,11 +83,11 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                         {
                         case 0:
                             tempOption.push_back("»»±±»ë¤l");
-                            tempMessage += ("»»±±»ë¤lx" + to_string(tempItem[i]) + " ");
+                            tempMessage += ("»»±±»ë¤l * " + to_string(tempItem[i]) + " ");
                             break;
                         case 1:
                             tempOption.push_back("¸ô»Ù");
-                            tempMessage += ("¸ô»Ùx" + to_string(tempItem[i]) + " ");
+                            tempMessage += ("¸ô»Ù * " + to_string(tempItem[i]) + " ");
                             break;
                         }
                     }

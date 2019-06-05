@@ -445,34 +445,109 @@ void Game::runGame()
                                 {
                                     int price = house->getPrice();
                                     bool hadHouse = players[run].getOwnHouse().size() > 0;
+                                    bool hadStock = players[run].hasStock();
 
-                                    // 賣房子直到錢夠或沒房子
+                                    // 賣房子直到錢夠 或 沒房子也沒股票
                                     while (players[run].getCash() < price &&
                                            players[run].getCash() + players[run].getDeposit() < price &&
-                                           players[run].getOwnHouse().size() > 0)
+                                           (players[run].hasStock() || players[run].getOwnHouse().size() > 0))
                                     {
-                                        int choice = Option::chooseBlock(this,
-                                                                         { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
-                                                                         "過路費為" + to_string(price) + "。",
-                                                                            "你的金錢不足，請選擇要變賣的房子。" });
-
-                                        vector<House*> ownHouse = players[run].getOwnHouse();
-                                        bool isMyHouse = false;
-                                        for (int i = 0; i < ownHouse.size(); i++)
+                                        // 優先賣股票
+                                        if (players[run].hasStock())
                                         {
-                                            if (map.getMap().at(choice) == ownHouse[i])
+                                            SetColor(7);
+                                            char key = ' ';
+                                            int optionAmount = 0, choice = 0;
+                                            vector<int> stockIndex;
+                                            for (int i = 0; i < stock.getStockList().size(); i++)
                                             {
-                                                players[run].sellHouse(ownHouse[i], &bank);
-                                                Option(this, { "確定" }, { "你已變賣" + ownHouse[i]->getName() + "。",
-                                                                            "獲得" + to_string(ownHouse[i]->getCostOfOwn() + ownHouse[i]->getPrice()) + "現金。" });
-                                                isMyHouse = true;
-                                                break;
+                                                if (players[run].getOwnStock()[i] > 0)
+                                                {
+                                                    optionAmount++;
+                                                    stockIndex.push_back(i);
+                                                }
+                                            }
+
+                                            while (key != ENTER)
+                                            {
+                                                SetPosition({ 40,20 });
+                                                cout << "你的現金不足，請選擇要變賣的股票。";
+
+                                                for (int i = 0; i < stockIndex.size(); i++)
+                                                {
+
+                                                    SetPosition({ 50, 22 + i * 2 });
+                                                    cout << stock.getStockList()[stockIndex[i]].name << " * " << players[run].getOwnStock()[stockIndex[i]];
+
+                                                }
+                                                SetColor(240);
+                                                if (choice < optionAmount)
+                                                {
+                                                    SetPosition({ 50, 22 + choice * 2 });
+                                                    cout << stock.getStockList()[stockIndex[choice]].name << " * " << players[run].getOwnStock()[stockIndex[choice]];
+                                                }
+                                                SetColor(7);
+                                                key = _getch();
+                                                switch (key)
+                                                {
+                                                case DOWN:
+                                                    choice = ((choice < optionAmount - 1) ? choice + 1 : 0);
+                                                    break;
+                                                case UP:
+                                                    choice = ((choice > 0) ? choice - 1 : optionAmount - 1);
+                                                    break;
+                                                case ENTER:
+                                                    players[run].sellStock(stockIndex[choice], stock.getStockList()[stockIndex[choice]]);
+                                                    SetColor();
+                                                    for (int i = 20; i < 34; i++)
+                                                    {
+                                                        SetPosition({ 38, i });
+                                                        cout << "                                               ";
+                                                    }
+                                                    SetPosition({ 40, 20 });
+                                                    cout << "已變賣 " << stock.getStockList()[stockIndex[choice]].name << " ，獲得存款 " << stock.getStockList()[stockIndex[choice]].value << " 元。";
+                                                    SetPosition({ 50, 22 });
+                                                    SetColor(0x70);
+                                                    cout << "確定";
+                                                    getchar();
+                                                    SetColor();
+                                                    for (int i = 20; i < 34; i++)
+                                                    {
+                                                        SetPosition({ 38, i });
+                                                        cout << "                                               ";
+                                                    }
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                        // 其次賣房子
+                                        else if (players[run].getOwnHouse().size() > 0)
+                                        {
+                                            int choice = Option::chooseBlock(this,
+                                                                             { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
+                                                                             "過路費為" + to_string(price) + "。",
+                                                                                "你的金錢不足，請選擇要變賣的房子。" });
+
+                                            vector<House*> ownHouse = players[run].getOwnHouse();
+                                            bool isMyHouse = false;
+                                            for (int i = 0; i < ownHouse.size(); i++)
+                                            {
+                                                if (map.getMap().at(choice) == ownHouse[i])
+                                                {
+                                                    players[run].sellHouse(ownHouse[i], &bank);
+                                                    Option(this, { "確定" }, { "你已變賣" + ownHouse[i]->getName() + "。",
+                                                                                "獲得" + to_string(ownHouse[i]->getCostOfOwn() + ownHouse[i]->getPrice()) + "現金。" });
+                                                    isMyHouse = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (isMyHouse == false)
+                                            {
+                                                Option(this, { "確定" }, { "這不是你的房子。" });
                                             }
                                         }
-                                        if (isMyHouse == false)
-                                        {
-                                            Option(this, { "確定" }, { "這不是你的房子。" });
-                                        }
+
                                     }
                                     if (players[run].getCash() > price)
                                     {
@@ -603,14 +678,14 @@ void Game::runGame()
                 {
                     Option(this,
                            { "回主選單","離開遊戲" },
-                           { "你平安的過完一生。", "要重新開始一場遊戲嗎？"
+                           { "你平安的過完一生。要回主選單嗎？"
                            });
                 }
                 else if (remains == 0)
                 {
                     Option(this,
                            { "回主選單","離開遊戲" },
-                           { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
+                           { "一個人也能破產真是好棒棒！要回主選單嗎？"
                            });
                 }
 

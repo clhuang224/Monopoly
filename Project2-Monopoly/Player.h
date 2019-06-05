@@ -53,6 +53,7 @@ public:
     void setOwnStock(int*,int);
 	void buyStock(int order, struct stockData buy);
 	void sellStock(int order, struct stockData sell);
+    bool hasStock();
     
 
 	int getColor();
