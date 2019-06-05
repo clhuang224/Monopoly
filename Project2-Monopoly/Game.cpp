@@ -379,7 +379,7 @@ void Game::runGame()
         printPlayer();
         if (remainingRound > 0 &&
             ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
-            (playerAmount == 1 && remains == 0)))  // 單人模式
+            (playerAmount == 1 && remains == 1)))  // 單人模式
         {
             for (; run < players.size() && //每回合執行(玩家數量)次
                  !restartFlag &&
@@ -503,9 +503,7 @@ void Game::runGame()
                                         {
                                             Option(this, { "確定" }, { players[run].getName() + "付不出過路費，已破產！！" });
                                         }
-                                        printUI();
                                     }
-
 
                                     printUI();
                                 }
@@ -572,7 +570,7 @@ void Game::runGame()
                         {
                             /*可以生成一張證書給優勝者???*/
                             Option(this,
-                                   { "重新開始","離開遊戲" },
+                                   { "回主選單","離開遊戲" },
                                    { players[i].getName() + "獲勝！", "要重新開始一場遊戲嗎？"
                                    });
                             break;
@@ -592,7 +590,7 @@ void Game::runGame()
                         }
                     }
                     Option(this,
-                           { "重新開始","結束遊戲" },
+                           { "回主選單","離開遊戲" },
                            { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
                            });
                 }
@@ -604,14 +602,14 @@ void Game::runGame()
                 if (remainingRound == 0)
                 {
                     Option(this,
-                           { "重新開始","結束遊戲" },
+                           { "回主選單","離開遊戲" },
                            { "你平安的過完一生。", "要重新開始一場遊戲嗎？"
                            });
                 }
                 else if (remains == 0)
                 {
                     Option(this,
-                           { "重新開始","結束遊戲" },
+                           { "回主選單","離開遊戲" },
                            { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
                            });
                 }

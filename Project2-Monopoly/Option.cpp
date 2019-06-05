@@ -838,7 +838,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             }
 
             // 獲勝選項
-            if (options[choosen] == "重新開始")
+            if (options[choosen] == "回主選單")
             {
                 game->endGame();
             }
