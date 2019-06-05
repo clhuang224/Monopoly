@@ -91,7 +91,7 @@ vector<unsigned> House::getTollsList()
 	return tollsList;
 }
 
-// Intent: 取得房子價錢
+// Intent: 取得當下階段路費
 // Pre: 房子物件
 // Post: 回傳priceList[level]
 unsigned House::getPrice()
@@ -99,6 +99,9 @@ unsigned House::getPrice()
     return tollsList[level];
 }
 
+// Intent: 取得房子價錢
+// Pre: 房子物件
+// Post: 回傳priceList[level]
 unsigned House::getCostOfOwn()
 {
 	return costOfOwn;

@@ -180,15 +180,14 @@ void Player::freeHouse(House* free)
 
 void Player::buyHouse(House* buy)
 {
-	cash -= buy->getCostOfOwn();//原本的是讀取房屋等級對應的價格getPrice()，現改成空屋的價格 by魚展
+	cash -= buy->getCostOfOwn();
 	buy->setOwner(this);//房屋要設定所有權者
 	ownHouse.push_back(buy);
 }
 
 void Player::sellHouse(House* sell)
 {
-	/*本處的所有權變更待補 by魚展*/
-	cash += sell->getPrice();//這個價格也要注意一下 by魚展
+	cash += sell->getCostOfOwn()+sell->getPrice();
 	sell->setOwner(NULL);
 	for (int i = 0; i < ownHouse.size(); i++)
 	{
