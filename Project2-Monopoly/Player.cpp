@@ -26,6 +26,7 @@ Player::Player(const Player &p)
     item = p.item;
 	borrow = p.borrow;
 	borrowDay = p.borrowDay;
+    ownHouse = p.ownHouse;
 }
 
 Player::Player(string setName, unsigned int setPosition, int setCash, int setDeposit)
@@ -51,6 +52,7 @@ void Player::operator=(Player p)
     item = p.item;
 	borrow = p.borrow;
 	borrowDay = p.borrowDay;
+    ownHouse = p.ownHouse;
 }
 
 string Player::getName()
@@ -185,10 +187,10 @@ void Player::buyHouse(House* buy)
 	ownHouse.push_back(buy);
 }
 
-void Player::sellHouse(House* sell)
+void Player::sellHouse(House* sell, Player* bank)
 {
 	cash += sell->getCostOfOwn()+sell->getPrice();
-	sell->setOwner(NULL);
+	sell->setOwner(bank);
 	for (int i = 0; i < ownHouse.size(); i++)
 	{
 		if (sell->getName() == ownHouse[i]->getName())

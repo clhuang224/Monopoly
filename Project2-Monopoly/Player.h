@@ -65,7 +65,7 @@ public:
 	void setOwnHouse(House*);
 	void freeHouse(House* free);
 	void buyHouse(House* buy);
-	void sellHouse(House* sell);
+	void sellHouse(House* sell, Player* bank);
 
 	void borrowMoney(int number);
 	void returnMoney(int number);

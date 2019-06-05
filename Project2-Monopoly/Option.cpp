@@ -800,17 +800,16 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             }
             else if (options[choosen] == "投降")
             {
-                Player tempPlayer = game->players.at(game->getRun());
-                vector<House*> tempOwnHouse = tempPlayer.getOwnHouse();
+                Player* tempPlayer = &(game->players.at(game->getRun()));
                 // getOwnHouse回傳是空的 需要解決
-                while (tempOwnHouse.size() > 0)
+                while (tempPlayer->getOwnHouse().size() > 0)
                 {
-                    tempPlayer.sellHouse(tempOwnHouse.at(0));
+                    tempPlayer->sellHouse(tempPlayer->getOwnHouse().at(0),&(game->bank));
                 }
                 int tempStock[5] = { 0 };
-                tempPlayer.setOwnStock(tempStock,5);
-                tempPlayer.setCash(0);
-                tempPlayer.setDeposit(0);
+                tempPlayer->setOwnStock(tempStock,5);
+                tempPlayer->setCash(0);
+                tempPlayer->setDeposit(0);
                 game->lose[game->run] = true;
                 game->remains--;
                 game->roundEnd = true;
@@ -829,14 +828,14 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 /*"買空屋"的實作*/
                 /*待補游標位置設定*/
-                Player currentPlayer = game->players.at(game->run);
-                House* targetHouse = (House*)game->map.getMap().at(currentPlayer.getPosition());
-                currentPlayer.buyHouse(targetHouse);
+                Player* currentPlayer = &(game->players.at(game->run));
+                House* targetHouse = (House*)game->map.getMap().at(currentPlayer->getPosition());
+                currentPlayer->buyHouse(targetHouse);
                 game->printUI();
                 Option(game,
                        { "確定" },
                        { "你已花費 " + to_string(targetHouse->getCostOfOwn()) + " 元買下" + targetHouse->getName() + "！",
-                           "你還有 " + to_string(currentPlayer.getCash()) + " 現金。" });
+                           "你還有 " + to_string(currentPlayer->getCash()) + " 現金。" });
             }
 
             // 獲勝選項
