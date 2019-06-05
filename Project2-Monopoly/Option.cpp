@@ -801,7 +801,6 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             else if (options[choosen] == "投降")
             {
                 Player* tempPlayer = &(game->players.at(game->getRun()));
-                // getOwnHouse回傳是空的 需要解決
                 while (tempPlayer->getOwnHouse().size() > 0)
                 {
                     tempPlayer->sellHouse(tempPlayer->getOwnHouse().at(0),&(game->bank));

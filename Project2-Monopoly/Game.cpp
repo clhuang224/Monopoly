@@ -8,14 +8,14 @@ Game::Game()
 
 Game::Game(string input, int player)
 {
-	load(input, false);
-	playerAmount = player;
-	
-	while (players.size() > player)
-	{
-		remains--;
-		players.pop_back();
-	}
+    load(input, false);
+    playerAmount = player;
+
+    while (players.size() > player)
+    {
+        remains--;
+        players.pop_back();
+    }
 }
 
 Game::Game(string input)
@@ -157,142 +157,142 @@ bool Game::load(string filename, bool showFeedback)
         mapFile.get();
         string playerID, playerPosition, playerMoney;
         int cash, deposit;
-        
+
         // 玩家編號 位置 錢 房子
         while (getline(mapFile, commandTmp) && commandTmp != "stock")
         {
-                stringstream commandLine(commandTmp);
-                commandLine >> playerID >> playerPosition >> playerMoney;
+            stringstream commandLine(commandTmp);
+            commandLine >> playerID >> playerPosition >> playerMoney;
 
-                //存款部分
-                size_t devidePoint = playerMoney.find_first_of("|", 0);
-                if (devidePoint >= playerMoney.size())
-                {
-                    deposit = 0;
-                    cash = stoi(playerMoney);
-                }
-                else
-                {
-                    cash = stoi(playerMoney.substr(0, devidePoint));
-                    string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
-                    if (depositTmp.size() == 0)deposit = 0;
-                    else deposit = stoi(depositTmp);
-                }
-                playerPositions[stoi(playerID)] = stoi(playerPosition);
-                Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
-                
-                switch (stoi(playerID))
-                {
-                case 0:
-                    playerTmp.setColor(0x2);
-                    break;
-                case 1:
-                    playerTmp.setColor(0x3);
-                    break;
-                case 2:
-                    playerTmp.setColor(0x4);
-                    break;
-                case 3:
-                    playerTmp.setColor(0x5);
-                    break;
-                }
-                players.at(stoi(playerID)) = playerTmp;
-                remains = players.size();
-                string house;
-                unsigned int houseRank;
-                //這邊改了map中house的 擁有者指標 以及 房屋等級，還有增加player擁有的house清單內容
-                while (commandLine >> house >> houseRank)
-                {
-                    ((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
-                    ((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
-                    players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
-                }
-            }
-        
-            // 股票
-            int tempStock[5] = { 0 };
-            while (getline(mapFile, commandTmp) && commandTmp != "item")
+            //存款部分
+            size_t devidePoint = playerMoney.find_first_of("|", 0);
+            if (devidePoint >= playerMoney.size())
             {
-                stringstream commandLine(commandTmp);
-                int playerNumber;
-                commandLine >> playerNumber;
-                for (int i = 0; i < stock.getStockList().size(); i++)
-                {
-                    commandLine >> tempStock[i];
+                deposit = 0;
+                cash = stoi(playerMoney);
+            }
+            else
+            {
+                cash = stoi(playerMoney.substr(0, devidePoint));
+                string depositTmp = playerMoney.substr(devidePoint + 1, playerMoney.length() - 1);
+                if (depositTmp.size() == 0)deposit = 0;
+                else deposit = stoi(depositTmp);
+            }
+            playerPositions[stoi(playerID)] = stoi(playerPosition);
+            Player playerTmp(string("Player 0") + to_string(stoi(playerID) + 1), stoi(playerPosition), cash, deposit);
+
+            switch (stoi(playerID))
+            {
+            case 0:
+                playerTmp.setColor(0x2);
+                break;
+            case 1:
+                playerTmp.setColor(0x3);
+                break;
+            case 2:
+                playerTmp.setColor(0x4);
+                break;
+            case 3:
+                playerTmp.setColor(0x5);
+                break;
+            }
+            players.at(stoi(playerID)) = playerTmp;
+            remains = players.size();
+            string house;
+            unsigned int houseRank;
+            //這邊改了map中house的 擁有者指標 以及 房屋等級，還有增加player擁有的house清單內容
+            while (commandLine >> house >> houseRank)
+            {
+                ((House*)(mapContent[stoi(house)]))->setOwner(&players.at(stoi(playerID)));
+                ((House*)(mapContent[stoi(house)]))->setLevel(houseRank);
+                players.at(stoi(playerID)).freeHouse((House*)(mapContent[stoi(house)]));
+            }
         }
-                players.at(playerNumber).setOwnStock(tempStock, stock.getStockList().size());
-            }
 
-            // 道具
-            while (getline(mapFile, commandTmp))
+        // 股票
+        int tempStock[5] = { 0 };
+        while (getline(mapFile, commandTmp) && commandTmp != "item")
+        {
+            stringstream commandLine(commandTmp);
+            int playerNumber;
+            commandLine >> playerNumber;
+            for (int i = 0; i < stock.getStockList().size(); i++)
             {
-                vector<unsigned> tempItem = { 0,0 };
-                stringstream commandLine(commandTmp);
-                int playerNumber;
-                commandLine >> playerNumber;
-                for (int i = 0; i < players.at(0).getItem().size(); i++)
-                {
-                    unsigned temp;
-                    commandLine >> temp;
-                    tempItem[i] = temp;
-                }
-                players.at(playerNumber).setItem(tempItem);
+                commandLine >> tempStock[i];
             }
-        
+            players.at(playerNumber).setOwnStock(tempStock, stock.getStockList().size());
+        }
+
+        // 道具
+        while (getline(mapFile, commandTmp))
+        {
+            vector<unsigned> tempItem = { 0,0 };
+            stringstream commandLine(commandTmp);
+            int playerNumber;
+            commandLine >> playerNumber;
+            for (int i = 0; i < players.at(0).getItem().size(); i++)
+            {
+                unsigned temp;
+                commandLine >> temp;
+                tempItem[i] = temp;
+            }
+            players.at(playerNumber).setItem(tempItem);
+        }
+
         map = Map(mapContent, mapName);
         mapFile.close();
         if (showFeedback == true)
         {
-			SetPosition({ 45,13 }); SetColor(7);
-			cout << "___________________________________________";
-			for (int i = 0; i < 14; i++)
-			{
-				SetPosition({ 45,14 + i }); SetColor(7);
-				cout << "|                                         |";
-			}
-			SetPosition({ 45,28 });
-			cout << "|_________________________________________|";
+            SetPosition({ 45,13 }); SetColor(7);
+            cout << "___________________________________________";
+            for (int i = 0; i < 14; i++)
+            {
+                SetPosition({ 45,14 + i }); SetColor(7);
+                cout << "|                                         |";
+            }
+            SetPosition({ 45,28 });
+            cout << "|_________________________________________|";
 
-			SetPosition({ 60,20 });
-			cout << "已讀取遊戲。";
-			SetPosition({ 55,21 });
-			cout << "檔案名稱為 " + filename + " 。";
+            SetPosition({ 60,20 });
+            cout << "已讀取遊戲。";
+            SetPosition({ 55,21 });
+            cout << "檔案名稱為 " + filename + " 。";
 
-			SetColor(240);
-			SetPosition({ 64,24 });
-			cout << "確認";
-			SetColor(7);
+            SetColor(240);
+            SetPosition({ 64,24 });
+            cout << "確認";
+            SetColor(7);
 
-			getchar();
+            getchar();
         }
-		return true;
+        return true;
     }
     else
     {
         continueGame = false;
-		if (showFeedback == true)
-		{
-			SetPosition({ 45,13 }); SetColor(7);
-			cout << "___________________________________________";
-			for (int i = 0; i < 14; i++)
-			{
-				SetPosition({ 45,14 + i }); SetColor(7);
-				cout << "|                                         |";
-			}
-			SetPosition({ 45,28 });
-			cout << "|_________________________________________|";
+        if (showFeedback == true)
+        {
+            SetPosition({ 45,13 }); SetColor(7);
+            cout << "___________________________________________";
+            for (int i = 0; i < 14; i++)
+            {
+                SetPosition({ 45,14 + i }); SetColor(7);
+                cout << "|                                         |";
+            }
+            SetPosition({ 45,28 });
+            cout << "|_________________________________________|";
 
-			SetPosition({ 60,20 });
-			cout << "讀取遊戲失敗。";
+            SetPosition({ 60,20 });
+            cout << "讀取遊戲失敗。";
 
-			SetColor(240);
-			SetPosition({ 64,24 });
-			cout << "確認";
-			SetColor(7);
+            SetColor(240);
+            SetPosition({ 64,24 });
+            cout << "確認";
+            SetColor(7);
 
-			getchar();
+            getchar();
         }
-		return false;
+        return false;
     }
 }
 
@@ -300,7 +300,7 @@ void Game::clear()
 {
     playerAmount = 0;
     remainingRound = 20;
-	remains = 0;
+    remains = 0;
     diceRolled = false;
     roundEnd = false;
     players.clear();
@@ -317,7 +317,7 @@ void Game::printUI()
 
     //印地圖
     /*地圖上的人物id印製建議Map使用函數調用來分開印製，不然每次印這麼多會閃爍*/
-    array<int, 4> playerPositions = {0};
+    array<int, 4> playerPositions = { 0 };
     for (int i = 0; i < players.size(); i++)
     {
         playerPositions[i] = players[i].getPosition();
@@ -325,7 +325,7 @@ void Game::printUI()
     map.updateMap(playerPositions);
 
     // 印角色資訊
-	updatePlayerUI();
+    updatePlayerUI();
 
     // 印剩餘回合數、輪到的玩家
     SetPosition({ 40,34 });
@@ -359,7 +359,7 @@ void Game::printUI()
     cout << " 。";
 
     // 印輪到誰的箭頭
-    for (int i = 12; i <= 33; i+=7)
+    for (int i = 12; i <= 33; i += 7)
     {
         SetPosition({ 88,i });
         cout << "      ";
@@ -377,18 +377,18 @@ void Game::runGame()
     {
         printUI();
         printPlayer();
-        if (remainingRound > 0 && 
+        if (remainingRound > 0 &&
             ((playerAmount > 1 && remains > 1) || // 多人模式：大於一人還沒輸時繼續
             (playerAmount == 1 && remains == 0)))  // 單人模式
         {
             for (; run < players.size() && //每回合執行(玩家數量)次
-                   !restartFlag &&
-                   ((playerAmount > 1 && remains > 1) || (playerAmount == 1 && remains > 0)); run++)
+                 !restartFlag &&
+                 ((playerAmount > 1 && remains > 1) || (playerAmount == 1 && remains > 0)); run++)
             {
                 if (lose[run])continue;//跳過輸家回合
 
                 printUI();
-				players[run].update();
+                players[run].update();
                 diceRolled = false;
                 roundEnd = false;
 
@@ -410,10 +410,19 @@ void Game::runGame()
                                 House* house = (House*)block;
                                 if (house->getOwner() == &bank)
                                 {
-
-                                    Option(this,
-                                           { "購買","不購買" },
-                                           { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
+                                    if (players[run].getCash() > house->getCostOfOwn())
+                                    {
+                                        Option(this,
+                                               { "購買","不購買" },
+                                               { house->getName() + "待售中，只要" + to_string(house->getCostOfOwn()) + "元！" });
+                                    }
+                                    else
+                                    {
+                                        Option(this,
+                                               { "確定" },
+                                               { house->getName() + "的房價為" + to_string(house->getCostOfOwn()) + "元。",
+                                               "你買不起QQ" });
+                                    }
                                 }
                                 else if (house->getOwner() == &players[run])
                                 {
@@ -435,41 +444,69 @@ void Game::runGame()
                                 else if (house->getOwner() != &players[run])
                                 {
                                     int price = house->getPrice();
-                                    // 現金足夠
+                                    bool hadHouse = players[run].getOwnHouse().size() > 0;
+
+                                    // 賣房子直到錢夠或沒房子
+                                    while (players[run].getCash() < price &&
+                                           players[run].getCash() + players[run].getDeposit() < price &&
+                                           players[run].getOwnHouse().size() > 0)
+                                    {
+                                        int choice = Option::chooseBlock(this,
+                                                                         { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
+                                                                         "過路費為" + to_string(price) + "。",
+                                                                            "你的金錢不足，請選擇要變賣的房子。" });
+
+                                        vector<House*> ownHouse = players[run].getOwnHouse();
+                                        bool isMyHouse = false;
+                                        for (int i = 0; i < ownHouse.size(); i++)
+                                        {
+                                            if (map.getMap().at(choice) == ownHouse[i])
+                                            {
+                                                players[run].sellHouse(ownHouse[i], &bank);
+                                                Option(this, { "確定" }, { "你已變賣" + ownHouse[i]->getName() + "。",
+                                                                            "獲得" + to_string(ownHouse[i]->getCostOfOwn() + ownHouse[i]->getPrice()) + "現金。" });
+                                                isMyHouse = true;
+                                                break;
+                                            }
+                                        }
+                                        if (isMyHouse == false)
+                                        {
+                                            Option(this, { "確定" }, { "這不是你的房子。" });
+                                        }
+                                    }
                                     if (players[run].getCash() > price)
                                     {
                                         // 用現金付給對方的存款
                                         players[run].minusCash(price);
                                         house->getOwner()->setDeposit(house->getOwner()->getDeposit() + price);
+                                        Option(this, { "確定" }, { "你已支付" + to_string(price) + "元給" + house->getOwner()->getName() + "。" });
                                     }
-                                    // 現金不夠
-                                    else
+                                    else if (players[run].getCash() + players[run].getDeposit() > price)
                                     {
-                                        // 現金+存款夠
-                                        if (players[run].getCash() + players[run].getDeposit() > price)
+                                        int withdraw = house->getPrice() - players[run].getCash();
+                                        players[run].minusDeposit(withdraw);
+                                        players[run].minusCash(players[run].getCash());
+                                        house->getOwner()->setDeposit(house->getOwner()->getDeposit() + price);
+                                        Option(this, { "確定" }, { "你已支付" + to_string(price) + "元給" + house->getOwner()->getName() + "。" });
+                                    }
+                                    else
+                                        // 破產
+                                    {
+                                        players[run].setCash(0);
+                                        lose[run] = true;
+                                        remains--;
+                                        if (hadHouse)
                                         {
-                                            int withdraw = house->getPrice() - players[run].getCash();
-                                            players[run].minusDeposit(withdraw);
-                                            players[run].minusCash(players[run].getCash());
-                                            house->getOwner()->setDeposit(house->getOwner()->getDeposit() + price);
+                                            Option(this, { "確定" }, { players[run].getName() + "把房子賣光也付不出過路費，已破產！！" });
                                         }
-                                        // 錢不夠
                                         else
                                         {
-                                            // 賣房子直到錢夠或沒房子
-                                            while (players[run].getCash() + players[run].getDeposit() < price&&players[run].getOwnHouse().size() > 0)
-                                            {
-                                                int choice = Option::chooseBlock(this, 
-                                                                                 { house->getName() + "屬於 " + house->getOwner()->getName() + " 。",
-                                                                                    "你付不出過路費，請變賣房子換錢。" });
-
-                                                Option(this, { "確定" }, { "賣房子功能未完成" });
-                                                break;
-                                                // 還沒寫好
-                                            }
-                                            
+                                            Option(this, { "確定" }, { players[run].getName() + "付不出過路費，已破產！！" });
                                         }
+                                        printUI();
                                     }
+
+
                                     printUI();
                                 }
                                 diceRolled = true;
@@ -505,17 +542,8 @@ void Game::runGame()
                                 roundEnd = true;
                             }
                         }
-                        
+
                     }
-                }
-                //破產宣告
-                if (players[run].getCash() < 0)
-                {
-                    players[run].setCash(-1);
-                    lose[run] = true;
-                    remains--;
-                    Option(this, { "確定" }, { players[run].getName() + "已破產！！" });
-                    printUI();
                 }
             }
 
@@ -568,7 +596,7 @@ void Game::runGame()
                            { winner.getName() + "獲勝！", "要重新開始一場遊戲嗎？"
                            });
                 }
-                
+
             }
             // 單人
             else if (playerAmount == 1)
@@ -587,7 +615,7 @@ void Game::runGame()
                            { "一個人也能破產真是好棒棒！", "要重新開始一場遊戲嗎？"
                            });
                 }
-                
+
             }
         }
     }
@@ -728,87 +756,87 @@ void Game::printPlayer()
 {
     position temp = getCursorPosition();
 
-	
-	SetColor(7);
-	for (int i = 0; i < 28; i++)
-	{
-		SetPosition({ 95, 9 + i });
-		cout << "|                  |";
-	}
 
-	SetPosition({ 95, 36 });
-	cout << "|__________________|";
-	for (int i = 0; i < players.size(); i++)
-	{
-		if (lose[i] == false)
-		{
-			SetColor(players[i].getColor());
-			SetPosition({ 100, 11 + i * 7 });
-			cout << players[i].getName();
-			SetColor(7);
+    SetColor(7);
+    for (int i = 0; i < 28; i++)
+    {
+        SetPosition({ 95, 9 + i });
+        cout << "|                  |";
+    }
 
-			SetPosition({ 101, 13 + i * 7 });
-			cout << "$ " << players[i].getCash();
+    SetPosition({ 95, 36 });
+    cout << "|__________________|";
+    for (int i = 0; i < players.size(); i++)
+    {
+        if (lose[i] == false)
+        {
+            SetColor(players[i].getColor());
+            SetPosition({ 100, 11 + i * 7 });
+            cout << players[i].getName();
+            SetColor(7);
+
+            SetPosition({ 101, 13 + i * 7 });
+            cout << "$ " << players[i].getCash();
 
 
-			SetPosition({ 96, 15 + i * 7 });
-			cout << "__________________";
-		}
-		else
-		{
-			SetColor(128);
-			for (int j = 0; j < 7; j++)
-			{
-				SetPosition({ 96, (7 * i + 9) + j });
-				cout << "                  ";
-				
-			}
-			SetPosition({ 100, 11 + i * 7 });
-			cout << players[i].getName();
-			SetPosition({ 101, 13 + i * 7 });
-			cout << "已破產:(";
-			SetColor(7);
-		}
-	}
-	
+            SetPosition({ 96, 15 + i * 7 });
+            cout << "__________________";
+        }
+        else
+        {
+            SetColor(128);
+            for (int j = 0; j < 7; j++)
+            {
+                SetPosition({ 96, (7 * i + 9) + j });
+                cout << "                  ";
+
+            }
+            SetPosition({ 100, 11 + i * 7 });
+            cout << players[i].getName();
+            SetPosition({ 101, 13 + i * 7 });
+            cout << "已破產:(";
+            SetColor(7);
+        }
+    }
+
     SetColor(7);
     SetPosition(temp);
 }
 
 void Game::updatePlayerUI()
 {
-	position temp = getCursorPosition();
-	SetColor(7);
-	SetPosition({ 95, 36 });
-	cout << "|__________________|";
-	for (int i = 0; i < players.size(); i++)
-	{
-		if (lose[i] == false)
-		{
-			
-			SetPosition({ 103, 13 + i * 7 });
-			cout << "         ";
-			SetPosition({ 103, 13 + i * 7 });
-			cout << players[i].getCash();
-		}
-		else
-		{
-			SetColor(128);
-			for (int j = 0; j < 7; j++)
-			{
-				SetPosition({ 96, (7 * i + 9) + j });
-				cout << "                  ";
-			}
-			SetPosition({ 100, 11 + i * 7 });
-			cout << players[i].getName();
-			SetPosition({ 101, 13 + i * 7 });
-			cout << "已破產:(";
-			SetColor(7);
-		}
-	}
+    position temp = getCursorPosition();
+    SetColor(7);
+    SetPosition({ 95, 36 });
+    cout << "|__________________|";
+    for (int i = 0; i < players.size(); i++)
+    {
+        if (lose[i] == false)
+        {
+
+            SetPosition({ 103, 13 + i * 7 });
+            cout << "         ";
+            SetPosition({ 103, 13 + i * 7 });
+            cout << players[i].getCash();
+        }
+        else
+        {
+            SetColor(128);
+            for (int j = 0; j < 7; j++)
+            {
+                SetPosition({ 96, (7 * i + 9) + j });
+                cout << "                  ";
+            }
+            SetPosition({ 100, 11 + i * 7 });
+            cout << players[i].getName();
+            SetPosition({ 101, 13 + i * 7 });
+            cout << "已破產:(";
+            SetColor(7);
+        }
+    }
 
 
-	SetPosition(temp);
+    SetPosition(temp);
 }
 
 
