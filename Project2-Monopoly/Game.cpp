@@ -570,7 +570,11 @@ void Game::runGame()
                                         players[run].setCash(0);
                                         lose[run] = true;
                                         remains--;
-                                        if (hadHouse)
+                                        if (hadStock && !hadHouse)
+                                        {
+                                            Option(this, { "確定" }, { players[run].getName() + "把股票賣光也付不出過路費，已破產！！" });
+                                        }
+                                        else if (hadHouse)
                                         {
                                             Option(this, { "確定" }, { players[run].getName() + "把房子賣光也付不出過路費，已破產！！" });
                                         }
