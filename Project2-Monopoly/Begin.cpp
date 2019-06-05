@@ -1,3 +1,5 @@
+#pragma comment(lib, "winmm")
+
 #include <iostream>
 #include <time.h>
 #include <cstdlib>
@@ -115,6 +117,7 @@ void Begin::clearBoard()
 
 void Begin::start()
 {
+	PlaySound(TEXT("music/menu.wav"), NULL, SND_ASYNC | SND_NODEFAULT | SND_LOOP);
 	dancing();
 	getchar();
 

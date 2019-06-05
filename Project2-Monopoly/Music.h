@@ -20,6 +20,7 @@ public:
 
     // ³]©w¦±¥Ø
     static void setMusic(unsigned);
+	static bool playMusic;
 
 private:
     static bool play;

@@ -1,10 +1,13 @@
 #include "Music.h"
 
+
+
 // 音名：頻率（X為休止符）
 const DWORD C = 262, Cs = 277, Db = 277, D = 294, Ds = 311, Eb = 311, E = 330, F = 349, Fs = 370,
 Gb = 370, G = 392, Gs = 415, Ab = 415, A = 440, As = 466, Bb = 466, B = 494, X = 0;
 double DELAY = 60000;
 
+bool Music::playMusic = true;
 bool Music::play = true;
 thread* Music::music = NULL;
 

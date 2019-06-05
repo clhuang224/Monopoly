@@ -1,3 +1,4 @@
+#pragma comment(lib, "winmm")
 #include "Game.h"
 
 const char ESC = 0x1B, UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 0x0D;
@@ -372,7 +373,7 @@ void Game::printUI()
 
 void Game::runGame()
 {
-
+	PlaySound(TEXT("music/game.wav"), NULL, SND_ASYNC | SND_NODEFAULT | SND_LOOP);
     while (continueGame)
     {
         printUI();

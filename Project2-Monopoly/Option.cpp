@@ -1,3 +1,5 @@
+#pragma comment(lib, "winmm")
+
 #include "Option.h"
 #include "Game.h"
 #include "Player.h"
@@ -110,6 +112,11 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             {
                 /*"銀行"的實作*/
                 bool inBank = true;
+
+				if (Music::playMusic == true)
+				{
+					PlaySound(TEXT("music/bank.wav"), NULL, SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+				}
 
                 for (int i = 10; i < 33; i++)
                 {
@@ -784,6 +791,10 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
 
                             // 離開銀行
                         case 7:
+							if(Music::playMusic == true)
+							{
+								PlaySound(TEXT("music/game.wav"), NULL, SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+							}
                             inBank = false;
                             break;
                         }
@@ -851,19 +862,33 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
             if (options[choosen] == "關閉音樂")
             {
                 Music::setMusic(0);
+				PlaySound(NULL, NULL, 0);
+				Music::playMusic = false;
             }
             else if (options[choosen] == "小蜜蜂")
             {
                 Music::setMusic(1);
+				PlaySound(NULL, NULL, 0);
+				Music::playMusic = false;
             }
             else if (options[choosen] == "全家就是你家")
             {
                 Music::setMusic(2);
+				PlaySound(NULL, NULL, 0);
+				Music::playMusic = false;
             }
             else if (options[choosen] == "綾里真宵")
             {
                 Music::setMusic(3);
+				PlaySound(NULL, NULL, 0);
+				Music::playMusic = false;
             }
+			else if (options[choosen] == "大富翁")
+			{
+				Music::setMusic(0); 
+				PlaySound(TEXT("music/game.wav"), NULL, SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+				Music::playMusic = true;
+			}
 
             // 道具選單
             if (options[choosen] == "遙控骰子")
@@ -959,7 +984,7 @@ Option::Option(Game* thisGame, vector<string> newOptions, vector<string> newMess
                         clearOption();
                         break;
                     case 2: // 設定音樂
-                        Option(game, { "關閉音樂","小蜜蜂","全家就是你家","綾里真宵" });
+                        Option(game, { "關閉音樂","小蜜蜂","全家就是你家","綾里真宵","大富翁" });
                         menu_flag = false;
                         break;
                     case 3: // 離開遊戲
